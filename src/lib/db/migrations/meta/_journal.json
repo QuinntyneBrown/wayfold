@@ -15,6 +15,13 @@
       "when": 1792084664133,
       "tag": "0001_create_failed_sign_ins",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792089651544,
+      "tag": "0002_add_account_profile_fields",
+      "breakpoints": true
     }
   ]
 }

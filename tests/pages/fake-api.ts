@@ -40,3 +40,17 @@ export function fakeSession(page: Page, member: Member | null, options?: { hold?
 }
 
 export const TENDAI: Member = { id: "6f1d2c1e-0000-4000-8000-000000000001", displayName: "Tendai Mensah", initials: "TM" };
+
+export type AccountSettings = {
+  displayName: string;
+  gtaArea: string | null;
+  homeChurch: string | null;
+  showHomeChurch: boolean;
+};
+
+export const TENDAI_SETTINGS: AccountSettings = {
+  displayName: "Tendai Mensah",
+  gtaArea: "Toronto",
+  homeChurch: "Lakeshore Fellowship",
+  showHomeChurch: true,
+};

@@ -5,10 +5,12 @@ type Props = {
   type?: "text" | "email" | "password";
   autoComplete?: string;
   error?: string;
+  defaultValue?: string;
+  optional?: boolean;
 };
 
 /** Labelled input whose error is tied to it with aria-describedby (L2-016 AC3). */
-export function TextField({ id, name, label, type = "text", autoComplete, error }: Props) {
+export function TextField({ id, name, label, type = "text", autoComplete, error, defaultValue, optional }: Props) {
   const errorId = `${id}-error`;
   return (
     <div className="field">
@@ -21,7 +23,8 @@ export function TextField({ id, name, label, type = "text", autoComplete, error 
         name={name}
         type={type}
         autoComplete={autoComplete}
-        required
+        defaultValue={defaultValue}
+        required={!optional}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
       />
