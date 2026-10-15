@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Popover — Wayfold design system</title>
+<meta name="description" content="Wayfold popover: the account menu anchored under the header avatar, with profile, settings, list your business and sign out.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">Wayfold DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Actions</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/segmented-control.html">Segmented control</a></li>
+    </ul></details>
+    <details open><summary>Forms</summary><ul>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/choice.html">Checkbox and radio</a></li>
+      <li><a href="../components/filters.html">Filters</a></li>
+    </ul></details>
+    <details open><summary>Navigation</summary><ul>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/site-header.html">Site header</a></li>
+      <li><a href="../components/site-footer.html">Site footer</a></li>
+      <li><a href="../components/section-link.html">Section link</a></li>
+    </ul></details>
+    <details open><summary>Layout and overlays</summary><ul>
+      <li><a href="../components/container.html">Container and page layout</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/sheet.html">Sheet</a></li>
+      <li><a href="../components/popover.html">Popover</a></li>
+    </ul></details>
+    <details open><summary>Data display</summary><ul>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/vehicle-card.html">Vehicle card</a></li>
+      <li><a href="../components/gallery.html">Gallery</a></li>
+      <li><a href="../components/detail-list.html">Detail list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/tag.html">Tag and church tag</a></li>
+      <li><a href="../components/badge.html">Badge</a></li>
+      <li><a href="../components/post.html">Post and recommendation</a></li>
+    </ul></details>
+    <details open><summary>Feedback</summary><ul>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Overlays</p>
+      <h1>Popover</h1>
+      <p class="ds-lead">A small raised panel anchored to its trigger. Wayfold uses one: the account menu under the header avatar.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Status: stable</span><span class="ds-pill"><code>.popover</code></span><span class="ds-pill"><code>.account-menu</code></span><span class="ds-pill">Disclosure</span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+    <section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+      <p>The account menu opens from the avatar from 48rem (below that, its links are in the <a href="sheet.html">site menu</a>). It names the member and lists Your profile, Settings, List your business and Sign out. It is not modal: the page stays usable and a click outside closes it. Use a <a href="dialog.html">dialog</a> for anything with fields.</p>
+    </section>
+
+    <section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+      <div class="ds-anatomy"><figure class="ds-anatomy__figure"><div class="ds-frame ds-frame--short"><header class="site-header"><a class="wordmark" href="../../mocks/pages/home/feed.html">Wayfold <span class="wordmark__tag">Toronto</span></a><nav class="site-nav" aria-label="Primary, popover anatomy example"><a class="site-nav__link site-nav__extra" href="../../mocks/pages/home/feed.html" aria-current="page">Feed</a><a class="site-nav__link site-nav__extra" href="../../mocks/pages/vehicles/default.html">Vehicles</a><a class="site-nav__link site-nav__extra" href="../../mocks/pages/providers/default.html">Providers</a><a class="site-nav__link site-nav__extra" href="../../mocks/pages/products/default.html">Products</a><a class="btn btn--primary btn--sm site-nav__extra" href="../../mocks/pages/vehicle-editor/default.html">Sell your car</a><button class="avatar-btn" type="button" aria-haspopup="true" aria-expanded="true"><span class="avatar" aria-hidden="true">TM</span><span class="visually-hidden">Account menu for Tendai Mensah</span></button><button class="btn btn--ghost site-nav__menu" type="button" aria-haspopup="dialog" aria-expanded="false"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Menu</button></nav></header><div class="popover account-menu" id="an" style="position: absolute;"><h2>Tendai Mensah</h2><nav aria-label="Account, anatomy example"><ul><li><a href="../../mocks/pages/member/own.html">Your profile</a></li><li><a href="../../mocks/pages/settings/default.html">Settings</a></li><li><a href="../../mocks/pages/provider-editor/default.html">List your business</a></li><li><button class="btn btn--ghost btn--block" type="button">Sign out</button></li></ul></nav></div></div><span class="ds-callout" style="left: 90%; top: 18%;" aria-hidden="true">1</span><span class="ds-callout" style="left: 78%; top: 44%;" aria-hidden="true">2</span><span class="ds-callout" style="left: 70%; top: 50%;" aria-hidden="true">3</span><span class="ds-callout" style="left: 70%; top: 70%;" aria-hidden="true">4</span></figure><ol class="ds-anatomy__list"><li><div><b>Trigger</b><small><code>.avatar-btn</code> with <code>aria-expanded="true"</code> while open.</small></div></li><li><div><b>Panel</b><small><code>.popover</code>: raised surface, hairline border, <code>--radius-md</code>, <code>--shadow-3</code>, 8px below the header at the inline end.</small></div></li><li><div><b>Name</b><small>The member's name as a small muted heading.</small></div></li><li><div><b>Links</b><small>44px rows; Sign out last, after a hairline, as a button.</small></div></li></ol></div>
+    </section>
+
+    <section class="ds-section" id="variants" data-na="One popover: the account menu."><h2><a href="#variants">Variants</a></h2>
+      <p>One variant. Wayfold has no tooltips or other anchored panels; add a variant only when a mock needs one.</p>
+    </section>
+
+    <section class="ds-section" id="sizes" data-na="One size."><h2><a href="#sizes">Sizes</a></h2>
+      <p>At least 14rem, at most <code>min(20rem, 90vw)</code>; rows are 44px tall.</p>
+    </section>
+
+    <section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+      <div class="ds-example"><div class="ds-example__canvas"><div class="ds-frame ds-frame--short"><div class="popover account-menu" id="s1" style="position: absolute; top: var(--space-4);"><h2>Tendai Mensah</h2><nav aria-label="Account, hover example"><ul><li><a href="../../mocks/pages/member/own.html" data-state="hover">Your profile</a></li><li><a href="../../mocks/pages/settings/default.html">Settings</a></li><li><a href="../../mocks/pages/provider-editor/default.html">List your business</a></li><li><button class="btn btn--ghost btn--block" type="button">Sign out</button></li></ul></nav></div></div></div><div class="ds-example__caption"><span>First row hovered (forced): <code>--color-bg-subtle</code>.</span></div></div><div class="ds-example"><div class="ds-example__canvas"><div class="ds-frame ds-frame--short"><div class="popover account-menu" id="s2" style="position: absolute; top: var(--space-4);"><h2>Tendai Mensah</h2><nav aria-label="Account, focus example"><ul><li><a href="../../mocks/pages/member/own.html" data-state="focus">Your profile</a></li><li><a href="../../mocks/pages/settings/default.html">Settings</a></li><li><a href="../../mocks/pages/provider-editor/default.html">List your business</a></li><li><button class="btn btn--ghost btn--block" type="button">Sign out</button></li></ul></nav></div></div></div><div class="ds-example__caption"><span>First row focused: inset ring.</span></div></div><p>Closed, the panel is not rendered and the avatar has <code>aria-expanded="false"</code>.</p>
+    </section>
+
+    <section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+      <ul><li>Shown from 48rem only, because the avatar hides below that; the same links are in the site menu.</li><li>Anchored to the header's inline end at the page margin, so it never runs off-screen; width caps at 90vw.</li></ul>
+    </section>
+
+    <section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+      <p>Raised surface, hairline border and shadow; all semantic tokens.</p><div class="ds-themes"><div data-theme="light"><div class="ds-frame ds-frame--short"><div class="popover account-menu" id="tl" style="position: absolute; top: var(--space-4);"><h2>Tendai Mensah</h2><nav aria-label="Account, light theme example"><ul><li><a href="../../mocks/pages/member/own.html">Your profile</a></li><li><a href="../../mocks/pages/settings/default.html">Settings</a></li><li><a href="../../mocks/pages/provider-editor/default.html">List your business</a></li><li><button class="btn btn--ghost btn--block" type="button">Sign out</button></li></ul></nav></div></div></div><div data-theme="dark"><div class="ds-frame ds-frame--short"><div class="popover account-menu" id="td" style="position: absolute; top: var(--space-4);"><h2>Tendai Mensah</h2><nav aria-label="Account, dark theme example"><ul><li><a href="../../mocks/pages/member/own.html">Your profile</a></li><li><a href="../../mocks/pages/settings/default.html">Settings</a></li><li><a href="../../mocks/pages/provider-editor/default.html">List your business</a></li><li><button class="btn btn--ghost btn--block" type="button">Sign out</button></li></ul></nav></div></div></div></div>
+    </section>
+
+    <section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+      <h3>Role and pattern</h3><p>A disclosure (<a href="https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/">APG Disclosure</a>): the avatar is a <code>&lt;button aria-expanded aria-controls&gt;</code>; the panel holds a labelled <code>&lt;nav&gt;</code> of links. It is not an ARIA <code>menu</code> (that would demand arrow-key handling and hide the links' link role) and not a modal dialog.</p><h3>Keyboard</h3><table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody><tr><td><kbd>Enter</kbd> / <kbd>Space</kbd> on the avatar</td><td>Opens; focus stays on the avatar and the next <kbd>Tab</kbd> enters the panel.</td></tr><tr><td><kbd>Tab</kbd></td><td>Through the links and Sign out; tabbing past the last closes it.</td></tr><tr><td><kbd>Esc</kbd></td><td>Closes; focus returns to the avatar.</td></tr></tbody></table><h3>Contrast</h3><div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);"><div class="ds-pair"><span>Link on popover</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-surface-raised" data-min="4.5"></span></div><div class="ds-pair"><span>Name on popover</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-surface-raised" data-min="4.5"></span></div><div class="ds-pair"><span>Focus ring on popover</span><span class="ds-pair__ratio" data-contrast="--color-focus-ring|--color-bg-surface-raised" data-min="3"></span></div></div><p>Hover is a fill change; in forced colours it becomes an outline.</p>
+    </section>
+
+    <section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+      <ul><li>The heading is the member's display name.</li><li>Rows: "Your profile", "Settings", "List your business", "Sign out": the same words as the site menu.</li></ul>
+    </section>
+
+    <section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+      <div class="ds-dodont"><figure class="ds-do"><div class="ds-example__canvas"><div class="popover account-menu" id="d1"><h2>Tendai Mensah</h2><nav aria-label="Account, do example"><ul><li><a href="../../mocks/pages/member/own.html">Your profile</a></li><li><a href="../../mocks/pages/settings/default.html">Settings</a></li><li><a href="../../mocks/pages/provider-editor/default.html">List your business</a></li><li><button class="btn btn--ghost btn--block" type="button">Sign out</button></li></ul></nav></div></div><figcaption>A disclosure with a labelled nav of links and a Sign out button.</figcaption></figure><figure class="ds-dont"><div class="ds-example__canvas"><div class="popover account-menu" style="position: static;"><h2>Tendai Mensah</h2><ul role="menu" aria-label="Account, don't example"><li role="none"><a role="menuitem" href="../../mocks/pages/member/own.html">Your profile</a></li></ul></div></div><figcaption>Don't nest <code>role="menu"</code> in a <code>role="dialog" aria-modal</code> panel as the mock does: a modal that is not modal, and a menu with no arrow keys.</figcaption></figure><figure class="ds-do"><div class="ds-example__canvas"><button class="btn btn--ghost btn--block" type="button">Sign out</button></div><figcaption>Sign out posts and ends the session (L2-002.3).</figcaption></figure><figure class="ds-dont"><div class="ds-example__canvas"><a href="../../mocks/pages/home/default.html">Sign out</a></div><figcaption>Don't link Sign out to the home page.</figcaption></figure></div>
+    </section>
+
+    <section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+      <div class="ds-table-wrap"><table class="ds-table"><thead><tr><th scope="col">Part</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead><tbody><tr><td>Surface</td><td><code>--color-bg-surface-raised</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-surface-raised" data-swatch></i><span data-token="--color-bg-surface-raised"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-surface-raised" data-swatch></i><span data-token="--color-bg-surface-raised"></span></span></td></tr><tr><td>Border and divider</td><td><code>--color-border-default</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-border-default" data-swatch></i><span data-token="--color-border-default"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-border-default" data-swatch></i><span data-token="--color-border-default"></span></span></td></tr><tr><td>Row hover</td><td><code>--color-bg-subtle</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-subtle" data-swatch></i><span data-token="--color-bg-subtle"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-subtle" data-swatch></i><span data-token="--color-bg-subtle"></span></span></td></tr><tr><td>Name</td><td><code>--color-fg-muted</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td></tr><tr><td>Radius / row radius</td><td><code>--radius-md, --radius-sm</code></td><td colspan="2"><span data-token="--radius-md"></span> / <span data-token="--radius-sm"></span></td></tr><tr><td>Shadow / layer</td><td><code>--shadow-3, --z-popover</code></td><td colspan="2"><span data-token="--shadow-3"></span> / <span data-token="--z-popover"></span></td></tr><tr><td>Padding</td><td><code>--space-2, --space-3</code></td><td colspan="2"><span data-token="--space-2"></span> / <span data-token="--space-3"></span></td></tr><tr><td>Row height</td><td><code>--target-comfortable</code></td><td colspan="2"><span data-token="--target-comfortable"></span></td></tr><tr><td>Motion</td><td><code>--duration-fast</code></td><td colspan="2"><span data-token="--duration-fast"></span></td></tr></tbody></table></div>
+    </section>
+
+    <section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+      <pre><code>&lt;button class="avatar-btn" type="button" aria-expanded="true" aria-controls="account-menu"&gt;
+  &lt;span class="avatar" aria-hidden="true"&gt;TM&lt;/span&gt;&lt;span class="visually-hidden"&gt;Account menu for Tendai Mensah&lt;/span&gt;
+&lt;/button&gt;
+&lt;div class="popover account-menu" id="account-menu"&gt;
+  &lt;h2&gt;Tendai Mensah&lt;/h2&gt;
+  &lt;nav aria-label="Account"&gt;&lt;ul&gt;
+    &lt;li&gt;&lt;a href="/members/me"&gt;Your profile&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="/settings"&gt;Settings&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="/providers/new"&gt;List your business&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;form method="post" action="/sign-out"&gt;&lt;button class="btn btn--ghost btn--block" type="submit"&gt;Sign out&lt;/button&gt;&lt;/form&gt;&lt;/li&gt;
+  &lt;/ul&gt;&lt;/nav&gt;
+&lt;/div&gt;</code></pre><div class="ds-table-wrap"><table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody><tr><td><code>.popover</code></td><td>Anchored raised panel.</td></tr><tr><td><code>.account-menu</code></td><td>Places it under the avatar and styles the name, rows and divider (css-comp-nav.css).</td></tr></tbody></table></div>
+    </section>
+
+    <section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+      <ul><li><a href="../../mocks/dialogs/account-menu/default.html">dialogs/account-menu/default</a></li><li><a href="../../mocks/pages/home/feed.html">pages/home/feed</a> (the trigger)</li></ul><p>Drift found:</p><ul><li>The panel is <code>role="dialog" aria-modal="true"</code> wrapping <code>role="menu"</code>. Resolution: a non-modal disclosure with a nav of links.</li><li><code>.account-menu</code> has no CSS, so the panel sat at the top-left of the page. Resolution: placement and row styles added in css-comp-nav.css.</li><li>"Your profile" and "Your garage" both go to <code>member/own</code>. Resolution: one row.</li><li>Sign out is a link to <code>home/default</code>. Resolution: a button that posts.</li></ul>
+    </section>
+
+    <footer class="ds-footer"><span>Wayfold design system · extracted from <a href="../../mocks/index.html">docs/mocks</a> on 15 October 2026</span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

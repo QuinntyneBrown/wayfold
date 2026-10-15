@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Textarea — Wayfold design system</title>
+<meta name="description" content="Wayfold textarea: descriptions, posts, comments, messages and questions, with help, error and every state.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">Wayfold DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Actions</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/segmented-control.html">Segmented control</a></li>
+    </ul></details>
+    <details open><summary>Forms</summary><ul>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/choice.html">Checkbox and radio</a></li>
+      <li><a href="../components/filters.html">Filters</a></li>
+    </ul></details>
+    <details open><summary>Navigation</summary><ul>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/site-header.html">Site header</a></li>
+      <li><a href="../components/site-footer.html">Site footer</a></li>
+      <li><a href="../components/section-link.html">Section link</a></li>
+    </ul></details>
+    <details open><summary>Layout and overlays</summary><ul>
+      <li><a href="../components/container.html">Container and page layout</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/sheet.html">Sheet</a></li>
+      <li><a href="../components/popover.html">Popover</a></li>
+    </ul></details>
+    <details open><summary>Data display</summary><ul>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/vehicle-card.html">Vehicle card</a></li>
+      <li><a href="../components/gallery.html">Gallery</a></li>
+      <li><a href="../components/detail-list.html">Detail list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/tag.html">Tag and church tag</a></li>
+      <li><a href="../components/badge.html">Badge</a></li>
+      <li><a href="../components/post.html">Post and recommendation</a></li>
+    </ul></details>
+    <details open><summary>Feedback</summary><ul>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Forms</p>
+      <h1>Textarea</h1>
+      <p class="ds-lead">A multi-line input for anything written in sentences: a listing description, a feed post, a message to a seller or a question for financing experts.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Status: stable</span><span class="ds-pill"><code>.textarea</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+    <section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+      <p>A multi-line input for anything written in sentences: a vehicle description, a feed post, a comment, a message to a seller, a question for financing experts, a recommendation, notes on a garage car. It uses the same <code>.field</code> wrapper, help and error as the <a href="text-field.html">text field</a>.</p>
+    </section>
+    <section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+      <div class="ds-anatomy">
+        <figure class="ds-anatomy__figure" style="min-width: 18rem;">
+          <div class="field"><label class="field__label" for="an-q">Your question</label><textarea class="textarea" id="an-q" rows="4" aria-describedby="an-q-h">Is $29,500 fair for a 2019 RAV4 XLE with 71,000 km?</textarea><span class="field__help" id="an-q-h">Verified financing professionals answer in public.</span></div>
+          <span class="ds-callout" style="left: 2%; top: 4%;" aria-hidden="true">1</span>
+          <span class="ds-callout" style="left: 85%; top: 40%;" aria-hidden="true">2</span>
+          <span class="ds-callout" style="left: 60%; top: 86%;" aria-hidden="true">3</span>
+        </figure>
+        <ol class="ds-anatomy__list">
+          <li><div><b>Label</b><small>Visible <code>&lt;label for&gt;</code>.</small></div></li>
+          <li><div><b>Textarea</b><small><code>.textarea</code>, <code>rows="4"</code>, vertical resize only.</small></div></li>
+          <li><div><b>Help or error</b><small>Tied with <code>aria-describedby</code>.</small></div></li>
+        </ol>
+      </div>
+    </section>
+    <section class="ds-section" id="variants" data-na="One variant. Every textarea in the mocks is four rows with vertical resize; length limits are expressed in help or error text."><h2><a href="#variants">Variants</a></h2>
+      <p class="ds-na">One variant. Every textarea in the mocks is four rows with vertical resize; length limits are expressed in help or error text.</p>
+    </section>
+    <section class="ds-section" id="sizes" data-na="One size: rows=&quot;4&quot; by default, resizable vertically by the member."><h2><a href="#sizes">Sizes</a></h2>
+      <p class="ds-na">One size: rows="4" by default, resizable vertically by the member.</p>
+    </section>
+    <section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+      <div class="ds-example">
+        <div class="ds-example__canvas ds-example__canvas--stack">
+          <div class="field"><label class="field__label" for="ta1">Message</label><textarea class="textarea" id="ta1" rows="4">Hi, is the Civic still available for a test drive this Saturday?</textarea></div>
+          <div class="field"><label class="field__label" for="ta2">Message (focus)</label><textarea class="textarea" id="ta2" rows="4" data-state="focus"></textarea></div>
+          <div class="field"><label class="field__label" for="ta3">Why you recommend them</label><textarea class="textarea" id="ta3" rows="4" aria-invalid="true" aria-describedby="ta3-e">Great</textarea><span class="field__error" id="ta3-e">Write 10 to 500 characters</span></div>
+          <div class="field"><label class="field__label" for="ta4">Message</label><textarea class="textarea" id="ta4" rows="4" disabled>Hi, is the Civic still available?</textarea></div>
+        </div>
+        <div class="ds-example__caption"><span>Filled, focus, invalid (recommend dialog) and disabled.</span></div>
+      </div>
+      <h3>Both themes</h3>
+      <div class="ds-themes">
+        <div data-theme="light"><div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0;"><div class="field"><label class="field__label" for="tal">Write a post</label><textarea class="textarea" id="tal" rows="3">Winter tires on this weekend.</textarea></div></div></div>
+        <div data-theme="dark"><div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0;"><div class="field"><label class="field__label" for="tad">Write a post</label><textarea class="textarea" id="tad" rows="3">Winter tires on this weekend.</textarea></div></div></div>
+      </div>
+      <p>While a dialog sends, the textarea stays as typed; on failure the text is kept so the member does not retype it (<code>dialogs/*/failed</code>).</p>
+    </section>
+    <section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+      <p>Full width of its column at every size. Resize is vertical only, so a member cannot drag it wider than a phone screen.</p>
+    </section>
+    <section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+      <p>Shares <code>--field-bg</code>, <code>--field-border</code> and <code>--field-fg</code> with the text field; nothing textarea-specific.</p>
+    </section>
+    <section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+      <p>Visible label, <code>aria-describedby</code> for help and error, <code>aria-invalid</code> when invalid, as for the <a href="text-field.html">text field</a>. Character limits are stated up front in help text, not only in the error.</p>
+      <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+        <tr><td><kbd>Tab</kbd></td><td>Moves into and out of the textarea; <kbd>Tab</kbd> never inserts a tab character.</td></tr>
+        <tr><td><kbd>Enter</kbd></td><td>Inserts a new line; it does not submit.</td></tr>
+      </tbody></table>
+      <h3>Contrast</h3>
+      <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+        <div class="ds-pair"><span>Field border on surface</span><span class="ds-pair__ratio" data-contrast="--color-border-strong|--color-bg-surface" data-min="3"></span></div>
+        <div class="ds-pair"><span>Label on surface</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-surface" data-min="4.5"></span></div>
+        <div class="ds-pair"><span>Help text on surface</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-surface" data-min="4.5"></span></div>
+        <div class="ds-pair"><span>Error text on surface</span><span class="ds-pair__ratio" data-contrast="--color-danger-fg|--color-bg-surface" data-min="4.5"></span></div>
+        <div class="ds-pair"><span>Invalid border on surface</span><span class="ds-pair__ratio" data-contrast="--color-danger-solid|--color-bg-surface" data-min="3"></span></div>
+      </div>
+    </section>
+    <section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+      <ul>
+        <li>Labels name what to write: "Description", "Message", "Your question", "Why you recommend them", "Write a post".</li>
+        <li>Prefill a helpful start only where the mock does: the contact dialog's "Hi, is the … still available?"</li>
+        <li>Errors give the rule: "Write 10 to 500 characters", "Write your question".</li>
+      </ul>
+    </section>
+    <section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+      <div class="ds-dodont">
+        <figure class="ds-do"><div class="ds-example__canvas"><div class="field"><label class="field__label" for="dt1">Why you recommend them</label><textarea class="textarea" id="dt1" rows="3" aria-describedby="dt1-h"></textarea><span class="field__help" id="dt1-h">10 to 500 characters.</span></div></div><figcaption>State the length rule before the member writes.</figcaption></figure>
+        <figure class="ds-dont"><div class="ds-example__canvas"><div class="field"><label class="field__label" for="dt2">Why you recommend them</label><textarea class="textarea" id="dt2" rows="3"></textarea></div></div><figcaption>recommend/default gives no limit; the rule appears only in recommend/invalid after submit.</figcaption></figure>
+        <figure class="ds-do"><div class="ds-example__canvas"><div class="field"><label class="field__label" for="dt3">Message</label><textarea class="textarea" id="dt3" rows="3"></textarea></div></div><figcaption>A visible label above.</figcaption></figure>
+        <figure class="ds-dont"><div class="ds-example__canvas"><textarea class="textarea" rows="3" aria-label="Message" placeholder="Message"></textarea></div><figcaption>Don't rely on a placeholder as the only label; it disappears as soon as the member types.</figcaption></figure>
+      </div>
+    </section>
+    <section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+      <div class="ds-table-wrap"><table class="ds-table">
+        <thead><tr><th scope="col">Part</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+        <tbody>
+          <tr><td>Field background</td><td><code>--color-bg-surface</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-surface" data-swatch></i><span data-token="--color-bg-surface"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-surface" data-swatch></i><span data-token="--color-bg-surface"></span></span></td></tr>
+          <tr><td>Field border</td><td><code>--color-border-strong</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-border-strong" data-swatch></i><span data-token="--color-border-strong"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-border-strong" data-swatch></i><span data-token="--color-border-strong"></span></span></td></tr>
+          <tr><td>Field border, hover</td><td><code>--color-fg-muted</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td></tr>
+          <tr><td>Label</td><td><code>--color-fg-default</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-default" data-swatch></i><span data-token="--color-fg-default"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-default" data-swatch></i><span data-token="--color-fg-default"></span></span></td></tr>
+          <tr><td>Help</td><td><code>--color-fg-muted</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td></tr>
+          <tr><td>Error text</td><td><code>--color-danger-fg</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-danger-fg" data-swatch></i><span data-token="--color-danger-fg"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-danger-fg" data-swatch></i><span data-token="--color-danger-fg"></span></span></td></tr>
+          <tr><td>Focus ring</td><td><code>--color-focus-ring</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td></tr>
+          <tr><td>Min height</td><td><code>--control-height-md</code></td><td colspan="2"><span data-token="--control-height-md"></span></td></tr>
+          <tr><td>Padding</td><td><code>--space-2</code>, <code>--space-3</code></td><td colspan="2"><span data-token="--space-2"></span> / <span data-token="--space-3"></span></td></tr>
+          <tr><td>Radius</td><td><code>--radius-md</code></td><td colspan="2"><span data-token="--radius-md"></span></td></tr>
+        </tbody>
+      </table></div>
+    </section>
+    <section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+      <pre><code>&lt;div class="field"&gt;
+  &lt;label class="field__label" for="question"&gt;Your question&lt;/label&gt;
+  &lt;textarea class="textarea" id="question" name="question" rows="4"
+            aria-invalid="true" aria-describedby="question-error"&gt;&lt;/textarea&gt;
+  &lt;span class="field__error" id="question-error"&gt;Write your question&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+      <div class="ds-table-wrap"><table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+        <tr><td><code>.textarea</code></td><td>Multi-line control; vertical resize.</td></tr>
+        <tr><td><code>aria-invalid="true"</code></td><td>Danger border.</td></tr>
+        <tr><td><code>data-state="hover|focus|invalid|disabled"</code></td><td>Documentation only.</td></tr>
+      </tbody></table></div>
+    </section>
+    <section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+      <p>Extracted from these mocks:</p>
+      <ul>
+        <li><a href="../../mocks/dialogs/ask-expert/invalid.html">dialogs/ask-expert/invalid</a> ("Write your question")</li>
+        <li><a href="../../mocks/dialogs/contact-dealer/invalid.html">dialogs/contact-dealer/invalid</a> ("Write a message")</li>
+        <li><a href="../../mocks/dialogs/recommend/invalid.html">dialogs/recommend/invalid</a> ("Write 10 to 500 characters")</li>
+        <li><a href="../../mocks/pages/home/feed.html">pages/home/feed</a> (post and comment)</li>
+        <li><a href="../../mocks/pages/vehicle-editor/default.html">pages/vehicle-editor/default</a> (description)</li>
+        <li><a href="../../mocks/dialogs/add-car/default.html">dialogs/add-car/default</a> (notes)</li>
+      </ul>
+      <p>Drift found during extraction:</p>
+      <ul>
+        <li>The recommendation length rule (10 to 500 characters) shows only as an error in recommend/invalid. Resolution: state it as help text in the default state too.</li>
+      </ul>
+    </section>
+
+    <footer class="ds-footer"><span>Wayfold design system · extracted from <a href="../../mocks/index.html">docs/mocks</a> on 15 October 2026</span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Skip link — Wayfold design system</title>
+<meta name="description" content="Wayfold skip link: the first focusable element on every page, jumping past the site header to the page's main content.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">Wayfold DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Actions</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/segmented-control.html">Segmented control</a></li>
+    </ul></details>
+    <details open><summary>Forms</summary><ul>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/choice.html">Checkbox and radio</a></li>
+      <li><a href="../components/filters.html">Filters</a></li>
+    </ul></details>
+    <details open><summary>Navigation</summary><ul>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/site-header.html">Site header</a></li>
+      <li><a href="../components/site-footer.html">Site footer</a></li>
+      <li><a href="../components/section-link.html">Section link</a></li>
+    </ul></details>
+    <details open><summary>Layout and overlays</summary><ul>
+      <li><a href="../components/container.html">Container and page layout</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/sheet.html">Sheet</a></li>
+      <li><a href="../components/popover.html">Popover</a></li>
+    </ul></details>
+    <details open><summary>Data display</summary><ul>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/vehicle-card.html">Vehicle card</a></li>
+      <li><a href="../components/gallery.html">Gallery</a></li>
+      <li><a href="../components/detail-list.html">Detail list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/tag.html">Tag and church tag</a></li>
+      <li><a href="../components/badge.html">Badge</a></li>
+      <li><a href="../components/post.html">Post and recommendation</a></li>
+    </ul></details>
+    <details open><summary>Feedback</summary><ul>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Navigation</p>
+      <h1>Skip link</h1>
+      <p class="ds-lead">The first thing a keyboard user reaches on every Wayfold page. It stays out of sight until focused, then appears over the site header and jumps straight to the page's <code>&lt;main&gt;</code>.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Status: stable</span><span class="ds-pill"><code>.skip-link</code></span><span class="ds-pill">Native <code>&lt;a href&gt;</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+    <section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+      <p>Every Wayfold page and every mock starts with <code>&lt;a class="skip-link" href="#main"&gt;Skip to content&lt;/a&gt;</code>, before the <a href="site-header.html">site header</a>. The header carries up to seven targets (wordmark, four section links, "Sell your car", the avatar), so without the skip link a keyboard user tabs through all of them on every vehicle, provider and profile page (WCAG 2.4.1 Bypass blocks, L2-016.2).</p><p>The target is <code>&lt;main id="main" tabindex="-1"&gt;</code>: the <code>tabindex</code> lets browsers move focus, not just scroll, so the next <kbd>Tab</kbd> lands on the first control in the page (the vehicle search filters, the feed composer, the sign-in email field).</p>
+    </section>
+
+    <section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+      <div class="ds-anatomy"><figure class="ds-anatomy__figure"><div class="ds-frame ds-frame--short"><a class="skip-link" href="#main" data-state="focus">Skip to content</a><header class="site-header"><a class="wordmark" href="../../mocks/pages/home/feed.html">Wayfold <span class="wordmark__tag">Toronto</span></a><nav class="site-nav" aria-label="Primary, anatomy example"><a class="site-nav__link site-nav__extra" href="../../mocks/pages/home/feed.html" aria-current="page">Feed</a><a class="site-nav__link site-nav__extra" href="../../mocks/pages/vehicles/default.html">Vehicles</a><a class="site-nav__link site-nav__extra" href="../../mocks/pages/providers/default.html">Providers</a><a class="site-nav__link site-nav__extra" href="../../mocks/pages/products/default.html">Products</a><a class="btn btn--primary btn--sm site-nav__extra" href="../../mocks/pages/vehicle-editor/default.html">Sell your car</a><button class="avatar-btn" type="button" aria-haspopup="true" aria-expanded="false"><span class="avatar" aria-hidden="true">TM</span><span class="visually-hidden">Account menu for Tendai Mensah</span></button><button class="btn btn--ghost site-nav__menu" type="button" aria-haspopup="dialog" aria-expanded="false"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Menu</button></nav></header></div><span class="ds-callout" style="left: 14%; top: 8%;" aria-hidden="true">1</span><span class="ds-callout" style="left: 6%; top: 22%;" aria-hidden="true">2</span><span class="ds-callout" style="left: 40%; top: 22%;" aria-hidden="true">3</span></figure><ol class="ds-anatomy__list"><li><div><b>Label</b><small>"Skip to content": the accessible name, the same on every page.</small></div></li><li><div><b>Container</b><small>Raised surface (<code>--color-bg-surface-raised</code>), <code>--radius-md</code>, <code>--shadow-3</code>, at least 44px tall (<code>--target-comfortable</code>).</small></div></li><li><div><b>Position</b><small>Absolutely placed 16px from the top and start edge while focused; parked above the viewport otherwise. Sits above the header on <code>--z-tooltip</code>.</small></div></li></ol></div>
+    </section>
+
+    <section class="ds-section" id="variants" data-na="One variant: Wayfold pages have a single block to bypass."><h2><a href="#variants">Variants</a></h2>
+      <p>There is one skip link per page and it always targets <code>#main</code>. Wayfold pages have no second repeated block (no side navigation) that would need another.</p>
+    </section>
+
+    <section class="ds-section" id="sizes" data-na="One size: 44px tall at every breakpoint."><h2><a href="#sizes">Sizes</a></h2>
+      <p>One size. Its height is <code>--target-comfortable</code> (44px) at every width, and it never grows wider than the screen less 32px, so a longer translated label wraps rather than overflowing at 320px.</p>
+    </section>
+
+    <section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+      <div class="ds-example"><div class="ds-example__canvas ds-example__canvas--stack"><div class="ds-frame ds-frame--short"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a class="wordmark" href="../../mocks/pages/home/default.html">Wayfold <span class="wordmark__tag">Toronto</span></a><nav class="site-nav" aria-label="Primary, hidden state example"><a class="site-nav__link site-nav__extra" href="../../mocks/pages/vehicles/default.html" aria-current="page">Vehicles</a><a class="site-nav__link site-nav__extra" href="../../mocks/pages/providers/default.html">Providers</a><a class="site-nav__link site-nav__extra" href="../../mocks/pages/products/default.html">Products</a><a class="site-nav__link site-nav__extra" href="../../mocks/pages/sign-in/default.html">Sign in</a><a class="btn btn--primary btn--sm site-nav__extra" href="../../mocks/pages/sign-up/default.html">Create account</a><button class="btn btn--ghost site-nav__menu" type="button" aria-haspopup="dialog" aria-expanded="false"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Menu</button></nav></header></div><div class="ds-frame ds-frame--short"><a class="skip-link" href="#main" data-state="focus">Skip to content</a><header class="site-header"><a class="wordmark" href="../../mocks/pages/home/default.html">Wayfold <span class="wordmark__tag">Toronto</span></a><nav class="site-nav" aria-label="Primary, focus state example"><a class="site-nav__link site-nav__extra" href="../../mocks/pages/vehicles/default.html" aria-current="page">Vehicles</a><a class="site-nav__link site-nav__extra" href="../../mocks/pages/providers/default.html">Providers</a><a class="site-nav__link site-nav__extra" href="../../mocks/pages/products/default.html">Products</a><a class="site-nav__link site-nav__extra" href="../../mocks/pages/sign-in/default.html">Sign in</a><a class="btn btn--primary btn--sm site-nav__extra" href="../../mocks/pages/sign-up/default.html">Create account</a><button class="btn btn--ghost site-nav__menu" type="button" aria-haspopup="dialog" aria-expanded="false"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Menu</button></nav></header></div></div><div class="ds-example__caption"><span>Hidden (default) and focused. Focus is forced here with <code>data-state="focus"</code>; real pages use <code>:focus-visible</code>.</span></div></div><ul><li><b>Hidden</b>: placed above the viewport, still in the tab order and the accessibility tree. It is never <code>display: none</code>.</li><li><b>Focused</b>: slides to 16px from the top over <code>--duration-fast</code>, with the shared focus ring.</li><li><b>Activated</b>: focus moves to <code>&lt;main&gt;</code>, which shows no ring because it is a landmark, not a control. The skip link hides again.</li><li>No hover, active or disabled states: it is visible only while focused.</li></ul>
+    </section>
+
+    <section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+      <ul><li>The same at every width: start-aligned, 16px from the edges.</li><li><code>max-width: calc(100vw - 2 * var(--space-4))</code> keeps it inside a 320px screen.</li><li>It sits over the header, so it covers the wordmark briefly while focused; nothing moves under it.</li><li>Hidden in print with the site header.</li></ul>
+    </section>
+
+    <section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+      <p>It uses the raised surface and default text, so it follows the theme with no overrides. In dark it is a lifted dark panel with light text; the shadow is weaker, so the focus ring carries the edge.</p><div class="ds-themes"><div data-theme="light"><div class="ds-frame ds-frame--short"><a class="skip-link" href="#main" data-state="focus">Skip to content</a></div></div><div data-theme="dark"><div class="ds-frame ds-frame--short"><a class="skip-link" href="#main" data-state="focus">Skip to content</a></div></div></div>
+    </section>
+
+    <section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+      <h3>Role and pattern</h3><p>A plain in-page link (WCAG 2.4.1). It is the first element in <code>&lt;body&gt;</code>, before the header, in every page and in the <code>inert</code> page behind a dialog mock.</p><h3>Keyboard</h3><table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody><tr><td><kbd>Tab</kbd> (first press)</td><td>Focuses and reveals the skip link.</td></tr><tr><td><kbd>Enter</kbd></td><td>Moves focus to <code>&lt;main id="main" tabindex="-1"&gt;</code>; the next <kbd>Tab</kbd> reaches the first control in the page.</td></tr><tr><td><kbd>Tab</kbd> again without activating</td><td>Moves on to the wordmark; the skip link hides.</td></tr></tbody></table><h3>Focus</h3><p>The shared 2px ring at 3px offset. The skip link is never hidden while focused (WCAG 2.4.11), because it is placed over, not under, the sticky header.</p><h3>Contrast</h3><div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);"><div class="ds-pair"><span>Label on raised surface</span><span class="ds-pair__ratio" data-contrast="--color-fg-default|--color-bg-surface-raised" data-min="4.5"></span></div><div class="ds-pair"><span>Focus ring on page</span><span class="ds-pair__ratio" data-contrast="--color-focus-ring|--color-bg-canvas" data-min="3"></span></div></div><h3>Motion</h3><p>It slides on <code>top</code> over <code>--duration-fast</code>; reduced motion removes the transition.</p>
+    </section>
+
+    <section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+      <ul><li>"Skip to content" on every page. Not "Skip navigation" or "Jump to main".</li><li>Sentence case, no punctuation, no icon.</li></ul>
+    </section>
+
+    <section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+      <div class="ds-dodont"><figure class="ds-do"><div class="ds-example__canvas"><div class="ds-frame ds-frame--short"><a class="skip-link" href="#main" data-state="focus">Skip to content</a></div></div><figcaption>Make it the first element in <code>&lt;body&gt;</code>, before the header, targeting <code>&lt;main id="main" tabindex="-1"&gt;</code>.</figcaption></figure><figure class="ds-dont"><div class="ds-example__canvas"><div class="ds-frame ds-frame--short"><header class="site-header"><a class="wordmark" href="../../mocks/pages/home/default.html">Wayfold <span class="wordmark__tag">Toronto</span></a><nav class="site-nav" aria-label="Primary, don't example"><a class="site-nav__link site-nav__extra" href="../../mocks/pages/vehicles/default.html" aria-current="page">Vehicles</a><a class="site-nav__link site-nav__extra" href="../../mocks/pages/providers/default.html">Providers</a><a class="site-nav__link site-nav__extra" href="../../mocks/pages/products/default.html">Products</a><a class="site-nav__link site-nav__extra" href="../../mocks/pages/sign-in/default.html">Sign in</a><a class="btn btn--primary btn--sm site-nav__extra" href="../../mocks/pages/sign-up/default.html">Create account</a><button class="btn btn--ghost site-nav__menu" type="button" aria-haspopup="dialog" aria-expanded="false"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Menu</button></nav></header><a class="skip-link" href="#main" data-state="focus" style="position: static;">Skip to content</a></div></div><figcaption>Don't place it after the header: a keyboard user has already tabbed through every header link before reaching it.</figcaption></figure><figure class="ds-do"><div class="ds-example__canvas"><a class="skip-link" href="#main" data-state="focus" style="position: static;">Skip to content</a></div><figcaption>Keep the label identical on every page, including the auth pages whose header has only the wordmark.</figcaption></figure><figure class="ds-dont"><div class="ds-example__canvas"><a class="skip-link" href="#main" data-state="focus" style="position: static;">Skip to vehicle search results</a></div><figcaption>Don't tailor it per page; a changing label is harder to learn and to translate.</figcaption></figure></div>
+    </section>
+
+    <section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+      <div class="ds-table-wrap"><table class="ds-table"><thead><tr><th scope="col">Part</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead><tbody><tr><td>Background</td><td><code>--color-bg-surface-raised</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-bg-surface-raised" data-swatch></i><span data-token="--color-bg-surface-raised"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-bg-surface-raised" data-swatch></i><span data-token="--color-bg-surface-raised"></span></span></td></tr><tr><td>Label</td><td><code>--color-fg-default</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-default" data-swatch></i><span data-token="--color-fg-default"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-default" data-swatch></i><span data-token="--color-fg-default"></span></span></td></tr><tr><td>Focus ring</td><td><code>--color-focus-ring</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-focus-ring" data-swatch></i><span data-token="--color-focus-ring"></span></span></td></tr><tr><td>Height</td><td><code>--target-comfortable</code></td><td colspan="2"><span data-token="--target-comfortable"></span></td></tr><tr><td>Padding</td><td><code>--space-2, --space-4</code></td><td colspan="2"><span data-token="--space-2"></span> / <span data-token="--space-4"></span></td></tr><tr><td>Offset from edges</td><td><code>--space-4</code></td><td colspan="2"><span data-token="--space-4"></span></td></tr><tr><td>Radius / shadow</td><td><code>--radius-md, --shadow-3</code></td><td colspan="2"><span data-token="--radius-md"></span> / <span data-token="--shadow-3"></span></td></tr><tr><td>Layer</td><td><code>--z-tooltip</code></td><td colspan="2"><span data-token="--z-tooltip"></span></td></tr><tr><td>Transition</td><td><code>--duration-fast</code></td><td colspan="2"><span data-token="--duration-fast"></span></td></tr></tbody></table></div>
+    </section>
+
+    <section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+      <pre><code>&lt;body&gt;
+  &lt;a class="skip-link" href="#main"&gt;Skip to content&lt;/a&gt;
+  &lt;header class="site-header"&gt;…&lt;/header&gt;
+  &lt;main id="main" class="container stack" tabindex="-1"&gt;…&lt;/main&gt;
+&lt;/body&gt;</code></pre><div class="ds-table-wrap"><table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody><tr><td><code>.skip-link</code></td><td>Hidden until focused, then shown top-start over the header.</td></tr><tr><td><code>data-state="focus"</code></td><td>Documentation only: forces the focused look.</td></tr></tbody></table></div>
+    </section>
+
+    <section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+      <p>Every page mock carries the same skip link, for example:</p><ul><li><a href="../../mocks/pages/vehicles/default.html">pages/vehicles/default</a></li><li><a href="../../mocks/pages/sign-in/default.html">pages/sign-in/default</a> (header with the wordmark only)</li><li><a href="../../mocks/pages/vehicle-detail/default.html">pages/vehicle-detail/default</a></li><li><a href="../../mocks/dialogs/site-menu/default.html">dialogs/site-menu/default</a> (inside the <code>inert</code> page behind the sheet)</li></ul><p>Drift found:</p><ul><li>None in the markup: all 113 mock files use the same label and target. The one gap was <code>main</code> having no visible-ring rule; components.css already suppresses the ring on the landmark.</li></ul>
+    </section>
+
+    <footer class="ds-footer"><span>Wayfold design system · extracted from <a href="../../mocks/index.html">docs/mocks</a> on 15 October 2026</span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Segmented control — Wayfold design system</title>
+<meta name="description" content="Wayfold segmented controls: member profile section links and provider category links with aria-current.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">Wayfold DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Actions</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/segmented-control.html">Segmented control</a></li>
+    </ul></details>
+    <details open><summary>Forms</summary><ul>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/choice.html">Checkbox and radio</a></li>
+      <li><a href="../components/filters.html">Filters</a></li>
+    </ul></details>
+    <details open><summary>Navigation</summary><ul>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/site-header.html">Site header</a></li>
+      <li><a href="../components/site-footer.html">Site footer</a></li>
+      <li><a href="../components/section-link.html">Section link</a></li>
+    </ul></details>
+    <details open><summary>Layout and overlays</summary><ul>
+      <li><a href="../components/container.html">Container and page layout</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/sheet.html">Sheet</a></li>
+      <li><a href="../components/popover.html">Popover</a></li>
+    </ul></details>
+    <details open><summary>Data display</summary><ul>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/vehicle-card.html">Vehicle card</a></li>
+      <li><a href="../components/gallery.html">Gallery</a></li>
+      <li><a href="../components/detail-list.html">Detail list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/tag.html">Tag and church tag</a></li>
+      <li><a href="../components/badge.html">Badge</a></li>
+      <li><a href="../components/post.html">Post and recommendation</a></li>
+    </ul></details>
+    <details open><summary>Feedback</summary><ul>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Actions</p>
+      <h1>Segmented control</h1>
+      <p class="ds-lead">A row of links between sections or categories of one page, with the current one marked: the member profile's Garage, For sale, Recommendations and Posts, and the provider categories.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Status: stable</span><span class="ds-pill"><code>.segmented</code></span><span class="ds-pill"><code>.category-nav</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+    <section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+      <p>A row of links that moves between sections of one thing, with the current one marked by <code>aria-current="page"</code>. Wayfold has two forms and both are navigation, not form controls:</p>
+      <ul>
+        <li><b>Segmented</b> (<code>nav.segmented</code>): the member profile sections Garage, For sale, Recommendations and Posts. Each segment is its own URL.</li>
+        <li><b>Category nav</b> (<code>nav.category-nav</code>): quick category links under the provider directory filters: All, Dealers, Mechanics, Body shops and the rest.</li>
+      </ul>
+      <p>To narrow a list with several criteria at once, use <a href="filters.html">filters</a>. To pick a value inside a form, use a <a href="select.html">select</a> or <a href="choice.html">radio buttons</a>.</p>
+    </section>
+    <section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+      <div class="ds-anatomy">
+        <figure class="ds-anatomy__figure">
+          <nav class="segmented" aria-label="Profile sections (anatomy)"><a href="#anatomy" aria-current="page">Garage</a><a href="#anatomy">For sale</a><a href="#anatomy">Posts</a></nav>
+          <span class="ds-callout" style="left: 4%; top: 8%;" aria-hidden="true">1</span>
+          <span class="ds-callout" style="left: 18%; top: 70%;" aria-hidden="true">2</span>
+          <span class="ds-callout" style="left: 45%; top: 70%;" aria-hidden="true">3</span>
+        </figure>
+        <ol class="ds-anatomy__list">
+          <li><div><b>Container</b><small><code>&lt;nav&gt;</code> with an <code>aria-label</code> naming the set ("Profile sections", "Provider categories"); wraps, 8px gaps.</small></div></li>
+          <li><div><b>Current segment</b><small><code>aria-current="page"</code>: accent text and edge, semibold.</small></div></li>
+          <li><div><b>Segment</b><small>A link with a 1px <code>--color-border-default</code> edge, <code>--radius-md</code>, at least 44px tall.</small></div></li>
+        </ol>
+      </div>
+    </section>
+    <section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+      <div class="ds-example">
+        <div class="ds-example__canvas">
+          <nav class="segmented" aria-label="Profile sections"><a href="#variants" aria-current="page">Garage</a><a href="#variants">For sale</a><a href="#variants">Recommendations</a><a href="#variants">Posts</a></nav>
+        </div>
+        <div class="ds-example__caption"><span>Segmented: member profile sections, from <code>pages/member/default</code>.</span></div>
+        <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;nav class="segmented" aria-label="Profile sections"&gt;&lt;a href="#variants" aria-current="page"&gt;Garage&lt;/a&gt;&lt;a href="#variants"&gt;For sale&lt;/a&gt;&lt;a href="#variants"&gt;Recommendations&lt;/a&gt;&lt;a href="#variants"&gt;Posts&lt;/a&gt;&lt;/nav&gt;</code></pre></details>
+      </div>
+      <div class="ds-example">
+        <div class="ds-example__canvas">
+          <nav class="category-nav" aria-label="Provider categories"><a href="#variants" aria-current="page">All</a><a href="#variants">Dealers</a><a href="#variants">Mechanics</a><a href="#variants">Body shops</a><a href="#variants">Tire shops</a><a href="#variants">Detailers</a><a href="#variants">Towing</a><a href="#variants">Insurance</a><a href="#variants">Financing</a><a href="#variants">Parts</a></nav>
+        </div>
+        <div class="ds-example__caption"><span>Category nav: provider categories, from <code>pages/providers/default</code>, with the current category marked.</span></div>
+        <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;nav class="category-nav" aria-label="Provider categories"&gt;&lt;a href="#variants" aria-current="page"&gt;All&lt;/a&gt;&lt;a href="#variants"&gt;Dealers&lt;/a&gt;&lt;a href="#variants"&gt;Mechanics&lt;/a&gt;&lt;a href="#variants"&gt;Body shops&lt;/a&gt;&lt;a href="#variants"&gt;Tire shops&lt;/a&gt;&lt;a href="#variants"&gt;Detailers&lt;/a&gt;&lt;a href="#variants"&gt;Towing&lt;/a&gt;&lt;a href="#variants"&gt;Insurance&lt;/a&gt;&lt;a href="#variants"&gt;Financing&lt;/a&gt;&lt;a href="#variants"&gt;Parts&lt;/a&gt;&lt;/nav&gt;</code></pre></details>
+      </div>
+    </section>
+    <section class="ds-section" id="sizes" data-na="One size. Each segment is at least 44px tall (--target-comfortable) at every width."><h2><a href="#sizes">Sizes</a></h2>
+      <p class="ds-na">One size. Each segment is at least 44px tall (--target-comfortable) at every width.</p>
+    </section>
+    <section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+      <div class="ds-example">
+        <div class="ds-example__canvas">
+          <nav class="segmented" aria-label="Segment states"><a href="#states">Default</a><a href="#states" data-state="hover">Hover</a><a href="#states" data-state="focus">Focus</a><a href="#states" aria-current="page">Current</a></nav>
+        </div>
+        <div class="ds-example__caption"><span>Default (muted text), hover (default text, strong edge), focus (shared ring), current (accent text and edge, semibold).</span></div>
+      </div>
+      <h3>Both themes</h3>
+      <div class="ds-themes">
+        <div data-theme="light"><div class="ds-example__canvas" style="padding: 0;"><nav class="segmented" aria-label="Profile sections, light"><a href="#states" aria-current="page">Garage</a><a href="#states">For sale</a><a href="#states">Posts</a></nav></div></div>
+        <div data-theme="dark"><div class="ds-example__canvas" style="padding: 0;"><nav class="segmented" aria-label="Profile sections, dark"><a href="#states" aria-current="page">Garage</a><a href="#states">For sale</a><a href="#states">Posts</a></nav></div></div>
+      </div>
+      <p>There is no disabled segment: a section with nothing in it still opens and shows its empty state ("No cars in the garage yet").</p>
+    </section>
+    <section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+      <ul>
+        <li>Segments wrap onto further rows; they never scroll sideways (L2-015.1). At 360px the four profile segments take two rows.</li>
+        <li>The ten provider categories wrap to three or four rows on a phone; the category <a href="select.html">select</a> in the filters above gives the same choice in one control.</li>
+      </ul>
+    </section>
+    <section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+      <p>Segments read <code>--color-fg-muted</code>, <code>--color-border-default</code> and, when current, <code>--color-fg-accent</code> and <code>--color-accent</code>. Both themes come from the semantic layer; there are no component tokens.</p>
+    </section>
+    <section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+      <h3>Role and pattern</h3>
+      <p>A <code>&lt;nav&gt;</code> landmark with a distinct <code>aria-label</code> and plain links. Not a tablist: each segment loads its own URL, so links with <code>aria-current="page"</code> are the honest pattern.</p>
+      <h3>Keyboard</h3>
+      <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+        <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Moves through the segments one at a time.</td></tr>
+        <tr><td><kbd>Enter</kbd></td><td>Follows the link.</td></tr>
+      </tbody></table>
+      <h3>Current</h3>
+      <p>The current segment is marked three ways: <code>aria-current="page"</code> (announced as "current page"), accent colour and semibold weight, so it does not rely on colour alone (WCAG 1.4.1).</p>
+      <h3>Contrast</h3>
+      <div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);">
+        <div class="ds-pair"><span>Segment text on page</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-canvas" data-min="4.5"></span></div>
+        <div class="ds-pair"><span>Current segment text</span><span class="ds-pair__ratio" data-contrast="--color-fg-accent|--color-bg-canvas" data-min="4.5"></span></div>
+        <div class="ds-pair"><span>Current segment edge</span><span class="ds-pair__ratio" data-contrast="--color-accent|--color-bg-canvas" data-min="3"></span></div>
+        <div class="ds-pair"><span>Focus ring</span><span class="ds-pair__ratio" data-contrast="--color-focus-ring|--color-bg-canvas" data-min="3"></span></div>
+      </div>
+    </section>
+    <section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+      <ul>
+        <li>Nouns in sentence case, one or two words: "Garage", "For sale", "Body shops".</li>
+        <li>The first category is "All", never "Everything" or "Show all".</li>
+        <li>Name the <code>&lt;nav&gt;</code> for what it holds: "Profile sections", "Provider categories".</li>
+      </ul>
+    </section>
+    <section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+      <div class="ds-dodont">
+        <figure class="ds-do"><div class="ds-example__canvas"><nav class="category-nav" aria-label="Provider categories, do"><a href="#do-dont" aria-current="page">All</a><a href="#do-dont">Dealers</a><a href="#do-dont">Mechanics</a></nav></div><figcaption>Mark the current category with <code>aria-current="page"</code>.</figcaption></figure>
+        <figure class="ds-dont"><div class="ds-example__canvas"><nav class="category-nav" aria-label="Provider categories, don't"><a href="#do-dont">All</a><a href="#do-dont">Dealers</a><a href="#do-dont">Mechanics</a></nav></div><figcaption>Don't leave every link looking the same (providers/default does): the member cannot tell which category they are in.</figcaption></figure>
+        <figure class="ds-do"><div class="ds-example__canvas"><nav class="segmented" aria-label="Profile sections, do"><a href="#do-dont" aria-current="page">Garage</a><a href="#do-dont">For sale</a></nav></div><figcaption>Links that each load their own URL.</figcaption></figure>
+        <figure class="ds-dont"><div class="ds-example__canvas"><div class="segmented"><button class="btn btn--sm" type="button">Garage</button><button class="btn btn--sm" type="button">For sale</button></div></div><figcaption>Don't fake sections with buttons that swap content in place; the sections must be linkable and survive a reload.</figcaption></figure>
+      </div>
+    </section>
+    <section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+      <div class="ds-table-wrap"><table class="ds-table">
+        <thead><tr><th scope="col">Part</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+        <tbody>
+          <tr><td>Segment text</td><td><code>--color-fg-muted</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td></tr>
+          <tr><td>Segment edge</td><td><code>--color-border-default</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-border-default" data-swatch></i><span data-token="--color-border-default"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-border-default" data-swatch></i><span data-token="--color-border-default"></span></span></td></tr>
+          <tr><td>Hover text</td><td><code>--color-fg-default</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-default" data-swatch></i><span data-token="--color-fg-default"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-default" data-swatch></i><span data-token="--color-fg-default"></span></span></td></tr>
+          <tr><td>Current text</td><td><code>--color-fg-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-accent" data-swatch></i><span data-token="--color-fg-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-accent" data-swatch></i><span data-token="--color-fg-accent"></span></span></td></tr>
+          <tr><td>Current edge</td><td><code>--color-accent</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-accent" data-swatch></i><span data-token="--color-accent"></span></span></td></tr>
+          <tr><td>Min height</td><td><code>--target-comfortable</code></td><td colspan="2"><span data-token="--target-comfortable"></span></td></tr>
+          <tr><td>Padding</td><td><code>--space-2</code>, <code>--space-3</code></td><td colspan="2"><span data-token="--space-2"></span> / <span data-token="--space-3"></span></td></tr>
+          <tr><td>Gap</td><td><code>--space-2</code></td><td colspan="2"><span data-token="--space-2"></span></td></tr>
+          <tr><td>Radius</td><td><code>--radius-md</code></td><td colspan="2"><span data-token="--radius-md"></span></td></tr>
+        </tbody>
+      </table></div>
+    </section>
+    <section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+      <pre><code>&lt;nav class="segmented" aria-label="Profile sections"&gt;
+  &lt;a href="/members/priya" aria-current="page"&gt;Garage&lt;/a&gt;
+  &lt;a href="/members/priya/for-sale"&gt;For sale&lt;/a&gt;
+  &lt;a href="/members/priya/recommendations"&gt;Recommendations&lt;/a&gt;
+  &lt;a href="/members/priya/posts"&gt;Posts&lt;/a&gt;
+&lt;/nav&gt;
+
+&lt;nav class="category-nav" aria-label="Provider categories"&gt;
+  &lt;a href="/providers" aria-current="page"&gt;All&lt;/a&gt;
+  &lt;a href="/providers?category=dealers"&gt;Dealers&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+      <div class="ds-table-wrap"><table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+        <tr><td><code>.segmented</code></td><td>Section links within one page (member profile).</td></tr>
+        <tr><td><code>.category-nav</code></td><td>Category shortcuts above a directory list.</td></tr>
+        <tr><td><code>aria-current="page"</code></td><td>Marks and styles the current item.</td></tr>
+        <tr><td><code>data-state="hover|focus"</code></td><td>Documentation only.</td></tr>
+      </tbody></table></div>
+      <p>The hover and current-edge rules are in <code>.cache/css-comp-forms.css</code> until merged into <code>components.css</code>.</p>
+    </section>
+    <section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+      <p>Extracted from these mocks:</p>
+      <ul>
+        <li><a href="../../mocks/pages/member/default.html">pages/member/default</a> (Garage current)</li>
+        <li><a href="../../mocks/pages/member/for-sale.html">pages/member/for-sale</a></li>
+        <li><a href="../../mocks/pages/member/recommendations.html">pages/member/recommendations</a></li>
+        <li><a href="../../mocks/pages/member/posts.html">pages/member/posts</a></li>
+        <li><a href="../../mocks/pages/providers/default.html">pages/providers/default</a> (category nav)</li>
+      </ul>
+      <p>Drift found during extraction:</p>
+      <ul>
+        <li><code>components.css</code> defines <code>.segmented</code> twice: an underline-style rule set (muted text, accent current) and a later bordered-chip rule shared with <code>.category-nav</code> that sets current to <code>font-weight: 700</code>. The bordered version wins in every mock; the system keeps it and adds the accent edge for current, via <code>--font-weight-semibold</code>.</li>
+        <li><code>.category-nav</code> in providers/default marks no link as current. Resolution: <code>aria-current="page"</code> on the active category ("All" by default).</li>
+        <li>Category links inherit the global underlined link style. Resolution: no underline inside <code>.category-nav</code> and <code>.segmented</code>; the chip edge marks them as links.</li>
+      </ul>
+    </section>
+
+    <footer class="ds-footer"><span>Wayfold design system · extracted from <a href="../../mocks/index.html">docs/mocks</a> on 15 October 2026</span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

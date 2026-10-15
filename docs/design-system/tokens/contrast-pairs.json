@@ -5,73 +5,73 @@
       "fg": "--color-fg-default",
       "bg": "--color-bg-canvas",
       "min": 4.5,
-      "note": "body text on page"
+      "note": "body text on the page canvas"
     },
     {
       "fg": "--color-fg-default",
       "bg": "--color-bg-surface",
       "min": 4.5,
-      "note": "body text on surfaces and inputs"
+      "note": "body text on cards, vehicle cards and inputs"
     },
     {
       "fg": "--color-fg-default",
       "bg": "--color-bg-surface-raised",
       "min": 4.5,
-      "note": "body text in dialogs, sheets and popovers"
+      "note": "text in dialogs (add car, ask an expert), the site menu sheet and popovers"
     },
     {
       "fg": "--color-fg-default",
       "bg": "--color-bg-surface-sunken",
       "min": 4.5,
-      "note": "body text in sunken panels and table headers"
+      "note": "code blocks and read-only fields"
     },
     {
       "fg": "--color-fg-default",
       "bg": "--color-bg-subtle",
       "min": 4.5,
-      "note": "text on hover rows/chips"
+      "note": "text on avatars, disabled fields and secondary button hover"
     },
     {
       "fg": "--color-fg-default",
       "bg": "--color-bg-subtle-hover",
       "min": 4.5,
-      "note": "text on hovered chips"
+      "note": "text on a pressed secondary button"
     },
     {
       "fg": "--color-fg-muted",
       "bg": "--color-bg-canvas",
       "min": 4.5,
-      "note": "secondary text on page"
+      "note": "page-head subtitles and footer text on the page"
     },
     {
       "fg": "--color-fg-muted",
       "bg": "--color-bg-surface",
       "min": 4.5,
-      "note": "secondary text on surfaces"
+      "note": "vehicle meta (km · municipality), detail-list terms and help text on cards"
     },
     {
       "fg": "--color-fg-muted",
       "bg": "--color-bg-surface-raised",
       "min": 4.5,
-      "note": "secondary text in dialogs"
+      "note": "dialog descriptions (\"Your question and answers will be public.\")"
     },
     {
       "fg": "--color-fg-muted",
       "bg": "--color-bg-surface-sunken",
       "min": 4.5,
-      "note": "secondary text on sunken panels"
+      "note": "muted text on sunken surfaces"
     },
     {
       "fg": "--color-fg-muted",
       "bg": "--color-bg-subtle",
       "min": 4.5,
-      "note": "secondary text on chips"
+      "note": "neutral badge (\"Fair price\") and tag text"
     },
     {
       "fg": "--color-fg-subtle",
       "bg": "--color-bg-canvas",
       "min": 4.5,
-      "note": "placeholders/metadata on page"
+      "note": "optional-field markers on the page"
     },
     {
       "fg": "--color-fg-subtle",
@@ -83,97 +83,73 @@
       "fg": "--color-fg-subtle",
       "bg": "--color-bg-surface-raised",
       "min": 4.5,
-      "note": "metadata in dialogs"
+      "note": "optional markers in dialog forms"
     },
     {
       "fg": "--color-fg-inverse",
       "bg": "--color-bg-inverse",
       "min": 4.5,
-      "note": "inverse text on a toast"
+      "note": "toast title and text on the inverse surface"
     },
     {
       "fg": "--color-fg-link",
       "bg": "--color-bg-canvas",
       "min": 4.5,
-      "note": "links on page"
+      "note": "links on the page (\"Create an account\")"
     },
     {
       "fg": "--color-fg-link",
       "bg": "--color-bg-surface",
       "min": 4.5,
-      "note": "links on surfaces"
+      "note": "links on cards (\"View dealer profile\")"
     },
     {
       "fg": "--color-fg-link-hover",
       "bg": "--color-bg-surface",
       "min": 4.5,
-      "note": "hovered links"
+      "note": "hovered links on cards"
     },
     {
       "fg": "--color-fg-accent",
       "bg": "--color-bg-surface",
       "min": 4.5,
-      "note": "accent text (selected chip or segment label)"
-    },
-    {
-      "fg": "--color-fg-accent",
-      "bg": "--color-accent-subtle",
-      "min": 4.5,
-      "note": "accent text on selected row"
-    },
-    {
-      "fg": "--color-fg-default",
-      "bg": "--color-accent-subtle",
-      "min": 4.5,
-      "note": "body text on selected row"
+      "note": "current segmented link (Garage, For sale) on cards"
     },
     {
       "fg": "--color-fg-on-accent",
       "bg": "--color-accent",
       "min": 4.5,
-      "note": "tick on a checked checkbox or radio (solid accent)"
-    },
-    {
-      "fg": "--color-fg-on-accent",
-      "bg": "--color-accent-hover",
-      "min": 4.5,
-      "note": "mark on a solid accent fill (hover)"
-    },
-    {
-      "fg": "--color-fg-on-accent",
-      "bg": "--color-accent-active",
-      "min": 4.5,
-      "note": "mark on a solid accent fill (pressed)"
+      "note": "tick on a checked checkbox or dot on a radio"
     },
     {
       "fg": "--color-accent",
       "bg": "--color-bg-surface",
       "min": 3,
-      "note": "pressed compare toggle and checked box edge vs surface"
+      "note": "checked checkbox and current section-link edge vs surface"
     },
     {
       "fg": "--color-accent",
       "bg": "--color-bg-canvas",
       "min": 3,
-      "note": "pressed compare toggle and checked box edge vs page"
+      "note": "checked checkbox edge vs page"
     },
     {
       "fg": "--color-border-strong",
       "bg": "--color-bg-surface",
       "min": 3,
-      "note": "input borders (1.4.11)"
+      "note": "input, select, textarea and secondary button edges (1.4.11)"
     },
     {
       "fg": "--color-border-strong",
       "bg": "--color-bg-canvas",
       "min": 3,
-      "note": "input borders on page"
+      "note": "control edges on the page"
     },
     {
       "fg": "--color-focus-ring",
       "bg": "--color-bg-surface",
       "min": 3,
-      "note": "focus ring vs surface (2.4.11)"
+      "note": "focus ring vs surface (2.4.11, 2.4.13)"
     },
     {
       "fg": "--color-focus-ring",
@@ -185,13 +161,13 @@
       "fg": "--color-fg-on-danger",
       "bg": "--color-danger-solid",
       "min": 4.5,
-      "note": "destructive button label"
+      "note": "\"Delete vehicle\" button label"
     },
     {
       "fg": "--color-fg-on-danger",
       "bg": "--color-danger-solid-hover",
       "min": 4.5,
-      "note": "destructive button label (hover)"
+      "note": "\"Delete vehicle\" label on hover"
     },
     {
       "fg": "--color-danger-solid",
@@ -215,25 +191,25 @@
       "fg": "--color-info-border",
       "bg": "--color-bg-surface",
       "min": 1,
-      "note": "info alert border (decorative; bg colour carries meaning with icon + text)"
+      "note": "info alert border (decorative: tint, title and text carry meaning)"
     },
     {
       "fg": "--color-success-fg",
       "bg": "--color-success-bg",
       "min": 4.5,
-      "note": "success alert text"
+      "note": "success alert text and the \"Good price\" and \"Verified\" badges"
     },
     {
       "fg": "--color-success-icon",
       "bg": "--color-success-bg",
       "min": 3,
-      "note": "success alert icon; success dialog and empty-state icon circle"
+      "note": "success alert icon"
     },
     {
       "fg": "--color-warning-fg",
       "bg": "--color-warning-bg",
       "min": 4.5,
-      "note": "warning alert text"
+      "note": "warning alert text (\"Too many attempts\")"
     },
     {
       "fg": "--color-warning-icon",
@@ -245,7 +221,7 @@
       "fg": "--color-danger-fg",
       "bg": "--color-danger-bg",
       "min": 4.5,
-      "note": "danger alert / field error text"
+      "note": "danger alert text (\"Check these fields\")"
     },
     {
       "fg": "--color-danger-icon",
@@ -257,73 +233,49 @@
       "fg": "--color-danger-fg",
       "bg": "--color-bg-surface",
       "min": 4.5,
-      "note": "field error text under input"
+      "note": "field error text under an input"
     },
     {
       "fg": "--color-danger-fg",
       "bg": "--color-bg-canvas",
       "min": 4.5,
-      "note": "field error text on page"
-    },
-    {
-      "fg": "--color-danger-solid",
-      "bg": "--color-bg-surface",
-      "min": 3,
-      "note": "invalid input border"
+      "note": "field error text on the page"
     },
     {
       "fg": "--color-success-fg",
       "bg": "--color-bg-surface",
       "min": 4.5,
-      "note": "success text on surfaces"
+      "note": "success text on cards"
     },
     {
       "fg": "--color-warning-fg",
       "bg": "--color-bg-surface",
       "min": 4.5,
-      "note": "warning text on surfaces"
+      "note": "warning text on cards"
     },
     {
       "fg": "--color-info-fg",
       "bg": "--color-bg-surface",
       "min": 4.5,
-      "note": "info text on surfaces"
-    },
-    {
-      "fg": "--color-info-solid",
-      "bg": "--color-bg-surface",
-      "min": 3,
-      "note": "reserved: solid info mark vs surface (no component uses it today)"
-    },
-    {
-      "fg": "--color-success-solid",
-      "bg": "--color-bg-surface",
-      "min": 3,
-      "note": "reserved: solid success mark vs surface (no component uses it today)"
-    },
-    {
-      "fg": "--color-warning-solid",
-      "bg": "--color-bg-surface",
-      "min": 3,
-      "note": "reserved: solid warning mark vs surface (no component uses it today)"
+      "note": "info text on cards"
     },
     {
       "fg": "--color-fg-on-action",
       "bg": "--color-action",
       "min": 4.5,
-      "note": "primary (ink) button label"
+      "note": "primary button label (\"Message seller\", \"Create account\")"
     },
     {
       "fg": "--color-fg-on-action",
       "bg": "--color-action-hover",
       "min": 4.5,
-      "note": "primary button label (hover)"
+      "note": "primary button label on hover"
     },
     {
       "fg": "--color-fg-on-action",
       "bg": "--color-action-active",
       "min": 4.5,
-      "note": "primary button label (active)"
+      "note": "primary button label when pressed"
     },
     {
       "fg": "--color-action",
@@ -341,97 +293,61 @@
       "fg": "--color-fg-accent",
       "bg": "--color-bg-canvas",
       "min": 4.5,
-      "note": "selected segment (Map / List) or filter on page"
+      "note": "current segmented link on the page"
     },
     {
       "fg": "--color-fg-accent",
       "bg": "--color-bg-surface-raised",
       "min": 4.5,
-      "note": "selected filter in sheets and dropdowns"
+      "note": "current segmented link in dialogs and sheets"
     },
     {
       "fg": "--color-accent",
       "bg": "--color-bg-surface-raised",
       "min": 3,
-      "note": "focus ring / selected edge in dialogs"
+      "note": "checked checkbox edge in dialogs"
     },
     {
       "fg": "--color-focus-ring",
       "bg": "--color-bg-surface-raised",
       "min": 3,
-      "note": "focus ring in dialogs"
+      "note": "focus ring in dialogs and the site menu sheet"
     },
     {
       "fg": "--color-focus-ring",
       "bg": "--color-bg-subtle",
       "min": 3,
-      "note": "focus ring on chips and hover rows"
+      "note": "focus ring on avatars and subtle fills"
     },
     {
       "fg": "--color-fg-default",
       "bg": "--color-accent-subtle-hover",
       "min": 4.5,
-      "note": "text on hovered selected chip"
-    },
-    {
-      "fg": "--color-fg-accent",
-      "bg": "--color-accent-subtle-hover",
-      "min": 4.5,
-      "note": "accent text on hovered selected chip"
+      "note": "text on a selection highlight"
     },
     {
       "fg": "--color-fg-subtle",
       "bg": "--color-bg-surface-sunken",
       "min": 4.5,
-      "note": "labels on sunken panels (all-in cost, light grid, fee rows)"
+      "note": "subtle text on sunken surfaces"
     },
     {
       "fg": "--color-fg-subtle",
       "bg": "--color-bg-subtle",
       "min": 4.5,
-      "note": "subtle text on a hovered row"
-    },
-    {
-      "fg": "--color-fg-on-scrim",
-      "bg": "--color-bg-scrim",
-      "min": 4.5,
-      "note": "text over the lightbox scrim (scrim composited on white = worst case)"
-    },
-    {
-      "fg": "--color-fg-inverse",
-      "bg": "--color-bg-inverse",
-      "min": 4.5,
-      "note": "toast text"
-    },
-    {
-      "fg": "--color-border-inverse",
-      "bg": "--color-bg-inverse",
-      "min": 1,
-      "note": "reserved: hairline on an inverse surface (decorative)"
-    },
-    {
-      "fg": "--color-bg-surface",
-      "bg": "--color-success-solid",
-      "min": 4.5,
-      "note": "reserved: glyph on a solid success mark"
-    },
-    {
-      "fg": "--color-warning-fg",
-      "bg": "--color-warning-bg",
-      "min": 4.5,
-      "note": "warning badge text (\"Prices may be out of date\", \"Stale\")"
+      "note": "subtle text on subtle fills"
     },
     {
       "fg": "--color-warning-border",
       "bg": "--color-bg-canvas",
       "min": 1,
-      "note": "warning edge on the page (decorative; text and icon carry meaning)"
+      "note": "warning alert edge on the page (decorative: title and text carry meaning)"
     },
     {
       "fg": "--color-fg-default",
       "bg": "--color-warning-bg",
       "min": 4.5,
-      "note": "body text on a warning tint (price-changed field in the studio editor)"
+      "note": "body text on a warning tint"
     },
     {
       "fg": "--color-danger-fg",
@@ -449,37 +365,19 @@
       "fg": "--color-warning-fg",
       "bg": "--color-bg-canvas",
       "min": 4.5,
-      "note": "stale or due-soon status text on page"
+      "note": "warning text on the page"
     },
     {
       "fg": "--color-success-fg",
       "bg": "--color-bg-canvas",
       "min": 4.5,
-      "note": "published status, saved indicator"
-    },
-    {
-      "fg": "--color-fg-on-danger",
-      "bg": "--color-danger-solid",
-      "min": 4.5,
-      "note": "label on the destructive button"
-    },
-    {
-      "fg": "--color-bg-surface",
-      "bg": "--color-info-solid",
-      "min": 4.5,
-      "note": "reserved: label on a solid neutral mark"
-    },
-    {
-      "fg": "--color-fg-on-action",
-      "bg": "--color-action",
-      "min": 4.5,
-      "note": "filter count bubble and play label on the episode poster"
+      "note": "success text on the page (\"Your car is listed\")"
     },
     {
       "fg": "--color-focus-ring",
       "bg": "--color-info-bg",
       "min": 3,
-      "note": "focus ring on a info alert"
+      "note": "focus ring on an info alert"
     },
     {
       "fg": "--color-focus-ring",
@@ -500,76 +398,10 @@
       "note": "focus ring on a danger alert"
     },
     {
-      "fg": "--color-action",
-      "bg": "--color-bg-subtle-hover",
-      "min": 3,
-      "note": "upload progress fill vs track"
-    },
-    {
-      "fg": "--color-success-solid",
-      "bg": "--color-bg-subtle-hover",
-      "min": 3,
-      "note": "reserved: success progress fill vs track"
-    },
-    {
-      "fg": "--color-danger-solid",
-      "bg": "--color-bg-subtle-hover",
-      "min": 3,
-      "note": "reserved: failed progress fill vs track"
-    },
-    {
       "fg": "--color-fg-default",
       "bg": "--color-bg-photo",
       "min": 3,
-      "note": "spinner arc in an image placeholder"
-    },
-    {
-      "fg": "--color-fg-accent",
-      "bg": "--color-bg-subtle",
-      "min": 4.5,
-      "note": "status label on a hovered admin row"
-    },
-    {
-      "fg": "--color-success-fg",
-      "bg": "--color-bg-subtle",
-      "min": 4.5,
-      "note": "status label on a hovered admin row"
-    },
-    {
-      "fg": "--color-warning-fg",
-      "bg": "--color-bg-subtle",
-      "min": 4.5,
-      "note": "status label on a hovered admin row"
-    },
-    {
-      "fg": "--color-danger-fg",
-      "bg": "--color-bg-subtle",
-      "min": 4.5,
-      "note": "status label on a hovered admin row"
-    },
-    {
-      "fg": "--color-warning-fg",
-      "bg": "--color-bg-surface-sunken",
-      "min": 4.5,
-      "note": "status text on a sunken row or panel"
-    },
-    {
-      "fg": "--color-success-fg",
-      "bg": "--color-bg-surface-sunken",
-      "min": 4.5,
-      "note": "status text on a sunken row or panel"
-    },
-    {
-      "fg": "--color-danger-fg",
-      "bg": "--color-bg-surface-sunken",
-      "min": 4.5,
-      "note": "status text on a sunken row or panel"
-    },
-    {
-      "fg": "--color-success-solid",
-      "bg": "--color-bg-surface-raised",
-      "min": 3,
-      "note": "reserved: success mark in a dialog"
+      "note": "busy-button spinner and skeleton contrast against the photo placeholder"
     },
     {
       "fg": "--color-warning-fg",
@@ -578,16 +410,10 @@
       "note": "warning text in a dialog"
     },
     {
-      "fg": "--color-fg-subtle",
-      "bg": "--color-bg-photo",
-      "min": 4.5,
-      "note": "alt-text fallback label on an image slot"
-    },
-    {
       "fg": "--color-fg-muted",
       "bg": "--color-bg-photo",
       "min": 4.5,
-      "note": "muted label on an image slot"
+      "note": "vehicle alt text shown in a failed photo slot"
     },
     {
       "fg": "--color-border-strong",
@@ -599,115 +425,37 @@
       "fg": "--color-border-strong",
       "bg": "--color-bg-surface-raised",
       "min": 3,
-      "note": "field edges inside dialogs"
-    },
-    {
-      "fg": "--color-accent",
-      "bg": "--color-bg-subtle",
-      "min": 3,
-      "note": "combobox active-option bar"
-    },
-    {
-      "fg": "--color-fg-accent",
-      "bg": "--color-bg-subtle",
-      "min": 3,
-      "note": "pressed icon-button glyph on its fill"
+      "note": "field edges inside dialogs (add car, contact dealer)"
     },
     {
       "fg": "--color-fg-link-hover",
       "bg": "--color-bg-canvas",
       "min": 4.5,
-      "note": "hovered link on page"
-    },
-    {
-      "fg": "--color-fg-subtle",
-      "bg": "--color-bg-surface-sunken",
-      "min": 4.5,
-      "note": "subtle labels on sunken panels (light-grid time, fee row)"
-    },
-    {
-      "fg": "--color-fg-default",
-      "bg": "--color-bg-surface-sunken",
-      "min": 4.5,
-      "note": "body text on sunken panels (disclosure, price block)"
-    },
-    {
-      "fg": "--color-action",
-      "bg": "--color-bg-surface",
-      "min": 3,
-      "note": "studio map marker square inside its surface halo"
+      "note": "hovered link on the page"
     },
     {
       "fg": "--color-fg-link",
       "bg": "--color-bg-surface-raised",
       "min": 4.5,
-      "note": "link in a popover or dialog (map popup: View the review)"
-    },
-    {
-      "fg": "--color-fg-link",
-      "bg": "--color-bg-surface-sunken",
-      "min": 4.5,
-      "note": "link on a sunken panel (disclosure policy link, tiles-failed panel)"
-    },
-    {
-      "fg": "--color-fg-link-hover",
-      "bg": "--color-bg-surface-sunken",
-      "min": 4.5,
-      "note": "hovered link on a sunken panel"
+      "note": "links in dialogs and popovers"
     },
     {
       "fg": "--color-focus-ring",
       "bg": "--color-bg-surface-sunken",
       "min": 3,
-      "note": "focus ring on a sunken panel"
-    },
-    {
-      "fg": "--color-focus-ring",
-      "bg": "--color-accent-subtle",
-      "min": 3,
-      "note": "focus ring on an active-filter chip's remove button"
-    },
-    {
-      "fg": "--color-fg-muted",
-      "bg": "--color-accent-subtle",
-      "min": 4.5,
-      "note": "meta text on a selected list row"
-    },
-    {
-      "fg": "--color-fg-muted",
-      "bg": "--color-warning-bg",
-      "min": 4.5,
-      "note": "help text in a warning field"
-    },
-    {
-      "fg": "--color-fg-subtle",
-      "bg": "--color-warning-bg",
-      "min": 4.5,
-      "note": "subtle marker in a warning field"
-    },
-    {
-      "fg": "--color-border-strong",
-      "bg": "--color-warning-bg",
-      "min": 3,
-      "note": "input edge in a warning field"
-    },
-    {
-      "fg": "--color-success-icon",
-      "bg": "--color-bg-canvas",
-      "min": 3,
-      "note": "signup success tick"
+      "note": "focus ring on sunken surfaces"
     },
     {
       "fg": "--color-danger-border",
       "bg": "--color-bg-surface",
       "min": 1,
-      "note": "edge of an invalid editor section or failed image row (decorative: the text says what is wrong)"
+      "note": "edge of an invalid section (decorative: the error text says what is wrong)"
     },
     {
       "fg": "--color-border-default",
       "bg": "--color-bg-canvas",
       "min": 1,
-      "note": "tag resting edge and guide-entry divider (decorative: the text carries the meaning)"
+      "note": "card, vehicle-card and tag resting edges (decorative: content carries the meaning)"
     }
   ]
 }

@@ -93,6 +93,7 @@ for other agents. Keep the two copies identical.
 - `writing-screen-composition` — screen-to-component map and the library mandate
 - `implementing-incrementally` — thin, verifiable slices (mandatory, see above)
 - `creating-videos` — narrated walkthrough videos
+- `estimating-designs` — per-subsystem effort and percent-complete tables
 
 ## Expected Folder Structure
 

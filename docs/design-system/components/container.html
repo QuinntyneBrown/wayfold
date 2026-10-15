@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Container and page layout — Wayfold design system</title>
+<meta name="description" content="Wayfold layout primitives: container, narrow container, stack, cluster, page head, eyebrow, detail layout, the vehicle, garage and directory grids, auth column and section gap.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">Wayfold DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Actions</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/segmented-control.html">Segmented control</a></li>
+    </ul></details>
+    <details open><summary>Forms</summary><ul>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/choice.html">Checkbox and radio</a></li>
+      <li><a href="../components/filters.html">Filters</a></li>
+    </ul></details>
+    <details open><summary>Navigation</summary><ul>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/site-header.html">Site header</a></li>
+      <li><a href="../components/site-footer.html">Site footer</a></li>
+      <li><a href="../components/section-link.html">Section link</a></li>
+    </ul></details>
+    <details open><summary>Layout and overlays</summary><ul>
+      <li><a href="../components/container.html">Container and page layout</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/sheet.html">Sheet</a></li>
+      <li><a href="../components/popover.html">Popover</a></li>
+    </ul></details>
+    <details open><summary>Data display</summary><ul>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/vehicle-card.html">Vehicle card</a></li>
+      <li><a href="../components/gallery.html">Gallery</a></li>
+      <li><a href="../components/detail-list.html">Detail list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/tag.html">Tag and church tag</a></li>
+      <li><a href="../components/badge.html">Badge</a></li>
+      <li><a href="../components/post.html">Post and recommendation</a></li>
+    </ul></details>
+    <details open><summary>Feedback</summary><ul>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Layout</p>
+      <h1>Container and page layout</h1>
+      <p class="ds-lead">The handful of layout classes every Wayfold page is built from: a centred container, vertical stacks, wrapping clusters, the page head, three card grids, the two-column detail layout and the narrow auth column.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Status: stable</span><span class="ds-pill"><code>.container</code></span><span class="ds-pill"><code>.stack</code></span><span class="ds-pill"><code>.cluster</code></span><span class="ds-pill"><code>.detail-layout</code></span><span class="ds-pill"><code>.vehicle-grid</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+    <section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+      <p>Layout classes position content; they have no colour, border or type of their own (except <code>.page-head</code> and <code>.eyebrow</code>). Pick by page type:</p><ul><li><b>Browse and feed pages</b>: <code>&lt;main class="container stack"&gt;</code> with a <code>.page-head</code>, then a grid (<code>.vehicle-grid</code> for vehicles and inventory, <code>.directory-grid</code> for providers and products, <code>.garage-grid</code> on a profile).</li><li><b>Detail pages</b> (vehicle, provider): <code>.container.stack</code> with <code>.detail-layout</code>: content on the left two thirds, the price rating, seller and actions on the right.</li><li><b>Forms</b> (settings, editors): <code>.container.container--narrow.stack</code>, 42rem wide for a readable line.</li><li><b>Sign in and sign up</b>: <code>&lt;main class="auth"&gt;</code> with <code>.auth__head</code>: a 28rem column.</li></ul><p><code>.stack</code> spaces children vertically (16px; <code>.stack--lg</code> 32px), <code>.cluster</code> wraps a row of buttons or tags with 12px gaps, and <code>.section-gap</code> adds the large gap before a new page section.</p>
+    </section>
+
+    <section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+      <div class="ds-anatomy"><figure class="ds-anatomy__figure"><div class="container stack" style="outline: 1px dashed var(--color-border-strong);"><div class="page-head" style="margin-block: 0;"><h2>Vehicles</h2><p>Private sales and dealer inventory across the GTA.</p></div><div class="cluster"><span class="tag">Toronto</span><span class="tag">Under $30,000</span></div></div><span class="ds-callout" style="left: 1%; top: 6%;" aria-hidden="true">1</span><span class="ds-callout" style="left: 4%; top: 22%;" aria-hidden="true">2</span><span class="ds-callout" style="left: 4%; top: 78%;" aria-hidden="true">3</span></figure><ol class="ds-anatomy__list"><li><div><b>Container</b><small><code>.container</code>: up to <code>--layout-container-max</code>, side padding <code>--layout-margin</code> (16px phone, 32px from 48rem).</small></div></li><li><div><b>Page head</b><small><code>.page-head</code>: the page's <code>&lt;h1&gt;</code> and a muted one-line summary, 24px block margin.</small></div></li><li><div><b>Cluster</b><small><code>.cluster</code>: a wrapping row with 12px gaps.</small></div></li></ol></div>
+    </section>
+
+    <section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+      <h3>Container and narrow container</h3><div class="ds-example"><div class="ds-example__canvas ds-example__canvas--stack"><div class="container" style="outline: 1px dashed var(--color-border-strong);"><p>.container: full content width</p></div><div class="container container--narrow" style="outline: 1px dashed var(--color-border-strong);"><p>.container--narrow: 42rem, for forms</p></div></div><div class="ds-example__caption"><span>Settings, the vehicle and provider editors and the error pages use the narrow container.</span></div></div><h3>Page head and eyebrow</h3><div class="ds-example"><div class="ds-example__canvas ds-example__canvas--stack"><div class="page-head" style="margin-block: 0;"><h2>Eglinton Auto Group</h2><p>Dealer in Scarborough.</p></div><section class="card stack"><p class="eyebrow">Dealer · Scarborough</p><h3>Eglinton Auto Group</h3><p>Quality pre-owned vehicles for GTA drivers.</p></section></div><div class="ds-example__caption"><span>The page head holds the <code>&lt;h1&gt;</code> on a real page (shown as h2 here). <code>.eyebrow</code> names a provider's kind and area above its card title.</span></div></div><h3>Stack and cluster</h3><div class="ds-example"><div class="ds-example__canvas ds-example__canvas--stack"><div class="stack" style="outline: 1px dashed var(--color-border-strong); width: 100%;"><p>Stack child</p><p>Stack child</p></div><div class="cluster"><a class="btn btn--primary" href="../../mocks/pages/vehicle-detail/default.html">Message the seller</a><a class="btn" href="../../mocks/pages/vehicle-detail/default.html">Ask about this deal</a></div></div><div class="ds-example__caption"><span>Stack for vertical rhythm; cluster for an action row that wraps on phones.</span></div></div><h3>Detail layout</h3><div class="ds-example"><div class="ds-example__canvas"><div class="detail-layout" style="width: 100%;"><div class="card stack"><h3>Vehicle details</h3><p>Gallery, description, specifications and questions.</p></div><aside class="card stack" aria-label="Price and seller, example"><h3>$24,995</h3><p>Great price for the GTA.</p></aside></div></div><div class="ds-example__caption"><span>Two thirds and one third (at least 16rem) from 48rem; one column below, with the aside after the content.</span></div></div><h3>Card grids</h3><div class="ds-example"><div class="ds-example__canvas"><ul class="directory-grid" style="width: 100%; margin: 0;"><li class="card"><p class="eyebrow">Mechanic · Toronto</p><h3>Danforth Auto Care</h3></li><li class="card"><p class="eyebrow">Dealer · Scarborough</p><h3>Eglinton Auto Group</h3></li><li class="card"><p class="eyebrow">Financing professional · Mississauga</p><h3>Grace Okafor</h3></li></ul></div><div class="ds-example__caption"><span><code>.vehicle-grid</code>, <code>.garage-grid</code> and <code>.directory-grid</code> are lists of 18rem-minimum columns with 16px gaps.</span></div></div><h3>Auth column</h3><div class="ds-example"><div class="ds-example__canvas"><div class="auth" style="margin-top: 0;"><div class="auth__head"><h2>Sign in to Wayfold</h2><p>Welcome back to your GTA auto community.</p></div><div class="card"><p>Email and password fields</p></div></div></div><div class="ds-example__caption"><span>28rem plus the margins, centred, 64px from the top from 48rem.</span></div></div>
+    </section>
+
+    <section class="ds-section" id="sizes"><h2><a href="#sizes">Sizes</a></h2>
+      <div class="ds-table-wrap"><table class="ds-table"><thead><tr><th scope="col">Class</th><th scope="col">Width or gap</th></tr></thead><tbody><tr><td><code>.container</code></td><td><span data-token="--layout-container-max"></span> max, <code>--layout-margin</code> sides</td></tr><tr><td><code>.container--narrow</code></td><td>42rem max</td></tr><tr><td><code>.auth</code></td><td>28rem plus margins</td></tr><tr><td><code>.stack</code> / <code>.stack--lg</code></td><td><span data-token="--space-4"></span> / <span data-token="--space-8"></span></td></tr><tr><td><code>.cluster</code></td><td><span data-token="--space-3"></span></td></tr><tr><td>Grids</td><td>min 18rem columns, <span data-token="--space-4"></span> gap</td></tr><tr><td><code>.detail-layout</code></td><td>2fr / min 16rem 1fr, <span data-token="--space-5"></span> gap</td></tr><tr><td><code>.section-gap</code></td><td><span data-token="--layout-section-gap"></span></td></tr></tbody></table></div>
+    </section>
+
+    <section class="ds-section" id="states" data-na="Layout has no interactive states."><h2><a href="#states">States</a></h2>
+      <p>Layout classes have no states. Loading pages set <code>aria-busy="true"</code> on <code>&lt;main&gt;</code> and fill the same grid with skeleton cards so nothing shifts when results arrive.</p>
+    </section>
+
+    <section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+      <div class="ds-iframes"><iframe class="ds-iframe" src="../../mocks/pages/vehicle-detail/default.html?chrome=0" title="Vehicle detail at phone width: detail layout in one column" loading="lazy"></iframe><iframe class="ds-iframe" src="../../mocks/pages/vehicles/default.html?chrome=0" title="Vehicles at phone width: one-column vehicle grid" loading="lazy"></iframe></div><ul><li>Grids: one column below 576px (L2-015.2), two or more from 992px (L2-015.3); <code>min(100%, 18rem)</code> stops a column overflowing at 320px.</li><li><code>.detail-layout</code> becomes one column below 48rem.</li><li><code>--layout-margin</code> grows from 16px to 32px at 48rem; content never touches the screen edge.</li><li>No horizontal scroll at 360, 576, 768, 992 or 1200px (L2-015.1).</li></ul>
+    </section>
+
+    <section class="ds-section" id="theming" data-na="Layout classes carry no colour."><h2><a href="#theming">Theming</a></h2>
+      <p>Nothing to theme: only <code>.page-head p</code> and <code>.eyebrow</code> set a colour, both <code>--color-fg-muted</code>.</p>
+    </section>
+
+    <section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+      <h3>Structure</h3><p>One <code>&lt;main id="main" tabindex="-1"&gt;</code> per page holds the layout; the page head holds its only <code>&lt;h1&gt;</code>. Grids are <code>&lt;ul&gt;</code> so a screen reader announces the count ("list, 12 items"). The detail aside is an <code>&lt;aside&gt;</code> with a name. DOM order matches visual order at every width.</p><h3>Reflow</h3><p>Every layout reflows to one column at 320px without loss (WCAG 1.4.10).</p><h3>Contrast</h3><div class="ds-example__canvas ds-example__canvas--stack" style="padding: 0; gap: var(--space-2);"><div class="ds-pair"><span>Page head summary and eyebrow</span><span class="ds-pair__ratio" data-contrast="--color-fg-muted|--color-bg-canvas" data-min="4.5"></span></div></div>
+    </section>
+
+    <section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+      <ul><li>Page head: the page's name as the h1 ("Vehicles", "2021 Honda Civic Sport") and one muted sentence of context.</li><li>Eyebrow: kind, then area, separated by a middle dot: "Mechanic · Toronto". No trailing space.</li></ul>
+    </section>
+
+    <section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+      <div class="ds-dodont"><figure class="ds-do"><div class="ds-example__canvas"><div class="page-head" style="margin-block: 0;"><h2>Eglinton Auto Group</h2><p>Dealer in Scarborough.</p></div></div><figcaption>State the name once, in the page head.</figcaption></figure><figure class="ds-dont"><div class="ds-example__canvas"><div class="stack" style="width: 100%;"><div class="page-head" style="margin-block: 0;"><h2>Eglinton Auto Group</h2><p>Dealer in Scarborough.</p></div><section class="card stack"><p class="eyebrow">Dealer · Scarborough</p><h3>Eglinton Auto Group</h3></section></div></div><figcaption>Don't repeat it as the first card's heading with the same eyebrow, as the provider mocks do.</figcaption></figure><figure class="ds-do"><div class="ds-example__canvas"><ul class="vehicle-grid" style="width: 100%;"><li class="card">2021 Honda Civic Sport</li><li class="card">2019 Toyota RAV4 XLE</li></ul></div><figcaption>Use a grid class on a <code>&lt;ul&gt;</code> for any list of cards.</figcaption></figure><figure class="ds-dont"><div class="ds-example__canvas"><div class="stack" style="width: 100%;"><div class="card">2021 Honda Civic Sport</div><div class="card">2019 Toyota RAV4 XLE</div></div></div><figcaption>Don't stack cards in <code>div</code>s: the count is lost and wide screens get one long column.</figcaption></figure></div>
+    </section>
+
+    <section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+      <div class="ds-table-wrap"><table class="ds-table"><thead><tr><th scope="col">Part</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead><tbody><tr><td>Container max</td><td><code>--layout-container-max</code></td><td colspan="2"><span data-token="--layout-container-max"></span></td></tr><tr><td>Page margin</td><td><code>--layout-margin</code></td><td colspan="2"><span data-token="--layout-margin"></span></td></tr><tr><td>Stack gaps</td><td><code>--space-4, --space-8</code></td><td colspan="2"><span data-token="--space-4"></span> / <span data-token="--space-8"></span></td></tr><tr><td>Cluster / grid gaps</td><td><code>--space-3, --space-4</code></td><td colspan="2"><span data-token="--space-3"></span> / <span data-token="--space-4"></span></td></tr><tr><td>Detail gap</td><td><code>--space-5</code></td><td colspan="2"><span data-token="--space-5"></span></td></tr><tr><td>Page head margin</td><td><code>--space-6</code></td><td colspan="2"><span data-token="--space-6"></span></td></tr><tr><td>Section gap</td><td><code>--layout-section-gap</code></td><td colspan="2"><span data-token="--layout-section-gap"></span></td></tr><tr><td>Auth top margin</td><td><code>--space-8, --space-16</code></td><td colspan="2"><span data-token="--space-8"></span> / <span data-token="--space-16"></span></td></tr><tr><td>Muted text</td><td><code>--color-fg-muted</code></td><td><span class="ds-swatch-cell" data-theme="light"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td><td><span class="ds-swatch-cell" data-theme="dark"><i data-token="--color-fg-muted" data-swatch></i><span data-token="--color-fg-muted"></span></span></td></tr></tbody></table></div>
+    </section>
+
+    <section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+      <pre><code>&lt;main id="main" class="container stack" tabindex="-1"&gt;
+  &lt;div class="page-head"&gt;&lt;h1&gt;2021 Honda Civic Sport&lt;/h1&gt;&lt;p&gt;$24,995 · Dealer · Toronto and the GTA&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="detail-layout"&gt;
+    &lt;div class="stack"&gt;…gallery, details, questions…&lt;/div&gt;
+    &lt;aside class="stack" aria-label="Price and seller"&gt;…&lt;/aside&gt;
+  &lt;/div&gt;
+&lt;/main&gt;</code></pre><div class="ds-table-wrap"><table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody><tr><td><code>.container</code>, <code>.container--narrow</code></td><td>Centred content width; narrow for forms.</td></tr><tr><td><code>.stack</code>, <code>.stack--lg</code></td><td>Vertical flex with 16px or 32px gaps.</td></tr><tr><td><code>.cluster</code></td><td>Wrapping row, 12px gaps.</td></tr><tr><td><code>.page-head</code></td><td>h1 and muted summary.</td></tr><tr><td><code>.eyebrow</code></td><td>Overline: kind · area.</td></tr><tr><td><code>.detail-layout</code></td><td>2:1 columns from 48rem.</td></tr><tr><td><code>.vehicle-grid</code>, <code>.garage-grid</code>, <code>.directory-grid</code></td><td>Responsive card lists.</td></tr><tr><td><code>.auth</code>, <code>.auth__head</code></td><td>Narrow sign-in / sign-up column.</td></tr><tr><td><code>.section-gap</code></td><td>Large top margin before a new section.</td></tr></tbody></table></div>
+    </section>
+
+    <section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+      <ul><li><a href="../../mocks/pages/vehicles/default.html">pages/vehicles/default</a> (vehicle grid)</li><li><a href="../../mocks/pages/vehicle-detail/default.html">pages/vehicle-detail/default</a> (detail layout)</li><li><a href="../../mocks/pages/provider/dealer.html">pages/provider/dealer</a> (eyebrow)</li><li><a href="../../mocks/pages/member/default.html">pages/member/default</a> (garage grid)</li><li><a href="../../mocks/pages/providers/default.html">pages/providers/default</a> (directory grid)</li><li><a href="../../mocks/pages/settings/default.html">pages/settings/default</a> (narrow container)</li><li><a href="../../mocks/pages/sign-in/default.html">pages/sign-in/default</a> (auth)</li></ul><p>Drift found:</p><ul><li><code>.eyebrow</code> is used by the provider mocks but has no rule in components.css. Resolution: added (overline, muted).</li><li>Eyebrow text ends with a stray space ("Dealer · Scarborough "). Resolution: trimmed.</li><li>Provider pages repeat the name and kind in the page head and again in the first card. Resolution: page head only.</li><li><code>.vehicle-grid</code> uses <code>auto-fit</code> while garage and directory grids use <code>auto-fill</code>, so one vehicle stretches full width. Resolution: flagged; all three should use <code>auto-fill</code>.</li><li>A generic <code>.grid</code> was asked for but no mock uses one and components.css has none; not documented.</li></ul>
+    </section>
+
+    <footer class="ds-footer"><span>Wayfold design system · extracted from <a href="../../mocks/index.html">docs/mocks</a> on 15 October 2026</span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>

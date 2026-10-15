@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Filters — Wayfold design system</title>
+<meta name="description" content="Wayfold filters: the search form above vehicles, providers and products, with its grid, states and responsive behaviour.">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../assets/components.css">
+<link rel="stylesheet" href="../assets/ds.css">
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="ds-shell">
+  <nav class="ds-nav" aria-label="Design system">
+    <div class="ds-nav__brand"><a href="../index.html">Wayfold DS</a><button class="ds-theme-toggle" type="button" aria-pressed="false">☾ Dark</button></div>
+    <details open><summary>Foundations</summary><ul>
+      <li><a href="../foundations/color.html">Color</a></li>
+      <li><a href="../foundations/typography.html">Typography</a></li>
+      <li><a href="../foundations/spacing.html">Spacing</a></li>
+      <li><a href="../foundations/layout.html">Layout</a></li>
+      <li><a href="../foundations/elevation.html">Elevation</a></li>
+      <li><a href="../foundations/shape.html">Shape</a></li>
+      <li><a href="../foundations/motion.html">Motion</a></li>
+      <li><a href="../foundations/iconography.html">Iconography</a></li>
+      <li><a href="../foundations/theming.html">Theming</a></li>
+      <li><a href="../foundations/responsive.html">Responsive</a></li>
+      <li><a href="../foundations/accessibility.html">Accessibility</a></li>
+      <li><a href="../foundations/content.html">Content</a></li>
+    </ul></details>
+    <details open><summary>Actions</summary><ul>
+      <li><a href="../components/button.html">Button</a></li>
+      <li><a href="../components/segmented-control.html">Segmented control</a></li>
+    </ul></details>
+    <details open><summary>Forms</summary><ul>
+      <li><a href="../components/text-field.html">Text field</a></li>
+      <li><a href="../components/textarea.html">Textarea</a></li>
+      <li><a href="../components/select.html">Select</a></li>
+      <li><a href="../components/choice.html">Checkbox and radio</a></li>
+      <li><a href="../components/filters.html">Filters</a></li>
+    </ul></details>
+    <details open><summary>Navigation</summary><ul>
+      <li><a href="../components/skip-link.html">Skip link</a></li>
+      <li><a href="../components/site-header.html">Site header</a></li>
+      <li><a href="../components/site-footer.html">Site footer</a></li>
+      <li><a href="../components/section-link.html">Section link</a></li>
+    </ul></details>
+    <details open><summary>Layout and overlays</summary><ul>
+      <li><a href="../components/container.html">Container and page layout</a></li>
+      <li><a href="../components/dialog.html">Dialog</a></li>
+      <li><a href="../components/sheet.html">Sheet</a></li>
+      <li><a href="../components/popover.html">Popover</a></li>
+    </ul></details>
+    <details open><summary>Data display</summary><ul>
+      <li><a href="../components/card.html">Card</a></li>
+      <li><a href="../components/vehicle-card.html">Vehicle card</a></li>
+      <li><a href="../components/gallery.html">Gallery</a></li>
+      <li><a href="../components/detail-list.html">Detail list</a></li>
+      <li><a href="../components/avatar.html">Avatar</a></li>
+      <li><a href="../components/tag.html">Tag and church tag</a></li>
+      <li><a href="../components/badge.html">Badge</a></li>
+      <li><a href="../components/post.html">Post and recommendation</a></li>
+    </ul></details>
+    <details open><summary>Feedback</summary><ul>
+      <li><a href="../components/alert.html">Alert</a></li>
+      <li><a href="../components/toast.html">Toast</a></li>
+      <li><a href="../components/skeleton.html">Skeleton</a></li>
+    </ul></details>
+    <details open><summary>Patterns</summary><ul>
+      <li><a href="../patterns/forms.html">Forms</a></li>
+      <li><a href="../patterns/feedback-and-loading.html">Feedback and loading</a></li>
+      <li><a href="../patterns/empty-and-error-states.html">Empty and error states</a></li>
+      <li><a href="../patterns/navigation.html">Navigation and page structure</a></li>
+      <li><a href="../patterns/dialogs-and-overlays.html">Dialogs and overlays</a></li>
+      <li><a href="../patterns/tables-and-lists.html">Data tables and lists</a></li>
+      <li><a href="../patterns/notifications.html">Notifications</a></li>
+      <li><a href="../patterns/content-and-tone.html">Content and tone</a></li>
+    </ul></details>
+  </nav>
+  <main id="main" class="ds-main">
+    <header class="ds-header">
+      <p class="ds-kicker">Component · Forms</p>
+      <h1>Filters</h1>
+      <p class="ds-lead">The search form above every Wayfold list: a search box, a few selects and a Search button that reflow from one row on a desktop to one column on a phone.</p>
+      <div class="ds-meta"><span class="ds-pill ds-pill--ok">WCAG 2.2 AA</span><span class="ds-pill">Status: stable</span><span class="ds-pill"><code>.filters</code></span><span class="ds-pill"><code>role="search"</code></span></div>
+      <ul class="ds-toc"><li><a href="#overview">Overview</a></li><li><a href="#anatomy">Anatomy</a></li><li><a href="#variants">Variants</a></li><li><a href="#sizes">Sizes</a></li><li><a href="#states">States</a></li><li><a href="#responsive">Responsive behaviour</a></li><li><a href="#theming">Theming</a></li><li><a href="#accessibility">Accessibility</a></li><li><a href="#content">Content</a></li><li><a href="#do-dont">Do and don't</a></li><li><a href="#tokens">Tokens</a></li><li><a href="#code">Code</a></li><li><a href="#sources">Sources</a></li></ul>
+    </header>
+
+    <section class="ds-section" id="overview"><h2><a href="#overview">Overview</a></h2>
+      <p>A search form above a list: a search input, one to three <a href="select.html">selects</a> and a primary "Search" button in an auto-fitting grid. It sits on Vehicles (L2-008), Providers (L2-031) and Products (L2-029). Results update when the member presses Search; the result count below is a <code>role="status"</code> line ("248 vehicles · Newest first").</p>
+    </section>
+    <section class="ds-section" id="anatomy"><h2><a href="#anatomy">Anatomy</a></h2>
+      <div class="ds-anatomy">
+        <figure class="ds-anatomy__figure" style="min-width: 20rem;">
+          <form class="filters" role="search" aria-label="Vehicles (anatomy)" action="#anatomy"><div class="field"><label class="field__label" for="an-q">Search vehicles</label><input class="input" id="an-q" name="q" type="search" value=""></div><div class="field"><label class="field__label" for="an-seller">Seller type</label><select class="select" id="an-seller" name="seller"><option value="">All sellers</option><option>Private sellers</option><option>Dealers</option></select></div><div class="field"><label class="field__label" for="an-make">Make</label><select class="select" id="an-make" name="make"><option value="">Any make</option><option>Toyota</option><option>Honda</option><option>Subaru</option><option>Mazda</option><option>Ford</option></select></div><div class="field"><label class="field__label" for="an-area">GTA municipality</label><select class="select" id="an-area" name="area"><option value="">All of the GTA</option><option>Toronto</option><option>Etobicoke</option><option>Scarborough</option><option>Brampton</option></select></div><button class="btn btn--primary" type="submit">Search</button></form>
+          <span class="ds-callout" style="left: 2%; top: 4%;" aria-hidden="true">1</span>
+          <span class="ds-callout" style="left: 30%; top: 4%;" aria-hidden="true">2</span>
+          <span class="ds-callout" style="left: 88%; top: 60%;" aria-hidden="true">3</span>
+        </figure>
+        <ol class="ds-anatomy__list">
+          <li><div><b>Search field</b><small><code>type="search"</code> text field, first.</small></div></li>
+          <li><div><b>Filter selects</b><small>Each a full <code>.field</code> with a visible label.</small></div></li>
+          <li><div><b>Search button</b><small>Primary, last, fills its grid cell (<code>.filters .btn</code>).</small></div></li>
+        </ol>
+      </div>
+    </section>
+    <section class="ds-section" id="variants"><h2><a href="#variants">Variants</a></h2>
+      <div class="ds-example">
+        <div class="ds-example__canvas">
+          <form class="filters" role="search" aria-label="Vehicles" action="#variants"><div class="field"><label class="field__label" for="f-q">Search vehicles</label><input class="input" id="f-q" name="q" type="search" value=""></div><div class="field"><label class="field__label" for="f-seller">Seller type</label><select class="select" id="f-seller" name="seller"><option value="">All sellers</option><option>Private sellers</option><option>Dealers</option></select></div><div class="field"><label class="field__label" for="f-make">Make</label><select class="select" id="f-make" name="make"><option value="">Any make</option><option>Toyota</option><option>Honda</option><option>Subaru</option><option>Mazda</option><option>Ford</option></select></div><div class="field"><label class="field__label" for="f-area">GTA municipality</label><select class="select" id="f-area" name="area"><option value="">All of the GTA</option><option>Toronto</option><option>Etobicoke</option><option>Scarborough</option><option>Brampton</option></select></div><button class="btn btn--primary" type="submit">Search</button></form>
+        </div>
+        <div class="ds-example__caption"><span>Vehicles: keyword, seller type, make, GTA municipality.</span></div>
+        <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;form class="filters" role="search" aria-label="Vehicles" action="#variants"&gt;&lt;div class="field"&gt;&lt;label class="field__label" for="f-q"&gt;Search vehicles&lt;/label&gt;&lt;input class="input" id="f-q" name="q" type="search" value=""&gt;&lt;/div&gt;&lt;div class="field"&gt;&lt;label class="field__label" for="f-seller"&gt;Seller type&lt;/label&gt;&lt;select class="select" id="f-seller" name="seller"&gt;&lt;option value=""&gt;All sellers&lt;/option&gt;&lt;option&gt;Private sellers&lt;/option&gt;&lt;option&gt;Dealers&lt;/option&gt;&lt;/select&gt;&lt;/div&gt;&lt;div class="field"&gt;&lt;label class="field__label" for="f-make"&gt;Make&lt;/label&gt;&lt;select class="select" id="f-make" name="make"&gt;&lt;option value=""&gt;Any make&lt;/option&gt;&lt;option&gt;Toyota&lt;/option&gt;&lt;option&gt;Honda&lt;/option&gt;&lt;option&gt;Subaru&lt;/option&gt;&lt;option&gt;Mazda&lt;/option&gt;&lt;option&gt;Ford&lt;/option&gt;&lt;/select&gt;&lt;/div&gt;&lt;div class="field"&gt;&lt;label class="field__label" for="f-area"&gt;GTA municipality&lt;/label&gt;&lt;select class="select" id="f-area" name="area"&gt;&lt;option value=""&gt;All of the GTA&lt;/option&gt;&lt;option&gt;Toronto&lt;/option&gt;&lt;option&gt;Etobicoke&lt;/option&gt;&lt;option&gt;Scarborough&lt;/option&gt;&lt;option&gt;Brampton&lt;/option&gt;&lt;/select&gt;&lt;/div&gt;&lt;button class="btn btn--primary" type="submit"&gt;Search&lt;/button&gt;&lt;/form&gt;</code></pre></details>
+      </div>
+      <div class="ds-example">
+        <div class="ds-example__canvas">
+          <form class="filters" role="search" aria-label="Providers" action="#variants"><div class="field"><label class="field__label" for="p-q">Search providers</label><input class="input" id="p-q" name="q" type="search" value=""></div><div class="field"><label class="field__label" for="p-cat">Category</label><select class="select" id="p-cat" name="category"><option value="">All categories</option><option>Dealers</option><option>Mechanics</option><option>Body shops</option><option>Tire shops</option><option>Detailers</option><option>Towing</option><option>Insurance</option><option>Financing</option><option>Parts</option></select></div><div class="field"><label class="field__label" for="p-city">GTA municipality</label><select class="select" id="p-city" name="city"><option value="">All of the GTA</option><option>Toronto</option><option>Mississauga</option></select></div><button class="btn btn--primary" type="submit">Search</button></form>
+        </div>
+        <div class="ds-example__caption"><span>Providers and Products: keyword, category, GTA municipality. Providers adds the <a href="segmented-control.html">category nav</a> below.</span></div>
+        <details class="ds-example__code"><summary>HTML</summary><pre><code>&lt;form class="filters" role="search" aria-label="Providers" action="#variants"&gt;&lt;div class="field"&gt;&lt;label class="field__label" for="p-q"&gt;Search providers&lt;/label&gt;&lt;input class="input" id="p-q" name="q" type="search" value=""&gt;&lt;/div&gt;&lt;div class="field"&gt;&lt;label class="field__label" for="p-cat"&gt;Category&lt;/label&gt;&lt;select class="select" id="p-cat" name="category"&gt;&lt;option value=""&gt;All categories&lt;/option&gt;&lt;option&gt;Dealers&lt;/option&gt;&lt;option&gt;Mechanics&lt;/option&gt;&lt;option&gt;Body shops&lt;/option&gt;&lt;option&gt;Tire shops&lt;/option&gt;&lt;option&gt;Detailers&lt;/option&gt;&lt;option&gt;Towing&lt;/option&gt;&lt;option&gt;Insurance&lt;/option&gt;&lt;option&gt;Financing&lt;/option&gt;&lt;option&gt;Parts&lt;/option&gt;&lt;/select&gt;&lt;/div&gt;&lt;div class="field"&gt;&lt;label class="field__label" for="p-city"&gt;GTA municipality&lt;/label&gt;&lt;select class="select" id="p-city" name="city"&gt;&lt;option value=""&gt;All of the GTA&lt;/option&gt;&lt;option&gt;Toronto&lt;/option&gt;&lt;option&gt;Mississauga&lt;/option&gt;&lt;/select&gt;&lt;/div&gt;&lt;button class="btn btn--primary" type="submit"&gt;Search&lt;/button&gt;&lt;/form&gt;</code></pre></details>
+      </div>
+    </section>
+    <section class="ds-section" id="sizes" data-na="One size. Columns are at least 12rem and share the row equally."><h2><a href="#sizes">Sizes</a></h2>
+      <p class="ds-na">One size. Columns are at least 12rem and share the row equally.</p>
+    </section>
+    <section class="ds-section" id="states"><h2><a href="#states">States</a></h2>
+      <ul>
+        <li><b>Default</b>: every filter on its "no filter" option; count line shows the total.</li>
+        <li><b>Filtered</b>: chosen values stay in the controls after the page reloads (they come from the URL), so the member sees what produced the list.</li>
+        <li><b>Loading</b>: the form stays usable; the list below shows <a href="skeleton.html">skeletons</a> (<code>pages/vehicles/loading</code>).</li>
+        <li><b>No results</b>: the list is replaced by an empty state with "Clear filters" (<code>pages/vehicles/no-results</code>, L2-008.4).</li>
+        <li><b>Error</b>: an alert with "Try again" replaces the list; the filters keep their values (<code>pages/vehicles/error</code>).</li>
+      </ul>
+      <h3>Both themes</h3>
+      <div class="ds-themes">
+        <div data-theme="light"><div class="ds-example__canvas" style="padding: 0;"><form class="filters" role="search" aria-label="Products, light" action="#states"><div class="field"><label class="field__label" for="fl-q">Search products</label><input class="input" id="fl-q" type="search" value="winter tires"></div><button class="btn btn--primary" type="submit">Search</button></form></div></div>
+        <div data-theme="dark"><div class="ds-example__canvas" style="padding: 0;"><form class="filters" role="search" aria-label="Products, dark" action="#states"><div class="field"><label class="field__label" for="fd-q">Search products</label><input class="input" id="fd-q" type="search" value="winter tires"></div><button class="btn btn--primary" type="submit">Search</button></form></div></div>
+      </div>
+    </section>
+    <section class="ds-section" id="responsive"><h2><a href="#responsive">Responsive behaviour</a></h2>
+      <ul>
+        <li>The grid is <code>repeat(auto-fit, minmax(min(100%, 12rem), 1fr))</code>: five columns on a wide screen, two or three on a tablet, one on a phone. Nothing scrolls sideways (L2-015.1).</li>
+        <li>Fields align to the bottom (<code>align-items: end</code>) so the button lines up with the inputs when labels wrap.</li>
+        <li>On a phone the Search button takes a full-width row of its own at the end.</li>
+      </ul>
+    </section>
+    <section class="ds-section" id="theming"><h2><a href="#theming">Theming</a></h2>
+      <p>Filters add no colour of their own; the fields and button carry their themes.</p>
+    </section>
+    <section class="ds-section" id="accessibility"><h2><a href="#accessibility">Accessibility</a></h2>
+      <p>The form has <code>role="search"</code> (a search landmark) and, when a page has more than one, an <code>aria-label</code>. Every control has a visible label. Changing a select does nothing until Search is pressed (WCAG 3.2.2). The result count is a <code>role="status"</code> line so the new total is announced after the page loads.</p>
+      <table class="ds-table ds-keys"><thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead><tbody>
+        <tr><td><kbd>Tab</kbd></td><td>Moves through search, selects and Search in order.</td></tr>
+        <tr><td><kbd>Enter</kbd> in the search field</td><td>Submits the form.</td></tr>
+      </tbody></table>
+    </section>
+    <section class="ds-section" id="content"><h2><a href="#content">Content</a></h2>
+      <ul>
+        <li>Label the search box with what it searches: "Search vehicles", "Search providers", "Search products". A bare "Search" (providers, products) repeats the button.</li>
+        <li>"No filter" options say what they cover: "All of the GTA", "Any make", "All sellers".</li>
+        <li>The button is "Search", always.</li>
+        <li>The count line: number, noun, middle dot, sort: "248 vehicles · Newest first".</li>
+      </ul>
+    </section>
+    <section class="ds-section" id="do-dont"><h2><a href="#do-dont">Do and don't</a></h2>
+      <div class="ds-dodont">
+        <figure class="ds-do"><div class="ds-example__canvas"><div class="field"><label class="field__label" for="fx1">Search providers</label><input class="input" id="fx1" type="search"></div></div><figcaption>Name what the search box searches.</figcaption></figure>
+        <figure class="ds-dont"><div class="ds-example__canvas"><div class="field"><label class="field__label" for="fx2">Search</label><input class="input" id="fx2" type="search"></div></div><figcaption>providers and products label the input "Search", the same as the button beside it.</figcaption></figure>
+        <figure class="ds-do"><div class="ds-example__canvas"><div class="field"><label class="field__label" for="fx3">Make</label><select class="select" id="fx3"><option value="">Any make</option></select></div><button class="btn btn--primary" type="button">Search</button></div><figcaption>Apply on Search; the member can set several filters first.</figcaption></figure>
+        <figure class="ds-dont"><div class="ds-example__canvas"><div class="field"><label class="field__label" for="fx4">Make</label><select class="select" id="fx4"><option>Any make</option></select></div></div><figcaption>Don't reload the list on every select change: focus is lost and the page jumps under keyboard and screen-reader users.</figcaption></figure>
+      </div>
+    </section>
+    <section class="ds-section" id="tokens"><h2><a href="#tokens">Tokens</a></h2>
+      <div class="ds-table-wrap"><table class="ds-table">
+        <thead><tr><th scope="col">Part</th><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+        <tbody>
+          <tr><td>Gap</td><td><code>--space-3</code></td><td colspan="2"><span data-token="--space-3"></span></td></tr>
+          <tr><td>Bottom margin</td><td><code>--space-5</code></td><td colspan="2"><span data-token="--space-5"></span></td></tr>
+        </tbody>
+      </table></div><p>The 12rem column minimum is a layout constant in <code>.filters</code>, not a token.</p>
+    </section>
+    <section class="ds-section" id="code"><h2><a href="#code">Code</a></h2>
+      <pre><code>&lt;form class="filters" role="search" action="/vehicles" method="get"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="field__label" for="q"&gt;Search vehicles&lt;/label&gt;
+    &lt;input class="input" id="q" name="q" type="search"&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="field__label" for="area"&gt;GTA municipality&lt;/label&gt;
+    &lt;select class="select" id="area" name="area"&gt;
+      &lt;option value=""&gt;All of the GTA&lt;/option&gt;&lt;option&gt;Toronto&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+  &lt;button class="btn btn--primary" type="submit"&gt;Search&lt;/button&gt;
+&lt;/form&gt;
+&lt;p role="status"&gt;248 vehicles · Newest first&lt;/p&gt;</code></pre>
+      <div class="ds-table-wrap"><table class="ds-table"><thead><tr><th scope="col">Class / attribute</th><th scope="col">Effect</th></tr></thead><tbody>
+        <tr><td><code>.filters</code></td><td>Auto-fit grid of fields and the Search button.</td></tr>
+        <tr><td><code>.filters .btn</code></td><td>Button fills its cell.</td></tr>
+      </tbody></table></div>
+    </section>
+    <section class="ds-section" id="sources"><h2><a href="#sources">Sources</a></h2>
+      <p>Extracted from these mocks:</p>
+      <ul>
+        <li><a href="../../mocks/pages/vehicles/default.html">pages/vehicles/default</a></li>
+        <li><a href="../../mocks/pages/vehicles/no-results.html">pages/vehicles/no-results</a></li>
+        <li><a href="../../mocks/pages/vehicles/loading.html">pages/vehicles/loading</a></li>
+        <li><a href="../../mocks/pages/providers/default.html">pages/providers/default</a></li>
+        <li><a href="../../mocks/pages/products/default.html">pages/products/default</a></li>
+      </ul>
+      <p>Drift found during extraction:</p>
+      <ul>
+        <li>providers and products label the search input "Search", the same as the button. Resolution: "Search providers", "Search products".</li>
+        <li>Vehicles filters lack the price range and model required by L2-008. Flagged for the mock; not invented here.</li>
+        <li>The count line on vehicles/default uses a middle dot that is mis-encoded in the mock file ("248 vehicles � Newest first"). Resolution: UTF-8 "·".</li>
+      </ul>
+    </section>
+
+    <footer class="ds-footer"><span>Wayfold design system · extracted from <a href="../../mocks/index.html">docs/mocks</a> on 15 October 2026</span><a href="#top">Back to top</a></footer>
+  </main>
+</div>
+<script src="../assets/ds.js"></script>
+</body>
+</html>
