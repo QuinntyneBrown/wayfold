@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
-import { updateProfile } from "@/features/accounts/account-service";
+import { isCurrentPassword, updateAccount } from "@/features/accounts/account-service";
 import { currentMember } from "@/features/accounts/auth-service";
+import { readSessionToken, sessionIdFor } from "@/lib/session-cookie";
 import { isSameOrigin } from "@/lib/csrf";
 import { isGtaArea } from "@/lib/gta-areas";
 import { type FieldErrors, text } from "@/lib/validation";
@@ -33,18 +34,31 @@ export const PUT = withErrorHandling("/api/account", async (request: Request) =>
   const displayName = text(body.displayName);
   const gtaArea = text(body.gtaArea);
   const homeChurch = text(body.homeChurch);
+  const currentPassword = typeof body.currentPassword === "string" ? body.currentPassword : "";
+  const newPassword = typeof body.newPassword === "string" ? body.newPassword : "";
 
   const fieldErrors: FieldErrors = {};
   if (!displayName) fieldErrors.displayName = "Enter your name";
   if (gtaArea && !isGtaArea(gtaArea)) fieldErrors.gtaArea = "Choose an area from the list";
   if (homeChurch.length > 80) fieldErrors.homeChurch = "Use 80 characters or fewer";
+  if (newPassword && newPassword.length < 12) fieldErrors.newPassword = "Use at least 12 characters";
+  if (newPassword && !currentPassword) fieldErrors.currentPassword = "Enter your current password";
+  if (Object.keys(fieldErrors).length === 0 && newPassword && !(await isCurrentPassword(member.id, currentPassword))) {
+    fieldErrors.currentPassword = "Your current password is incorrect";
+  }
   if (Object.keys(fieldErrors).length > 0) return Response.json({ fieldErrors }, { status: 400 });
 
-  await updateProfile(member.id, {
-    displayName,
-    gtaArea: gtaArea || null,
-    homeChurch: homeChurch || null,
-    showHomeChurch: body.showHomeChurch === true,
-  });
+  await updateAccount(
+    member.id,
+    {
+      displayName,
+      gtaArea: gtaArea || null,
+      homeChurch: homeChurch || null,
+      showHomeChurch: body.showHomeChurch === true,
+    },
+    newPassword
+      ? { current: currentPassword, next: newPassword, keepSessionId: sessionIdFor(readSessionToken(request)!) }
+      : undefined,
+  );
   return new Response(null, { status: 200 });
 });

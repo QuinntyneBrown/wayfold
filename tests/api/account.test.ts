@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { GET } from "@/app/api/account/route";
-import { APP_ORIGIN, postJson, registerTendai } from "./requests";
+import { APP_ORIGIN, postJson, registerTendai, sessionCookie, TENDAI } from "./requests";
 
 function getAccount(cookie?: string) {
   return GET(new Request(`${APP_ORIGIN}/api/account`, { headers: cookie ? { cookie } : {} }));
@@ -91,5 +91,66 @@ describe("PUT /api/account (profile)", () => {
 
     expect((await put({ ...valid, displayName: name }, { cookie })).status).toBe(200);
     expect((await (await getAccount(cookie)).json()).displayName).toBe(name);
+  });
+});
+
+describe("PUT /api/account (password)", () => {
+  const profile = { displayName: "Tendai Mensah", gtaArea: "", homeChurch: "", showHomeChurch: false };
+  const NEW_PASSWORD = "a brand new passphrase";
+
+  async function put(body: unknown, cookie: string) {
+    const { PUT } = await import("@/app/api/account/route");
+    return PUT(postJson("/api/account", body, { cookie }, "PUT"));
+  }
+
+  async function signInWith(password: string) {
+    const { POST } = await import("@/app/api/auth/sign-in/route");
+    return POST(postJson("/api/auth/sign-in", { email: TENDAI.email, password }));
+  }
+
+  async function sessionStatus(cookie: string) {
+    const { GET: getSession } = await import("@/app/api/session/route");
+    return (await getSession(new Request(`${APP_ORIGIN}/api/session`, { headers: { cookie } }))).status;
+  }
+
+  it("changes the password, keeps this session and signs out the others", async () => {
+    const thisSession = await registerTendai();
+    const other = sessionCookie(await signInWith(TENDAI.password));
+    const otherCookie = `${other.name}=${other.value}`;
+
+    const response = await put({ ...profile, currentPassword: TENDAI.password, newPassword: NEW_PASSWORD }, thisSession);
+
+    expect(response.status).toBe(200);
+    expect(await sessionStatus(thisSession)).toBe(200);
+    expect(await sessionStatus(otherCookie)).toBe(401);
+    expect((await signInWith(NEW_PASSWORD)).status).toBe(200);
+    expect((await signInWith(TENDAI.password)).status).toBe(401);
+  });
+
+  it("rejects a wrong current password and changes nothing, profile fields included", async () => {
+    const cookie = await registerTendai();
+
+    const response = await put(
+      { ...profile, displayName: "Changed", currentPassword: "not my password", newPassword: NEW_PASSWORD },
+      cookie,
+    );
+
+    expect(response.status).toBe(400);
+    expect(await response.json()).toEqual({ fieldErrors: { currentPassword: "Your current password is incorrect" } });
+    expect((await signInWith(TENDAI.password)).status).toBe(200);
+    expect((await (await getAccount(cookie)).json()).displayName).toBe("Tendai Mensah");
+  });
+
+  it("rejects a short new password and a new password without the current one", async () => {
+    const cookie = await registerTendai();
+
+    const short = await put({ ...profile, currentPassword: TENDAI.password, newPassword: "short" }, cookie);
+    const missing = await put({ ...profile, newPassword: NEW_PASSWORD }, cookie);
+
+    expect(short.status).toBe(400);
+    expect((await short.json()).fieldErrors.newPassword).toBe("Use at least 12 characters");
+    expect(missing.status).toBe(400);
+    expect((await missing.json()).fieldErrors.currentPassword).toBe("Enter your current password");
+    expect((await signInWith(TENDAI.password)).status).toBe(200);
   });
 });

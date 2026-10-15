@@ -89,7 +89,8 @@ function SettingsFields({ settings }: { settings: Settings }) {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
     setSubmitting(true);
     setNotice(null);
     try {
@@ -101,11 +102,14 @@ function SettingsFields({ settings }: { settings: Settings }) {
           gtaArea: form.get("gtaArea"),
           homeChurch: form.get("homeChurch"),
           showHomeChurch: form.get("showHomeChurch") === "on",
+          currentPassword: form.get("currentPassword"),
+          newPassword: form.get("newPassword"),
         }),
       });
       if (response.ok) {
         setFieldErrors({});
         setNotice("saved");
+        formElement.querySelectorAll<HTMLInputElement>('input[type="password"]').forEach((input) => (input.value = ""));
         window.dispatchEvent(new Event(SESSION_CHANGED));
       } else if (response.status === 400) {
         setFieldErrors((await response.json()).fieldErrors ?? {});
@@ -168,8 +172,8 @@ function SettingsFields({ settings }: { settings: Settings }) {
       <p className="field__help" id="church-help">
         Your church is never visible to signed-out visitors.
       </p>
-      <TextField id="current-password" name="currentPassword" label="Current password" type="password" autoComplete="current-password" optional />
-      <TextField id="new-password" name="newPassword" label="New password" type="password" autoComplete="new-password" optional />
+      <TextField id="current-password" name="currentPassword" label="Current password" type="password" autoComplete="current-password" optional error={fieldErrors.currentPassword} />
+      <TextField id="new-password" name="newPassword" label="New password" type="password" autoComplete="new-password" optional error={fieldErrors.newPassword} />
       <button className="btn btn--primary" type="submit" disabled={submitting} aria-busy={submitting || undefined}>
         Save settings
       </button>

@@ -133,3 +133,45 @@ test.describe("Settings: saving", () => {
     await expect(settings.alert).toContainText("Something went wrong");
   });
 });
+
+test.describe("Settings: password", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 1200, height: 800 });
+    await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", "/api/account", { status: 200, json: TENDAI_SETTINGS });
+  });
+
+  test("sends the passwords with the profile and clears them after saving", async ({ page }) => {
+    const putApi = await fakeApi(page, "PUT", "/api/account", { status: 200 });
+    const settings = new SettingsPage(page);
+    await settings.open();
+    await settings.currentPassword.fill("correct horse battery");
+    await settings.newPassword.fill("a brand new passphrase");
+
+    await settings.save();
+
+    await expect(settings.savedNotice).toBeVisible();
+    expect(putApi.lastBody()).toMatchObject({
+      currentPassword: "correct horse battery",
+      newPassword: "a brand new passphrase",
+    });
+    await expect(settings.currentPassword).toHaveValue("");
+    await expect(settings.newPassword).toHaveValue("");
+  });
+
+  test("shows a wrong current password next to its field", async ({ page }) => {
+    await fakeApi(page, "PUT", "/api/account", {
+      status: 400,
+      json: { fieldErrors: { currentPassword: "Your current password is incorrect" } },
+    });
+    const settings = new SettingsPage(page);
+    await settings.open();
+    await settings.currentPassword.fill("nope");
+    await settings.newPassword.fill("a brand new passphrase");
+
+    await settings.save();
+
+    await expect(settings.currentPassword).toHaveAccessibleDescription("Your current password is incorrect");
+    await expect(settings.currentPassword).toHaveAttribute("aria-invalid", "true");
+  });
+});

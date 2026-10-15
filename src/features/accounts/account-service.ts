@@ -1,6 +1,7 @@
-import { eq } from "drizzle-orm";
+import { and, eq, isNull, ne } from "drizzle-orm";
 import { db } from "@/lib/db/client";
-import { users } from "@/lib/db/schema";
+import { sessions, users } from "@/lib/db/schema";
+import { hashPassword, verifyPassword } from "./password-hasher";
 
 export type ProfileUpdate = {
   displayName: string;
@@ -9,6 +10,27 @@ export type ProfileUpdate = {
   showHomeChurch: boolean;
 };
 
-export async function updateProfile(userId: string, profile: ProfileUpdate) {
-  await db.update(users).set(profile).where(eq(users.id, userId));
+export type PasswordChange = { current: string; next: string; keepSessionId: string };
+
+/** True when the password is the member's current one. */
+export async function isCurrentPassword(userId: string, password: string) {
+  const [user] = await db.select({ hash: users.passwordHash }).from(users).where(eq(users.id, userId));
+  return Boolean(user) && verifyPassword(user.hash, password);
+}
+
+/** Saves the profile and, with a password change, the new hash and the end of every other session, together. */
+export async function updateAccount(userId: string, profile: ProfileUpdate, password?: PasswordChange) {
+  const passwordHash = password ? await hashPassword(password.next) : undefined;
+  await db.transaction(async (tx) => {
+    await tx
+      .update(users)
+      .set(passwordHash ? { ...profile, passwordHash } : profile)
+      .where(eq(users.id, userId));
+    if (password) {
+      await tx
+        .update(sessions)
+        .set({ invalidatedAt: new Date() })
+        .where(and(eq(sessions.userId, userId), ne(sessions.id, password.keepSessionId), isNull(sessions.invalidatedAt)));
+    }
+  });
 }
