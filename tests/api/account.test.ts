@@ -154,3 +154,44 @@ describe("PUT /api/account (password)", () => {
     expect((await signInWith(TENDAI.password)).status).toBe(200);
   });
 });
+
+describe("DELETE /api/account", () => {
+  async function remove(options?: { cookie?: string; origin?: string | null }) {
+    const { DELETE } = await import("@/app/api/account/route");
+    const { origin = APP_ORIGIN, cookie } = options ?? {};
+    const headers: Record<string, string> = {};
+    if (origin) headers.origin = origin;
+    if (cookie) headers.cookie = cookie;
+    return DELETE(new Request(`${APP_ORIGIN}/api/account`, { method: "DELETE", headers }));
+  }
+
+  async function signIn(password: string) {
+    const { POST } = await import("@/app/api/auth/sign-in/route");
+    return POST(postJson("/api/auth/sign-in", { email: TENDAI.email, password }));
+  }
+
+  it("deletes the member and every session, clears the cookie and answers 204", async () => {
+    const cookie = await registerTendai();
+    const other = sessionCookie(await signIn(TENDAI.password));
+
+    const response = await remove({ cookie });
+
+    expect(response.status).toBe(204);
+    expect(sessionCookie(response).attributes).toContain("max-age=0");
+    expect((await getAccount(cookie)).status).toBe(401);
+    expect((await getAccount(`${other.name}=${other.value}`)).status).toBe(401);
+    expect((await signIn(TENDAI.password)).status).toBe(401);
+  });
+
+  it("returns 401 without a session", async () => {
+    expect((await remove()).status).toBe(401);
+  });
+
+  it("returns 403 without a same-origin Origin header and deletes nothing", async () => {
+    const cookie = await registerTendai();
+
+    expect((await remove({ cookie, origin: null })).status).toBe(403);
+    expect((await remove({ cookie, origin: "http://evil.example" })).status).toBe(403);
+    expect((await getAccount(cookie)).status).toBe(200);
+  });
+});

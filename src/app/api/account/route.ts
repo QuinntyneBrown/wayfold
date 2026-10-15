@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
-import { isCurrentPassword, updateAccount } from "@/features/accounts/account-service";
+import { deleteAccount, isCurrentPassword, updateAccount } from "@/features/accounts/account-service";
 import { currentMember } from "@/features/accounts/auth-service";
-import { readSessionToken, sessionIdFor } from "@/lib/session-cookie";
+import { clearedSessionCookieHeader, readSessionToken, sessionIdFor } from "@/lib/session-cookie";
 import { isSameOrigin } from "@/lib/csrf";
 import { isGtaArea } from "@/lib/gta-areas";
 import { type FieldErrors, text } from "@/lib/validation";
@@ -61,4 +61,13 @@ export const PUT = withErrorHandling("/api/account", async (request: Request) =>
       : undefined,
   );
   return new Response(null, { status: 200 });
+});
+
+export const DELETE = withErrorHandling("/api/account", async (request: Request) => {
+  if (!isSameOrigin(request)) return new Response(null, { status: 403 });
+  const member = await currentMember(request);
+  if (!member) return new Response(null, { status: 401 });
+
+  await deleteAccount(member.id);
+  return new Response(null, { status: 204, headers: { "set-cookie": clearedSessionCookieHeader() } });
 });

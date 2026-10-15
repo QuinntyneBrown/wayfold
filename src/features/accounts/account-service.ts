@@ -18,6 +18,11 @@ export async function isCurrentPassword(userId: string, password: string) {
   return Boolean(user) && verifyPassword(user.hash, password);
 }
 
+/** Removes the member; sessions and every other owned record go with them through the cascading foreign keys. */
+export async function deleteAccount(userId: string) {
+  await db.delete(users).where(eq(users.id, userId));
+}
+
 /** Saves the profile and, with a password change, the new hash and the end of every other session, together. */
 export async function updateAccount(userId: string, profile: ProfileUpdate, password?: PasswordChange) {
   const passwordHash = password ? await hashPassword(password.next) : undefined;
