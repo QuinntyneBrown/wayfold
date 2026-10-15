@@ -53,7 +53,7 @@ img, svg, video { max-width: 100%; height: auto; display: block; }
   border-radius: var(--radius-sm);
 }
 :focus:not(:focus-visible) { outline: none; }
-/* The skip link's jump target is a landmark, not a control: it shows no ring (skip-link D-5). */
+/* The skip link's jump target is a landmark, not a control: it shows no ring. */
 main[tabindex="-1"]:focus { outline: none; }
 
 .visually-hidden {
@@ -61,7 +61,7 @@ main[tabindex="-1"]:focus { outline: none; }
   clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
 }
 
-/* Viewport-class visibility (L2-009, L2-015, L2-019) */
+/* Viewport-class visibility */
 @media (min-width: 62rem) { .until-lg { display: none !important; } }
 
 /* ==========================================================================
@@ -82,13 +82,13 @@ main[tabindex="-1"]:focus { outline: none; }
 .btn:hover, .btn[data-state="hover"] { background: var(--btn-bg-hover); color: var(--btn-fg); }
 .btn:active, .btn[data-state="active"] { background: var(--btn-bg-active); transform: translateY(1px); }
 .btn:disabled, .btn[aria-disabled="true"], .btn[data-state="disabled"] { opacity: 0.5; cursor: not-allowed; transform: none; }
-/* Busy is never dimmed: the spinner keeps the label colour and its 3:1 (button D-5). */
+/* Busy is never dimmed: the spinner keeps the label colour and its 3:1. */
 .btn[aria-busy="true"] { opacity: 1; cursor: progress; }
 .btn--primary { --btn-bg: var(--color-action); --btn-fg: var(--color-fg-on-action); --btn-border: var(--color-action); --btn-bg-hover: var(--color-action-hover); --btn-bg-active: var(--color-action-active); }
 .btn--primary:hover, .btn--primary[data-state="hover"] { border-color: var(--color-action-hover); box-shadow: var(--shadow-2); }
 .btn--danger { --btn-bg: var(--color-danger-solid); --btn-fg: var(--color-fg-on-danger); --btn-border: var(--color-danger-solid); --btn-bg-hover: var(--color-danger-solid-hover); --btn-bg-active: var(--color-danger-solid-hover); }
 .btn--ghost { --btn-bg: transparent; --btn-border: transparent; --btn-fg: var(--color-fg-default); }
-/* Quiet destructive action that opens a confirmation (Delete studio in the editor aside). */
+/* Quiet destructive action that opens a confirmation. */
 
 .btn--sm { min-height: var(--control-height-sm); padding-inline: var(--space-3); font-size: var(--font-size-sm); }
 
@@ -102,20 +102,16 @@ main[tabindex="-1"]:focus { outline: none; }
   animation: spin var(--duration-loop-fast) linear infinite;
 }
 
-/* ---------- Icon button · components/icon-button.html ---------------------- */
-
-/* A link icon button keeps its ink on hover; only the fill changes. Pepper means current (site-header D-13). */
-
 /* ---------- Button group and segmented control · components/button-group.html */
 .segmented { display: flex; flex-wrap: wrap; gap: 0 var(--space-5); margin-bottom: var(--space-4); list-style: none; padding: 0; }
 .segmented a, .segmented button { font: var(--text-body); color: var(--color-fg-muted); text-decoration: none; background: none; border: 0; padding: 0; min-height: var(--target-comfortable); cursor: pointer; display: inline-flex; align-items: center; gap: var(--space-1); transition: color var(--duration-fast) var(--ease-standard); }
 .segmented a:hover, .segmented button:hover, .segmented [data-state="hover"] { color: var(--color-fg-default); }
 .segmented [aria-current="page"], .segmented [aria-pressed="true"] { color: var(--color-fg-accent); font-weight: var(--font-weight-semibold); }
 .segmented button:disabled { color: var(--color-fg-disabled); cursor: not-allowed; }
-/* Each item reserves its semibold width, so selecting never shifts the row (button-group D-9). Opt in with data-text="<label>". */
+/* Each item reserves its semibold width, so selecting never shifts the row. Opt in with data-text="<label>". */
 .segmented [data-text] { display: inline-grid; grid-auto-flow: column; grid-template-rows: auto 0; row-gap: 0; justify-content: start; }
 .segmented [data-text]::after { content: attr(data-text) / ""; grid-row: 2; grid-column: 1; height: 0; overflow: hidden; visibility: hidden; font-weight: var(--font-weight-semibold); }
-/* Phones: segments and wrapped rows sit 8 px apart (button-group D-11, L2-065.3). */
+/* Phones: segments and wrapped rows sit 8 px apart. */
 @media (max-width: 47.99rem) {
   .segmented { row-gap: var(--space-2); }
 }
@@ -133,7 +129,7 @@ a:hover, a[data-state="hover"] { color: var(--color-fg-link-hover); text-decorat
 .field__label { font: var(--text-label); color: var(--color-fg-default); display: flex; gap: var(--space-1); }
 .field__label .optional { color: var(--color-fg-subtle); font-weight: var(--font-weight-regular); }
 .field__help { font: var(--text-body-sm); color: var(--color-fg-muted); }
-/* Long words in label, help and messages break instead of widening the form (form-field D-12). */
+/* Long words in label, help and messages break instead of widening the form. */
 .field__label, .field__help, .field__error{ overflow-wrap: anywhere; }
 
 /* ---------- Text field · components/text-field.html ------------------------ */
@@ -164,12 +160,6 @@ a:hover, a[data-state="hover"] { color: var(--color-fg-link-hover); text-decorat
   background-size: 0.3125rem 0.3125rem; background-repeat: no-repeat;
 }
 
-/* ---------- Combobox · components/combobox.html ------------------------ */
-
-/* Long area names wrap inside the option (combobox D-11). */
-
-/* The fill and inset bar vanish in forced colours; the active option takes Highlight (combobox D-9). */
-
 /* ---------- Checkbox and radio group · components/checkbox.html, radio-group.html */
 .choice { display: flex; gap: var(--space-3); align-items: flex-start; cursor: pointer; font: var(--text-body); padding-block: var(--space-1); min-height: var(--target-min); }
 .choice input { appearance: none; flex: none; width: var(--icon-size-md); height: var(--icon-size-md); margin: var(--space-0-5) 0 0; border: var(--border-width-hairline) solid var(--color-border-strong); background: var(--color-bg-surface); display: grid; place-content: center; cursor: pointer; transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard); }
@@ -187,23 +177,21 @@ a:hover, a[data-state="hover"] { color: var(--color-fg-link-hover); text-decorat
 .choice__text { display: flex; flex-direction: column; gap: var(--space-0-5); }
 .choice__text small { color: var(--color-fg-muted); }
 
-/* ---------- File upload · components/file-upload.html ---------------------- */
-
 /* ---------- Form layout · components/form-layout.html ---------------------- */
 fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
 legend { font: var(--text-label); padding: 0; margin-bottom: var(--space-2); }
 legend > h2, legend > h3 { font: var(--text-h3); margin: 0; }
 legend .optional { color: var(--color-fg-subtle); font-weight: var(--font-weight-regular); }
 
-/* Always two up (minimum and maximum cost); as many as fit (light by time of day, rubric scores). */
-
-/* A field that needs a second look (price changed since the last check). */
-
-/* Sticky actions never hide the focused field (WCAG 2.4.11). */
-
 /* In a gap layout the gap already spaces the summary. */
-
+:is(.stack, .auth) > .form-summary { margin-bottom: 0; }
+.form-summary { padding: var(--space-4); margin-bottom: var(--space-6); background: var(--color-danger-bg); color: var(--color-danger-fg); border-radius: var(--radius-md); }
+/* In a gap layout the gap already spaces the summary. */
+.form-summary h2, .form-summary h3 { font: var(--text-label); font-size: var(--font-size-md); }
+.form-summary ul { margin: var(--space-2) 0 0; padding-left: var(--space-5); }
+.form-summary a { color: inherit; }
 /* The tint vanishes in forced colours; a hairline keeps the box apart from the form (form-layout D-9). */
+@media (forced-colors: active) { .form-summary { border: var(--border-width-hairline) solid CanvasText; } }
 
 /* ==========================================================================
    NAVIGATION
@@ -216,7 +204,7 @@ legend .optional { color: var(--color-fg-subtle); font-weight: var(--font-weight
   background: var(--color-bg-surface-raised); color: var(--color-fg-default);
   border-radius: var(--radius-md); box-shadow: var(--shadow-3); text-decoration: none;
   display: inline-flex; align-items: center; min-height: var(--target-comfortable);
-  max-width: calc(100vw - 2 * var(--space-4)); /* a long translation wraps inside a 320 px screen (skip-link D-6) */
+  max-width: calc(100vw - 2 * var(--space-4)); /* a long translation wraps inside a 320 px screen */
   transition: top var(--duration-fast) var(--ease-standard);
 }
 .skip-link:focus-visible, .skip-link[data-state="focus"] { top: var(--space-4); }
@@ -226,10 +214,10 @@ legend .optional { color: var(--color-fg-subtle); font-weight: var(--font-weight
 .wordmark { font: var(--text-wordmark); letter-spacing: var(--letter-spacing-tight); color: var(--color-fg-default); text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--target-comfortable); }
 .wordmark:hover { color: var(--color-fg-default); }
 .wordmark__tag { font: var(--text-label); color: var(--color-fg-muted); letter-spacing: 0; padding: 0 var(--space-2); border: var(--border-width-hairline) solid var(--color-border-default); border-radius: var(--radius-full); }
-/* The area tag gives way on the narrowest phones so the header never scrolls sideways (site-header D-7: below 24rem). */
+/* The area tag gives way on the narrowest phones so the header never scrolls sideways. */
 @media (max-width: 23.99rem) { .site-header .wordmark__tag { display: none; } }
 .site-nav { display: flex; align-items: center; gap: var(--space-1); margin-left: auto; }
-/* Phones: header targets sit 8 px apart (site-header D-2, icon-button D-8, L2-065.3). */
+/* Phones: header targets sit 8 px apart. */
 @media (max-width: 47.99rem) { .site-nav { gap: var(--space-2); } }
 .site-nav__link { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--target-comfortable); padding-inline: var(--space-3); color: var(--color-fg-muted); font: var(--text-nav); text-decoration: none; border-radius: var(--radius-full); white-space: nowrap; transition: color var(--duration-fast) var(--ease-standard); }
 .site-nav__link:hover, .site-nav__link[data-state="hover"] { color: var(--color-fg-default); }
@@ -240,8 +228,7 @@ legend .optional { color: var(--color-fg-subtle); font-weight: var(--font-weight
 .site-nav__extra { display: none !important; }
 @media (min-width: 48rem) { .site-nav__extra { display: inline-flex !important; } .site-nav__menu { display: none !important; } }
 
-/* ---------- Section list · components/list.html ------------------------- */
-/* Phone/tablet: dashboard sections are a stacked list that opens one at a time (L2-045.2). */
+/* Phone/tablet: section links stack as full-width rows. */
 .section-list { list-style: none; padding: 0; margin: 0; border-top: var(--border-width-hairline) solid var(--color-border-default); }
 .section-link { display: flex; align-items: center; gap: var(--space-4); min-height: 4.5rem; padding: var(--space-3) var(--space-1); border-bottom: var(--border-width-hairline) solid var(--color-border-default); color: inherit; text-decoration: none; }
 .section-link:hover, .section-link[data-state="hover"] { background: var(--color-bg-surface-sunken); color: inherit; }
@@ -250,11 +237,7 @@ legend .optional { color: var(--color-fg-subtle); font-weight: var(--font-weight
 
 .section-link[data-state="focus"] { outline: var(--focus-ring-width) solid var(--color-focus-ring); outline-offset: calc(-1 * var(--focus-ring-width)); }
 
-/* ---------- Breadcrumb · components/breadcrumb.html ------------------------ */
-
-/* Each crumb is a centred row, so separators align and stay beside a wrapping name (breadcrumb D-7). */
-
-/* Separators and the collapsed prefix are decorative: empty alternative text (breadcrumb D-4). */
+/* Separators and the collapsed prefix are decorative: empty alternative text. */
 
 @media (max-width: 47.99rem) { .breadcrumb--collapse li:not(:nth-last-child(2)) { display: none; } .breadcrumb--collapse li:nth-last-child(2)::before { content: "‹"; content: "‹" / ""; margin-right: var(--space-1); } }
 
@@ -267,10 +250,6 @@ legend .optional { color: var(--color-fg-subtle); font-weight: var(--font-weight
 .site-footer a[aria-current="page"] { color: var(--color-fg-default); font-weight: var(--font-weight-medium); }
 .site-footer a:hover, .site-footer a[data-state="hover"] { color: var(--color-fg-default); text-decoration: underline; }
 
-/* ---------- Filter group · components/filter.html ---------------------- */
-
-/* ---------- Filter trigger · components/filter.html -------------------- */
-
 /* ==========================================================================
    CONTAINERS AND OVERLAYS
    ========================================================================== */
@@ -282,25 +261,14 @@ legend .optional { color: var(--color-fg-subtle); font-weight: var(--font-weight
  .stack--lg { gap: var(--space-8); }
 .cluster { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
 
-/* Grid cells wrap long words instead of running into the next cell (container D-13). */
+/* Grid cells wrap long words instead of running into the next cell. */
 
 .section-gap { margin-top: var(--layout-section-gap); }
-
-/* Browse layout (listing): aside + results */
-
-/* The filter column's own heading ("Filter studios") is a section heading, not a group label. */
 
 /* Auth and system pages */
 .auth { width: 100%; max-width: 28rem; margin: var(--space-8) auto 0; padding-inline: var(--layout-margin); display: flex; flex-direction: column; gap: var(--space-8); }
 @media (min-width: 48rem) { .auth { margin-top: var(--space-16); } }
 .auth__head { display: flex; flex-direction: column; gap: var(--space-3); }
-
-/* Launch page (pre-launch site, L2-092). One axis: every block starts on the
-   container edge. Two-column hero from 75rem; content centres vertically when
-   the page is shorter than the viewport, so the footer never floats in a void. */
-
-/* ---------- Viewer · components/lightbox.html -------------------------- */
-/* Full-screen viewer shell; the lightbox section below adds the ShotThere frame and pager. */
 
 /* ---------- Dialog · components/dialog.html -------------------------------- */
 .backdrop { position: fixed; inset: 0; background: var(--color-bg-backdrop); z-index: var(--z-overlay); animation: fade-in var(--duration-base) var(--ease-enter); }
@@ -308,7 +276,7 @@ legend .optional { color: var(--color-fg-subtle); font-weight: var(--font-weight
 @media (min-width: 36rem) { .dialog { place-items: center; padding: var(--space-6); } }
 .dialog__panel { width: 100%; max-width: var(--layout-dialog-width); max-height: calc(100dvh - var(--space-12)); overflow: auto; background: var(--color-bg-surface-raised); color: var(--color-fg-default); border-radius: var(--radius-xl) var(--radius-xl) 0 0; box-shadow: var(--shadow-4); animation: slide-up var(--duration-slow) var(--ease-enter); display: flex; flex-direction: column; padding-bottom: env(safe-area-inset-bottom); }
 @media (min-width: 36rem) { .dialog__panel { border-radius: var(--radius-lg); animation-name: scale-in; } }
-/* Shadow and backdrop vanish in forced colours; an outline keeps the panel apart (dialog D-10). */
+/* Shadow and backdrop vanish in forced colours; an outline keeps the panel apart. */
 @media (forced-colors: active) { .dialog__panel { outline: 1px solid CanvasText; } }
 .dialog__panel--sm { max-width: 24rem; } .dialog__panel--form { max-width: 40rem; }.dialog__header { display: flex; align-items: flex-start; gap: var(--space-4); padding: var(--space-6) var(--space-6) 0; }
 .dialog__title { font: var(--text-h3); flex: 1; }
@@ -316,12 +284,11 @@ legend .optional { color: var(--color-fg-subtle); font-weight: var(--font-weight
 .dialog__desc { color: var(--color-fg-muted); margin-top: var(--space-1); }
 .dialog__body { padding: var(--space-4) var(--space-6); flex: 1; }
 .dialog__body ul { padding-left: var(--space-5); display: grid; gap: var(--space-2); }
-/* A body holding only the status line takes no space (dialog D-2). */
+/* A body holding only the status line takes no space. */
 .dialog__body:not(:has(> :not([role="status"].visually-hidden))) { display: none; }
 .dialog__footer { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: flex-end; padding: var(--space-4) var(--space-6) var(--space-6); position: sticky; bottom: 0; background: var(--color-bg-surface-raised); }
 
-/* ---------- Sheet · components/sheet.html ---------------------------------- */
-/* Full-height panel: phone filters (L2-009.1) and the site menu; a side sheet from 48rem. */
+/* Full-height panel: the site menu; a side sheet from 48rem. */
 .sheet { position: fixed; inset: 0; z-index: var(--z-modal); display: flex; flex-direction: column; background: var(--color-bg-surface-raised); animation: slide-up var(--duration-slow) var(--ease-enter); }
 @media (min-width: 48rem) { .sheet { inset: 0 0 0 auto; width: min(100%, var(--layout-sheet-width)); box-shadow: var(--shadow-4); animation-name: slide-in-right; } }
 .sheet__header { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-3) var(--layout-margin); padding-top: calc(var(--space-3) + env(safe-area-inset-top)); border-bottom: var(--border-width-hairline) solid var(--color-border-default); }
@@ -329,7 +296,7 @@ legend .optional { color: var(--color-fg-subtle); font-weight: var(--font-weight
 .sheet__body { flex: 1; overflow: auto; padding: var(--space-6) var(--layout-margin); display: flex; flex-direction: column; gap: var(--space-8); }
 
 @media (min-width: 48rem) { .sheet__header, .sheet__body{ padding-inline: var(--space-6); } }
-/* Shadow and backdrop vanish in forced colours; a 1 px edge on the inner side (sheet D-7). */
+/* Shadow and backdrop vanish in forced colours; a 1 px edge on the inner side. */
 @media (forced-colors: active) { .sheet { border-left: 1px solid CanvasText; }}
 
 /* ---------- Popover · components/popover.html ------------------------------ */
@@ -339,37 +306,17 @@ legend .optional { color: var(--color-fg-subtle); font-weight: var(--font-weight
    DATA DISPLAY
    ========================================================================== */
 
-/* ---------- Table · components/table.html ---------------------------------- */
-
-/* 8 px between row actions (table D-10) */
-
  
-
-/* ---------- List rows · components/list.html ------------------------------- */
 
 /* A full-row link is the only child of its <li>; the divider follows the <li>, not the link. */
 
  .list__title { font: var(--text-label); font-size: var(--font-size-md); } .list__meta { font: var(--text-body-sm); color: var(--color-fg-muted); }
-/* Link-row title and meta stack on two lines (list D-10). */
-
-/* Phones: stacked full-row links sit 8 px apart (list D-11, L2-065.3). */
-/* list D-8 */
-/* Admin rows (studios, spots, guides) */
-
-/* ---------- Description list · components/description-list.html ------------ */
 
 /* ---------- Badge · components/badge.html ---------------------------------- */
 .badge { display: inline-flex; align-items: center; gap: var(--space-1); padding: 0 var(--space-2); min-height: var(--target-min); border-radius: var(--radius-full); font: var(--text-label); font-size: var(--font-size-xs); background: var(--color-bg-subtle); color: var(--color-fg-muted); white-space: nowrap; }
 .badge::before { content: ""; width: 0.375rem; height: 0.375rem; border-radius: 50%; background: currentColor; }
 
 .badge--success { background: var(--color-success-bg); color: var(--color-success-fg); }
-
-/* ---------- Status label · components/status-label.html ---------------- */
-/* Always a word plus a shape (L2-069.5): filled dot, square, or ring. */
-
-/* ---------- Chip · components/chip.html ------------------------------------ */
-
-/* A link chip keeps its label colour on hover; pepper means selected (chip D-9). */
 
 /* ---------- Tag · components/tag.html ---------------------------------- */
 
@@ -396,7 +343,7 @@ legend .optional { color: var(--color-fg-subtle); font-weight: var(--font-weight
 
 .alert .close { background: none; border: 0; color: inherit; cursor: pointer; width: var(--target-min); height: var(--target-min); display: grid; place-items: center; border-radius: var(--radius-sm); margin: calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) 0 0; }
 .alert .close:hover, .alert .close[data-state="hover"] { background: color-mix(in srgb, currentColor 8%, transparent); }
-/* Dismiss buttons on banners and toasts reach 44px on phones (L2-065.3). */
+/* Dismiss buttons on banners and toasts reach 44px on phones. */
 @media (max-width: 47.99rem) {
   .toast-region .toast .close { width: var(--target-comfortable); height: var(--target-comfortable); margin: calc(-1 * var(--space-3)) calc(-1 * var(--space-3)) 0 0; }
 }
@@ -411,31 +358,24 @@ legend .optional { color: var(--color-fg-subtle); font-weight: var(--font-weight
 .toast--info, .toast--success, .toast--warning, .toast--danger { --toast-tone: var(--color-fg-inverse); }
 .toast__body { flex: 1; display: flex; flex-direction: column; gap: var(--space-0-5); }
 .toast__title { font: var(--text-label); font-size: var(--font-size-md); } .toast__text { font: var(--text-body-sm); opacity: 0.9; }
-.toast__title, .toast__text { overflow-wrap: anywhere; } /* long file names wrap (toast D-7) */
+.toast__title, .toast__text { overflow-wrap: anywhere; } /* long file names wrap */
 
 .toast .close { background: none; border: 0; color: inherit; cursor: pointer; width: var(--target-min); height: var(--target-min); display: grid; place-items: center; border-radius: var(--radius-sm); opacity: 0.8; }
 .toast .close:hover, .toast .close[data-state="hover"] { opacity: 1; background: color-mix(in srgb, currentColor 12%, transparent); }
 .toast :focus-visible, .toast [data-state="focus"] { outline-color: var(--color-fg-inverse); }
 .toast__progress { position: absolute; left: 0; bottom: 0; height: var(--border-width-thick); background: currentColor; opacity: 0.4; width: 60%; }
 .toast[data-state="leaving"] { animation: fade-out var(--duration-base) var(--ease-exit) forwards; }
-/* The inverse fill is replaced by Canvas in forced colours; a 1 px edge keeps the toast visible (toast D-6). */
+/* The inverse fill is replaced by Canvas in forced colours; a 1 px edge keeps the toast visible. */
 @media (forced-colors: active) { .toast { border: 1px solid CanvasText; } }
-
-/* ---------- Progress · components/progress.html ---------------------------- */
-
-/* ---------- Spinner · components/spinner.html ------------------------------ */
 
 /* ---------- Skeleton · components/skeleton.html ---------------------------- */
 .skeleton { display: block; max-width: 100%; background: linear-gradient(90deg, var(--color-bg-subtle) 25%, var(--color-bg-subtle-hover) 37%, var(--color-bg-subtle) 63%); background-size: 400% 100%; border-radius: var(--radius-sm); animation: shimmer var(--duration-loop) var(--ease-standard) infinite; min-height: 1em; }
 .skeleton--text { height: 0.9em; margin-block: 0.3em; } .skeleton--text:last-child { width: 60%; }
 .skeleton--rect { border-radius: var(--radius-md); }
- /* button placeholders (skeleton D-4) */
 
 /* ---------- Empty state · components/empty-state.html ---------------------- */
 
  .empty__text { color: var(--color-fg-muted); max-width: 36ch; }
-
-/* ---------- Error page · components/error-page.html ------------------------ */
 
 /* ==========================================================================
    ICONS · foundations/iconography.html
@@ -464,28 +404,23 @@ legend .optional { color: var(--color-fg-subtle); font-weight: var(--font-weight
 @media (forced-colors: active) {
   .btn, .input, .select, .textarea, .badge, .tag{ forced-color-adjust: none; border: var(--border-width-hairline) solid CanvasText; }
   .btn--primary { background: Highlight; color: HighlightText; }
-  .segmented [aria-current="page"], .segmented [aria-pressed="true"] { text-decoration: underline; } /* button-group D-8 */
-  /* Selection survives the loss of pepper (chip D-7, icon-button D-6). */
+  .segmented [aria-current="page"], .segmented [aria-pressed="true"] { text-decoration: underline; }
   
   
-  /* The off switch keeps an edge and a visible thumb (switch D-6). */
+  /* The off switch keeps an edge and a visible thumb. */
   .choice input:checked, .choice input:indeterminate { forced-color-adjust: none; background: Highlight; border-color: Highlight; }
 }
-/* ---------- Phone targets (L2-065.3: 44 × 44 at XS and SM) ------------------
+/* ---------- Phone targets ------------------
    Compact controls keep their desktop size from 48rem; below it every target grows. */
 @media (max-width: 47.99rem) {
   .btn--sm, .choice, .alert .close { min-height: var(--target-comfortable); }
   .btn--icon.btn--sm, .alert .close { width: var(--target-comfortable); height: var(--target-comfortable); }
-/* 16px stops iOS zooming on focus */
 }
 
 @media print { .site-header, .toast-region, .skip-link { display: none !important; } }
 
 /* ==========================================================================
-   SHOTTHERE COMPONENTS
-   Added from docs/mocks on 13 October 2026; component pages pending
-   extraction (see README "Pending for ShotThere"). Same rules as above:
-   tokens only, BEM names, real attributes for state plus data-state hooks.
+   Page helpers
    ========================================================================== */
 
 /* ---------- Page helpers ------------------------------------------------------ */
@@ -495,113 +430,19 @@ legend .optional { color: var(--color-fg-subtle); font-weight: var(--font-weight
 .home-hero .subtitle { font: var(--text-body-lg); }
 @media (min-width: 62rem) { .home-hero { margin-block: var(--space-16); } }
 
-/* Phones: the bar wraps to two rows, so the page keeps more room and focus never lands under it (L2-030.6, WCAG 2.4.11). */
-
-/* Toasts rise above the compare bar. */
-
-/* Images that fail to load keep their slot and show their alt text (L2-086.1). */
-
-/* ---------- Location card and grid (studio and spot lists) ------------------- */
-/* 1 column at XS, 2 from SM, 3 from LG (L2-021.4). Beside a filter sidebar: 2 at LG, 3 at XL. */
-
-/* Controls sit above the stretched link so they stay clickable. */
-
 /* Gaps between controls pass taps through to the card link. */
 
 a.tag { text-decoration: none; color: var(--color-fg-muted); font: var(--text-body); padding-inline: var(--space-3); min-height: var(--target-comfortable); }
 a.tag:hover, a.tag[data-state="hover"] { color: var(--color-fg-default); border-color: var(--color-border-strong); }
-
-/* ---------- Compare toggle and compare bar (L2-030) -------------------------- */
-
-/* Fixed to the bottom at every width; the inset keeps it clear of home indicators (L2-030.6, L2-065.1). */
-
-/* ---------- Studio and spot review pages -------------------------------------- */
-
-/* Phones and tablets: the summary comes straight after the photo, before the long sections. */
-
-/* All-in cost, rate, fees, verified line (L2-004, L2-005). */
-
-/* Pips: rubric scores (5) and light ratings (3). Filled pips are ink, empty ones a 3:1 edge (L2-068.1). */
-
-/* Natural light: stacked at XS, one row of four from MD (L2-006.4). */
-
-/* Tables that become label-over-value cards below MD (L2-015.3, L2-017.3, L2-063.3). */
-@media (max-width: 47.99rem) {
-  .table--stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-  .table--stack, .table--stack tbody, .table--stack tr, .table--stack td, .table--stack tbody th { display: block; width: 100%; }
-  .table--stack tr { padding: var(--space-4); margin-bottom: var(--space-3); border: var(--border-width-hairline) solid var(--color-border-default); border-radius: var(--radius-md); background: var(--color-bg-surface); }
-  .table--stack tbody tr:hover, .table--stack tbody tr[data-state="hover"] { background: var(--color-bg-surface); }
-  .table--stack td, .table--stack tbody th { padding: var(--space-1) 0; border: 0; }
-  .table--stack tbody th { font: var(--text-label); font-size: var(--font-size-md); padding-bottom: var(--space-2); }
-  .table--stack td[data-label]::before { content: attr(data-label); display: block; font: var(--text-label); color: var(--color-fg-subtle); }
-  
-}
-
-/* Test shots, gallery and sample shots: 2 columns at XS, 3 at MD, 4 at LG (L2-010.1, L2-016.3). */
-
-/* Lightbox: the gallery viewer with rectangular photos (L2-010.2–4, L2-016.2). */
-
-/* Phones: the arrows move under the photo so the photo gets the full width. */
-
-/* Episode: poster first, iframe only after activation (L2-047). */
-
-/* A failed still keeps its title readable: the play pill moves to the bottom. */
-
-/* Disclosure: a quiet, fixed callout near the verdict (L2-012, L1-011). */
-
-/* ---------- Maps (L2-014, L2-027–029, L2-086.2) ------------------------------- */
-
-/* Empty, error and loading notices float over the map. */
-
-/* Studios are ink squares, spots are ringed circles: shape carries the type, not colour alone. */
-
-/* Map page: list beside map from LG; one at a time with a Map/List toggle below (L2-029). */
-
-@media (min-width: 62rem) {
-  
-  
-  .map-page__toggle { display: none !important; }
-  
-  
-}
-
-/* ---------- Comparison (L2-031) --------------------------------------------- */
-
-/* The row-label column stays put while studio columns scroll (L2-031.4). */
-
-/* The group label stays in view while studio columns scroll on phones. */
-
-/* ---------- Guides (L2-034, L2-035) ------------------------------------------ */
-
-/* ---------- Email signup (L2-039, L2-041) ------------------------------------ */
-
-/* Stacked and full width at XS; one row from SM (L2-039.5). */
-
-/* Honeypot: off-screen, out of the tab order and hidden from assistive technology (L2-040.4). */
 
 .site-footer__links { display: flex; flex-direction: column; gap: var(--space-1); }
 .site-footer__links ul { flex-direction: column; }
 @media (min-width: 36rem) { .site-footer__links ul { flex-direction: row; } }
 .site-footer__copy { flex-basis: 100%; max-width: none; }
 
-/* ---------- Administration ---------------------------------------------------- */
-
-/* Editor: form with a status panel beside it from LG. */
-
-/* Collapsible editor sections (L2-054.6). */
-
-/* The error count takes the free space; the chevron sits right after it. */
-
-/* Invalid sections say so in words, not only with the border colour (WCAG 1.4.1). */
-
 /* Four up only when the row itself has room: beside the status panel (62–75rem) the form column is narrow. */
 
 @container (min-width: 34rem) { .fee-row { grid-template-columns: minmax(0, 2fr) minmax(7rem, 1fr) minmax(0, 1.4fr) auto; align-items: end; } }
-/* Image manager: thumbnail, alt text, reorder, remove, per-file progress (L2-057, L2-058). */
-
-/* Refused-file messages take their own line. */
-
-/* Guide-editor entry rows: the first column fits the rank badge instead of a thumbnail. */
 
 /* Phones: the marker popup docks as a card along the bottom of the map instead of floating over the marker. */
 @media (max-width: 47.99rem) {
@@ -609,9 +450,6 @@ a.tag:hover, a.tag[data-state="hover"] { color: var(--color-fg-default); border-
 }
 /* Phones: the home headline steps down to h1 size, and the first review section sits closer to the summary panel. */
 @media (max-width: 35.99rem) { .home-hero h1 { font: var(--text-h1); letter-spacing: var(--letter-spacing-tight); } }
-
-/* Reduced motion: no hover zoom on photos. Last, so it wins over the zoom rules above. */
-
 
 /* ==========================================================================
    Wayfold content components: card, avatar, vehicle card, gallery, detail list,
@@ -632,7 +470,7 @@ a.tag:hover, a.tag[data-state="hover"] { color: var(--color-fg-default); border-
 @media(max-width:47.99rem){.site-nav .avatar-btn{display:none}}
 .filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr));gap:var(--space-3);align-items:end;margin-bottom:var(--space-5)}
 .filters .btn{width:100%}
-.vehicle-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:var(--space-4)}
+.vehicle-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,18rem),1fr));gap:var(--space-4)}
 .vehicle-card{display:flex;flex-direction:column;overflow:hidden;background:var(--color-bg-surface);border:var(--border-width-hairline) solid var(--color-border-default);border-radius:var(--radius-lg)}
 .vehicle-card__media{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;background:var(--color-bg-photo)}
 .vehicle-card__body{display:flex;flex-direction:column;gap:var(--space-1);padding:var(--space-4)}
@@ -651,7 +489,53 @@ a.tag:hover, a.tag[data-state="hover"] { color: var(--color-fg-default); border-
 .church-tag .icon{width:1em;height:1em}
 .category-nav,.segmented{display:flex;flex-wrap:wrap;gap:var(--space-2)}
 .category-nav a,.segmented a{padding:var(--space-2) var(--space-3);border:var(--border-width-hairline) solid var(--color-border-default);border-radius:var(--radius-md)}
-.segmented [aria-current=page]{font-weight:700}
+.segmented [aria-current=page]{font-weight:var(--font-weight-semibold)}
 .reco__text{font-size:var(--font-size-lg)}
 .detail-layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(16rem,1fr);gap:var(--space-5)}
 @media(max-width:47.99rem){.detail-layout{grid-template-columns:1fr}}
+
+/* Category links are navigation chips, not underlined body links; the current one takes the accent edge. */
+.category-nav a, .segmented a { color: var(--color-fg-muted); text-decoration: none; min-height: var(--target-comfortable); display: inline-flex; align-items: center; }
+.category-nav a:hover, .segmented a:hover, .category-nav a[data-state="hover"], .segmented a[data-state="hover"] { color: var(--color-fg-default); border-color: var(--color-border-strong); }
+.segmented [aria-current="page"], .category-nav [aria-current="page"] { color: var(--color-fg-accent); border-color: var(--color-accent); font-weight: var(--font-weight-semibold); }
+
+/* Help under a checkbox lines up with its label text, not the box (settings show-church). */
+.choice + .field__help { margin-top: calc(-1 * var(--space-2)); padding-left: calc(var(--icon-size-md) + var(--space-3)); }
+
+/* Provider kind and area above a card title ("Dealer · Scarborough"). */
+.eyebrow { margin: 0; font: var(--text-overline); letter-spacing: var(--letter-spacing-wide); text-transform: uppercase; color: var(--color-fg-muted); }
+
+/* Round so the shared focus ring follows the avatar. */
+.avatar-btn { border-radius: var(--radius-full); color: var(--color-fg-default); }
+.avatar-btn:hover .avatar, .avatar-btn[data-state="hover"] .avatar { background: var(--color-bg-surface-sunken); }
+.avatar-btn[aria-expanded="true"] .avatar { box-shadow: inset 0 0 0 var(--border-width-thick) var(--color-border-strong); }
+
+/* ---------- Section link · components/section-link.html ------------------- */
+.section-link:focus-visible { outline-offset: calc(-1 * var(--focus-ring-width)); }
+
+/* The title takes the free space so Close sits at the inline end. */
+.sheet__header > h2 { flex: 1; min-width: 0; margin: 0; font: var(--text-h3); }
+
+/* Anchored under the avatar at the header's inline end. */
+.account-menu { top: calc(var(--layout-topbar-height) - var(--space-2)); right: var(--layout-margin); min-width: 14rem; padding: var(--space-2); }
+.account-menu h2 { margin: 0; padding: var(--space-2) var(--space-3); font: var(--text-label); color: var(--color-fg-muted); }
+.account-menu ul { list-style: none; margin: 0; padding: 0; }
+.account-menu a { display: flex; align-items: center; min-height: var(--target-comfortable); padding-inline: var(--space-3); border-radius: var(--radius-sm); color: var(--color-fg-default); text-decoration: none; }
+.account-menu a:hover, .account-menu a[data-state="hover"] { background: var(--color-bg-subtle); }
+.account-menu a:focus-visible, .account-menu a[data-state="focus"] { outline-offset: calc(-1 * var(--focus-ring-width)); }
+.account-menu li:last-child { margin-top: var(--space-1); padding-top: var(--space-1); border-top: var(--border-width-hairline) solid var(--color-border-default); }
+@media (forced-colors: active) { .account-menu a:hover { outline: 1px solid CanvasText; } }
+
+/* Muted secondary line in cards (used 54x in mocks, previously unstyled). */
+.list__meta{font:var(--text-body-sm);color:var(--color-fg-muted)}
+/* Photo placeholder while the main vehicle photo loads, like .vehicle-card__media. */
+.gallery__main{background:var(--color-bg-photo)}
+
+/* patterns/notifications.html: inline retry action inside a danger or warning toast. */
+.toast__action { align-self: flex-start; margin-top: var(--space-2); min-height: var(--target-min); padding: 0 var(--space-3); background: none; color: inherit; font: var(--text-label); border: var(--border-width-hairline) solid currentColor; border-radius: var(--radius-sm); cursor: pointer; }
+.toast__action:hover, .toast__action[data-state="hover"] { background: color-mix(in srgb, currentColor 12%, transparent); }
+.toast__action:focus-visible, .toast__action[data-state="focus"] { outline: var(--border-width-thick) solid var(--color-fg-inverse); outline-offset: 2px; }
+.toast__action:disabled, .toast__action[data-state="busy"] { opacity: 0.7; cursor: progress; }
+
+/* Full-width button (Sign out row in the account menu). */
+.btn--block { width: 100%; justify-content: flex-start; }
