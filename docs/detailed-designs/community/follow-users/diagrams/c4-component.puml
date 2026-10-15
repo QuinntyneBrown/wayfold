@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Follow users
+Container_Boundary(web, "Web application") {
+  Component(btn, "FollowButton", "React component", "Follow or Following control")
+  Component(toast, "CommunityToast", "React component", "Shows request failures")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(route, "FollowRoute", "Route handler", "Requires a session")
+  Component(svc, "FollowService", "Module", "Creates or deletes the follow link and counts followers")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Follow links")
+}
+Rel(btn, route, "POSTs or DELETEs follow", "JSON/HTTPS")
+Rel(btn, toast, "Reports failure to")
+Rel(route, svc, "Calls")
+Rel(svc, db, "Persists and counts", "<TO SUPPLY>")
+@enduml

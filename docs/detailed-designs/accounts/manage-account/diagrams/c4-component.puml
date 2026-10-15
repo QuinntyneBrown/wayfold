@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Manage account
+Container_Boundary(web, "Web application") {
+  Component(page, "SettingsPage", "React page", "Form, field errors, success and error notices")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(route, "AccountRoute", "Route handler", "Authenticates, validates input, maps results to HTTP")
+  Component(svc, "AccountService", "Module", "Updates the profile and changes the password")
+  Component(hasher, "PasswordHasher", "Module", "Verifies and hashes passwords")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Users and sessions")
+}
+Rel(page, route, "Calls GET and PUT /api/account", "JSON/HTTPS")
+Rel(route, svc, "Calls")
+Rel(svc, hasher, "Verifies current and hashes new password with")
+Rel(svc, db, "Updates user, invalidates other sessions", "<TO SUPPLY>")
+@enduml

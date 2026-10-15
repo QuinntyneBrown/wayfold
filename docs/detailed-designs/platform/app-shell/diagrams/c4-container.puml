@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - App shell
+Person(visitor, "Visitor or member", "Navigates Wayfold")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Root layout, header, menus, footer, error pages and design tokens")
+  Container(api, "Route handlers", "Next.js", "Session lookup for the signed-in state")
+}
+Rel(visitor, web, "Uses", "HTTPS")
+Rel(web, api, "Reads signed-in state from", "JSON/HTTPS")
+@enduml

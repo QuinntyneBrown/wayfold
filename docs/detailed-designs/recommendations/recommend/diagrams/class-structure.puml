@@ -1,0 +1,63 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Recommend
+enum TargetType {
+  Provider
+  Product
+}
+class Recommendation {
+  +string id
+  +string authorId
+  +TargetType targetType
+  +string targetId
+  +string text
+  +string whereBought
+  +datetime createdAt
+  +datetime updatedAt
+}
+class Product {
+  +string id
+  +string name
+  +string category
+}
+class RecommendationService {
+  +recommendProvider(authorId: string, providerId: string, text: string): Result
+  +recommendProduct(authorId: string, input: ProductRecommendationInput): Result
+  +countRecommenders(targetId: string): int
+}
+class ProductRecommendationInput {
+  +string name
+  +string category
+  +string whereBought
+  +string text
+}
+class RecommendationQuery {
+  +forProvider(providerId: string, viewer: Session): RecommendationView[]
+  +forAuthor(authorId: string, viewer: Session): RecommendationView[]
+  +forFeed(userId: string): RecommendationView[]
+}
+class RecommendationView {
+  +string authorName
+  +string authorChurch
+  +string text
+}
+class User {
+  +string id
+  +string displayName
+}
+Recommendation --> TargetType : has
+Recommendation "*" --> "1" User : author
+Recommendation "*" --> "0..1" Product : about
+RecommendationService ..> ProductRecommendationInput : receives
+RecommendationService --> Recommendation : creates / edits
+RecommendationQuery --> RecommendationView : returns
+@enduml

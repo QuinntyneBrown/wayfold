@@ -1,0 +1,47 @@
+@startuml
+title UML sequence behaviour - Add a car
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Signed-in member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "AddCarDialog" as dlg
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "GarageCarsRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "GarageService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  participant "PhotoStore" as photo
+  database "Database" as db
+end box
+actor -> dlg : Fill year, make, model and optional fields, Add car
+dlg --> actor : Show busy state
+dlg -> route : POST /api/garage-cars
+route -> route : Require session
+route -> svc : add(ownerId, input)
+svc -> svc : Validate year, make, model and photo (L2-024)
+alt missing field or invalid photo
+  svc --> route : Rejected
+  route --> dlg : 400 field-level errors
+  dlg --> actor : Show Check the marked fields, no car added
+else valid
+  opt photo supplied
+    svc -> photo : save(photo)
+    photo --> svc : photoRef
+  end
+  svc -> db : Insert garage car
+  db --> svc : Committed
+  svc --> route : GarageCar
+  route --> dlg : 201
+  dlg --> actor : Close dialog, car appears in garage
+end
+opt server or network failure
+  route --> dlg : 5xx
+  dlg --> actor : Show Could not send, text is kept
+end
+@enduml

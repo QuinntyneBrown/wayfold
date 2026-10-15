@@ -1,0 +1,39 @@
+@startuml
+title UML sequence behaviour - View provider profile
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Visitor" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "ProviderProfilePage" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "ProvidersRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "ProviderService" as svc
+  participant "ChurchVisibility" as church
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Open /providers/:id
+page --> actor : Show loading state
+page -> route : GET /api/providers/:id
+route -> svc : get(providerId, viewerId)
+svc -> db : Load provider, owner and recommendations
+db --> svc : Provider, owner, recommendations
+alt provider not found
+  svc --> route : Not found
+  route --> page : 404
+  page --> actor : Show Could not load this page
+else provider found
+  svc -> church : churchFor(owner, viewerId) (L2-023)
+  church --> svc : Church name, or none when signed out or not opted in
+  svc --> route : Name, category, area, description, contact, recommendations, church
+  route --> page : 200 provider
+  page --> actor : Show profile and Owner attends church when present (L2-030, L2-023)
+end
+@enduml

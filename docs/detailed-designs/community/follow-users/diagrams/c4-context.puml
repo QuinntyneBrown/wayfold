@@ -1,0 +1,8 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Follow users
+Person(member, "Signed-in member", "Follows other members")
+System(wayfold, "Wayfold", "Autos-only community for Toronto and the GTA")
+Rel(member, wayfold, "Follows and unfollows members using")
+@enduml

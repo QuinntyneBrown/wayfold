@@ -1,0 +1,29 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Manage listing
+Container_Boundary(web, "Web application") {
+  Component(editor, "VehicleEditorPage", "React page", "Form at /vehicles/new in private and dealer variants")
+  Component(inv, "DealerInventoryPage", "React page", "Inventory list at /inventory with delete action")
+  Component(dlg, "DeleteVehicleDialog", "React dialog", "Confirms removal")
+  Component(toast, "InventoryToast", "React notification", "Reports save and delete outcomes")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(route, "VehiclesRoute", "Route handler", "POST /api/vehicles, PATCH and DELETE /api/vehicles/:id")
+  Component(invroute, "InventoryRoute", "Route handler", "GET /api/inventory")
+  Component(svc, "ListingService", "Module", "Validates, authorizes and persists listings")
+  Component(photos, "PhotoValidator", "Module", "Checks image type and 10 MB size")
+  Component(munis, "MunicipalityList", "Module", "Defined Toronto and GTA municipalities")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Vehicles, photos and providers")
+}
+Rel(editor, route, "Submits listing to", "JSON/HTTPS")
+Rel(inv, invroute, "Loads inventory from", "JSON/HTTPS")
+Rel(dlg, route, "Sends DELETE to", "JSON/HTTPS")
+Rel(editor, toast, "Raises outcome in")
+Rel(dlg, toast, "Raises outcome in")
+Rel(route, svc, "Calls")
+Rel(invroute, svc, "Calls")
+Rel(svc, photos, "Validates photos with")
+Rel(svc, munis, "Checks location against")
+Rel(svc, db, "Persists listing", "<TO SUPPLY>")
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - View member profile
+Person(member, "Signed-in member", "Views a member profile")
+Person_Ext(visitor, "Visitor", "Person without an account")
+System(wayfold, "Wayfold", "Autos-only community for Toronto and the GTA")
+Rel(member, wayfold, "Views member profiles using")
+Rel(visitor, wayfold, "Is redirected to sign-in by")
+@enduml

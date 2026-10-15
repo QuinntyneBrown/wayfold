@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Deal questions
+Person(visitor, "Visitor", "Reads public questions and answers")
+Person(member, "Member", "Signed-in member who asks a question")
+Person(expert, "Verified financing professional", "Answers questions")
+System(wayfold, "Wayfold", "Autos community and marketplace for the GTA")
+System_Ext(email, "Email provider", "<TO SUPPLY>")
+Rel(visitor, wayfold, "Reads questions and answers using")
+Rel(member, wayfold, "Asks deal questions using")
+Rel(expert, wayfold, "Answers deal questions using")
+Rel(wayfold, email, "Notifies the asker via", "<TO SUPPLY>")
+@enduml

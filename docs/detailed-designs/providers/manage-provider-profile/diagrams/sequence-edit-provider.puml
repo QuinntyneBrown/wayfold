@@ -1,0 +1,41 @@
+@startuml
+title UML sequence behaviour - Edit provider profile
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "ProviderEditorPage" as editor
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "ProvidersRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "ProviderService" as svc
+  participant "OwnershipPolicy" as policy
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> editor : Submit changed profile
+editor -> route : PUT /api/providers/:id
+route -> route : Authenticate session and validate fields (L2-030)
+route -> svc : update(actorId, providerId, request)
+svc -> db : Load provider
+db --> svc : Provider
+svc -> policy : canEdit(actorId, provider)
+policy --> svc : Owner or not
+alt actor is not the owner
+  svc --> route : Forbidden
+  route --> editor : 403 (L2-032)
+  editor --> actor : Show error, profile unchanged
+else actor is the owner
+  svc -> db : Update provider
+  db --> svc : Committed
+  svc --> route : Provider
+  route --> editor : 200 provider
+  editor --> actor : Show saved, changes public (L2-032)
+end
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Search listings
+Person(user, "Visitor or member", "Searches vehicles")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Vehicles page")
+  Container(api, "Route handlers", "Next.js", "GET /api/vehicles")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Vehicles, providers and municipalities")
+}
+Rel(user, web, "Uses", "HTTPS")
+Rel(web, api, "Calls", "JSON/HTTPS")
+Rel(api, db, "Reads", "<TO SUPPLY>")
+@enduml

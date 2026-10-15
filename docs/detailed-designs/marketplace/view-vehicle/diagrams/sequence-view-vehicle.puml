@@ -1,0 +1,47 @@
+@startuml
+title UML sequence behaviour - View vehicle
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Visitor or member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "VehicleDetailPage" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "VehicleDetailRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "VehicleDetailService" as svc
+  participant "ChurchVisibility" as church
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Open /vehicles/:id
+page -> page : Show loading state
+page -> route : GET /api/vehicles/:id
+route -> svc : get(id, viewer)
+svc -> db : Load vehicle, photos and seller
+db --> svc : Vehicle and seller
+alt vehicle not found or request failed
+  svc --> route : Error
+  route --> page : Error
+  page --> actor : Show error state with Try again
+else found
+  alt private listing
+    svc -> church : homeChurchFor(owner, viewer) (L2-023)
+    church --> svc : Church for opted-in owner and signed-in viewer, otherwise none
+    svc --> route : Detail with member seller panel
+  else dealer listing
+    svc --> route : Detail with dealer name linking to the provider profile (L2-034)
+  end
+  route --> page : 200 with all vehicle fields (L2-035)
+  alt status Sold
+    page --> actor : Show This vehicle is no longer available and no contact action
+  else status Published
+    page --> actor : Show details, seller panel and Message seller, none on the viewer's own listing (L2-009)
+  end
+end
+@enduml

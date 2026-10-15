@@ -1,0 +1,8 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Search listings
+Person(visitor, "Visitor or member", "Searches vehicles; no account needed")
+System(wayfold, "Wayfold", "Autos community and marketplace for the GTA")
+Rel(visitor, wayfold, "Browses and searches private and dealer listings using")
+@enduml

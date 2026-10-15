@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Manage provider profile
+Person(owner, "Member", "Creates and edits a profile")
+Person(reader, "Visitor or member", "Views a profile")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Provider profile and editor pages")
+  Container(api, "Route handlers", "Next.js", "GET, POST and PUT /api/providers")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Providers, users, sessions and recommendations")
+}
+Rel(owner, web, "Uses", "HTTPS")
+Rel(reader, web, "Uses", "HTTPS")
+Rel(web, api, "Calls", "JSON/HTTPS")
+Rel(api, db, "Reads and writes", "<TO SUPPLY>")
+@enduml

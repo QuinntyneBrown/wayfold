@@ -1,0 +1,54 @@
+@startuml
+title UML sequence behaviour - Publish and delete a post
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Signed-in member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "PostComposer" as comp
+  participant "CommunityToast" as toast
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "PostsRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "PostService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> comp : Choose auto topic, enter text, Post to feed
+comp -> route : POST /api/posts
+route -> route : Require session
+route -> svc : publish(authorId, topic, text)
+svc -> svc : Validate 1 to 1000 characters and one of four topics (L2-012)
+alt invalid text or topic
+  svc --> route : Rejected
+  route --> comp : 400 field-level errors
+  comp --> actor : Show errors, post not published
+else valid
+  svc -> db : Insert post
+  db --> svc : Committed
+  svc --> route : Post
+  route --> comp : 201
+  comp --> actor : Post appears at the top of the feed
+end
+opt network or server failure
+  comp -> toast : Show warning or danger toast
+  toast --> actor : Your post is still here, try again
+end
+actor -> comp : Delete own post
+comp -> route : DELETE /api/posts/:id
+route -> svc : delete(postId, userId)
+alt requester is not the author
+  svc --> route : Forbidden
+  route --> comp : 403
+else author
+  svc -> db : Delete post (L2-012)
+  db --> svc : Committed
+  route --> comp : 204
+  comp --> actor : Post disappears from all feeds
+end
+@enduml

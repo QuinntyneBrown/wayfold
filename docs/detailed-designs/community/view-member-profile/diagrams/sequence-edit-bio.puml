@@ -1,0 +1,35 @@
+@startuml
+title UML sequence behaviour - Edit bio
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "MemberProfilePage" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "UpdateBioRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "ProfileService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Submit bio
+page -> route : PATCH /api/members/me
+route -> route : Require session and validate bio of at most 500 characters (L2-010)
+alt bio over 500 characters
+  route --> page : 400 field-level error
+  page --> actor : Show bio error, nothing saved
+else valid bio
+  route -> svc : updateBio(userId, bio)
+  svc -> db : Save bio
+  db --> svc : Committed
+  svc --> route : Saved
+  route --> page : 200
+  page --> actor : Profile shows the new bio
+end
+@enduml

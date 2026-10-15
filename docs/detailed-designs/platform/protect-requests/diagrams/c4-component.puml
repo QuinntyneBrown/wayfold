@@ -1,0 +1,24 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Protect requests
+Container_Boundary(web, "Web application") {
+  Component(render, "Escaped rendering", "React", "Renders user text as text, never as markup")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(guard, "RequestGuard", "Module", "Runs the checks in order for each route")
+  Component(authz, "AccessPolicy", "Module", "Returns 401 without a session and 403 for another member's resource")
+  Component(csrf, "CsrfGuard", "Module", "Rejects state-changing requests without a valid CSRF defense")
+  Component(valid, "InputValidator", "Module", "Validates body, query and path input against a schema per route")
+  Component(view, "MemberViewPolicy", "Module", "Chooses which member fields a viewer may receive")
+  Component(del, "AccountDeletionService", "Module", "Removes a member's profile, posts and listings")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Accounts, profiles, posts, listings")
+}
+Rel(guard, csrf, "Calls first for unsafe methods")
+Rel(guard, authz, "Calls")
+Rel(guard, valid, "Calls")
+Rel(authz, db, "Loads resource owner", "<TO SUPPLY>")
+Rel(view, db, "Reads member fields", "<TO SUPPLY>")
+Rel(del, db, "Deletes in one transaction", "<TO SUPPLY>")
+Rel(render, view, "Receives only permitted fields from", "JSON/HTTPS")
+@enduml

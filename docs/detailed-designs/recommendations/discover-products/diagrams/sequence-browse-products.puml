@@ -1,0 +1,55 @@
+@startuml
+title UML sequence behaviour - Browse and filter products
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Visitor or member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "ProductsPage" as page
+  participant "ProductFilters" as filters
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "ProductsRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "ProductDiscoveryService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Open /products
+page --> actor : Show loading state
+page -> route : GET /api/products
+route -> svc : list(query)
+svc -> db : Read products with distinct recommender counts
+alt read failed
+  db --> svc : Error
+  route --> page : 500
+  page --> actor : Show error state with Try again
+else rows returned
+  db --> svc : Products
+  svc -> svc : Sort by recommender count, highest first (L2-029)
+  svc --> route : ProductSummary list
+  route --> page : 200
+  alt list is empty and no filter applied
+    page --> actor : Show empty state
+  else list is not empty
+    page --> actor : Show cards, no purchase action
+  end
+end
+actor -> filters : Select category and municipality, Search
+filters -> route : GET /api/products?category&municipality
+route -> svc : list(query)
+svc -> db : Read matching products
+db --> svc : Matches
+svc --> route : Filtered list (L2-029)
+alt no matches
+  route --> filters : 200 empty list
+  filters --> actor : Show No matches and Clear filters
+else matches
+  route --> filters : 200 list
+  filters --> actor : Show only matching products
+end
+@enduml

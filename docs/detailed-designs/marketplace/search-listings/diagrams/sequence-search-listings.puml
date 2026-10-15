@@ -1,0 +1,47 @@
+@startuml
+title UML sequence behaviour - Search listings
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Visitor or member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "VehiclesPage" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "VehicleSearchRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "VehicleSearchService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Open /vehicles or apply filters and choose Search
+page -> page : Show loading state
+page -> route : GET /api/vehicles with keyword, price range, make, model, seller type, municipality, page
+route -> svc : search(query)
+alt municipality not in the defined list
+  svc --> route : Rejected
+  route --> page : 400 (L2-014)
+  page --> actor : Show error state
+else valid query
+  svc -> db : Find Published private and dealer vehicles matching keyword, inclusive price range, make, model, seller type and municipality (L2-008, L2-014)
+  db --> svc : Matching vehicles, newest first, 20 per page (L2-008)
+  svc --> route : VehicleSearchResult
+  alt request failed
+    route --> page : Error
+    page --> actor : Show error state with Try again
+  else no vehicles published at all
+    route --> page : 200 empty
+    page --> actor : Show empty state
+  else filters match nothing
+    route --> page : 200 empty with filters applied
+    page --> actor : Show No matches with Clear filters (L2-008)
+  else matches
+    route --> page : 200 cards with total
+    page --> actor : Show result count, Newest first and cards
+  end
+end
+@enduml

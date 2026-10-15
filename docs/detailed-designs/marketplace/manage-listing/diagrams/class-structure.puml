@@ -1,0 +1,82 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Manage listing
+
+enum SellerType {
+  Private
+  Dealer
+}
+enum ListingStatus {
+  Published
+  Sold
+  Removed
+}
+class ListingRequest {
+  +string title
+  +string description
+  +number year
+  +string make
+  +string model
+  +number price
+  +number mileage
+  +string condition
+  +string municipality
+  +string providerId
+  +string garageCarId
+  +File[] photos
+}
+class ListingService {
+  +create(actor: Member, request: ListingRequest): Result
+  +update(actor: Member, id: string, request: ListingRequest): Result
+  +remove(actor: Member, id: string): Result
+  +listInventory(actor: Member): Vehicle[]
+}
+class PhotoValidator {
+  +validate(file: File): Result
+}
+class MunicipalityList {
+  +contains(name: string): boolean
+}
+class Vehicle {
+  +string id
+  +SellerType sellerType
+  +string ownerMemberId
+  +string providerId
+  +number year
+  +string make
+  +string model
+  +number price
+  +number mileage
+  +string condition
+  +string description
+  +string municipality
+  +ListingStatus status
+}
+class VehiclePhoto {
+  +string id
+  +string vehicleId
+  +string storageKey
+}
+class Provider {
+  +string id
+  +string ownerMemberId
+  +string category
+}
+ListingService ..> ListingRequest : receives
+ListingService --> PhotoValidator : uses
+ListingService --> MunicipalityList : uses
+ListingService --> Vehicle : creates / updates / removes
+Vehicle *-- "*" VehiclePhoto : has
+Vehicle --> SellerType : has
+Vehicle --> ListingStatus : has
+Vehicle "*" --> "0..1" Provider : listed by dealer
+@enduml

@@ -1,0 +1,30 @@
+@startuml
+title UML sequence behaviour - Open the account menu
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Signed-in member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "SiteNav" as nav
+  participant "AccountMenu" as menu
+  participant "FocusReturn" as focus
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "SessionRoute" as session
+end box
+nav -> session : GET signed-in state
+session --> nav : Display name and initials, or 401
+alt signed out
+  nav --> actor : Show Sign in and Create account instead of the avatar
+else signed in
+  nav --> actor : Show avatar button labelled with the member name
+  actor -> nav : Activate avatar (768 px and wider)
+  nav -> menu : Open popover dialog
+  menu -> focus : Remember avatar button
+  menu --> actor : List Your profile, Your garage, Settings, List your business, Sign out
+  actor -> menu : Escape
+  menu -> focus : Restore focus to avatar (L2-016)
+end
+@enduml

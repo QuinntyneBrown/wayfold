@@ -1,0 +1,8 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Sign in and sign out
+Person(member, "Member", "Registered user of Wayfold")
+System(wayfold, "Wayfold", "Autos-only community and marketplace for Toronto and the GTA")
+Rel(member, wayfold, "Signs in to and signs out of")
+@enduml

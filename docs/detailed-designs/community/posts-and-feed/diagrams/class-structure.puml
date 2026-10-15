@@ -1,0 +1,61 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Posts and feed
+enum AutoTopic {
+  MyCar
+  Question
+  Recommendation
+  ForSale
+}
+class Post {
+  +string id
+  +string authorId
+  +AutoTopic topic
+  +string text
+  +datetime createdAt
+}
+class Like {
+  +string postId
+  +string userId
+}
+class Comment {
+  +string id
+  +string postId
+  +string authorId
+  +string text
+  +datetime createdAt
+}
+class FeedItem {
+  +string kind
+  +datetime createdAt
+}
+class PostService {
+  +publish(authorId: string, topic: AutoTopic, text: string): Result
+  +delete(postId: string, userId: string): Result
+}
+class FeedService {
+  +load(userId: string): FeedItem[]
+}
+class InteractionService {
+  +toggleLike(postId: string, userId: string): LikeResult
+  +comment(postId: string, userId: string, text: string): Result
+}
+PostService --> Post : creates / deletes
+FeedService --> FeedItem : returns
+FeedService ..> Post : reads
+InteractionService --> Like : toggles
+InteractionService --> Comment : creates
+Post --> AutoTopic : has
+Post "1" *-- "*" Like
+Post "1" *-- "*" Comment
+FeedItem ..> Post : wraps
+@enduml

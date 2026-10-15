@@ -1,0 +1,30 @@
+@startuml
+title UML sequence behaviour - Check health
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Operator" as actor
+box "Backend - Route handlers" #D1FADF
+  participant "HealthRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "DependencyCheck" as dep
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> route : GET /api/health
+route -> dep : check()
+dep -> db : Probe connection
+alt dependencies available
+  db --> dep : Ok
+  dep --> route : healthy
+  route --> actor : 200 (L2-021)
+else a dependency unavailable
+  db --> dep : Error or timeout
+  dep --> route : unhealthy
+  route --> actor : 503 with no internal detail (L2-021)
+end
+@enduml

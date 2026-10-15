@@ -1,0 +1,35 @@
+@startuml
+title UML sequence behaviour - Read a member profile
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Viewer" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "Profile page" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "Member route" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "MemberViewPolicy" as policy
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Open a member profile
+page -> route : GET member
+route -> db : Load member profile
+db --> route : MemberProfile
+route -> policy : project(profile, viewer)
+policy -> policy : Remove email for every viewer (L2-019)
+alt viewer signed in and member opted in to Show my home church
+  policy -> policy : Keep homeChurch (L2-022, L2-023)
+else viewer signed out or member not opted in
+  policy -> policy : Remove homeChurch from the data (L2-022, L2-023)
+end
+policy --> route : MemberView
+route --> page : 200 with permitted fields only
+page --> actor : Render profile
+@enduml

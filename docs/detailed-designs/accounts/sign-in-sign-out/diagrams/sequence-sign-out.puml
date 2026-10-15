@@ -1,0 +1,36 @@
+@startuml
+title UML sequence behaviour - Sign out
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "Any page" as page
+  participant "SessionGuard" as guard
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "SignOutRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "AuthService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Choose Sign out
+page -> route : POST /api/auth/sign-out
+route -> svc : signOut(sessionId)
+svc -> db : Invalidate session (L2-002)
+db --> svc : Committed
+svc --> route : Done
+route --> page : 204 with cookie cleared
+page --> actor : Redirect to /sign-in
+actor -> guard : Request a protected page
+guard -> svc : findSession(cookie)
+svc -> db : Look up session
+db --> svc : Invalidated or none
+svc --> guard : No active session
+guard --> actor : Redirect to /sign-in (L2-002)
+@enduml

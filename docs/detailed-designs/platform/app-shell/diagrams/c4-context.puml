@@ -1,0 +1,8 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - App shell
+Person(visitor, "Visitor or member", "Uses Wayfold on a phone, tablet or desktop, by touch, mouse or keyboard")
+System(wayfold, "Wayfold", "Autos-only community for Toronto and the GTA")
+Rel(visitor, wayfold, "Navigates through the shell of")
+@enduml

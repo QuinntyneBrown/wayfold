@@ -1,0 +1,42 @@
+@startuml
+title UML sequence behaviour - Register
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Visitor" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "RegisterPage" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "RegisterRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "RegistrationService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Submit display name, email and password
+page -> route : POST /api/auth/register
+route -> route : Validate email format and 12-character password (L2-001)
+alt invalid input
+  route --> page : 400 field-level errors
+  page --> actor : Show field errors, no account created
+else valid input
+  route -> svc : register(email, password)
+  svc -> db : Find user by email
+  db --> svc : Result
+  alt email already registered
+    svc --> route : Duplicate
+    route --> page : 400 form error that does not reveal account existence
+  else email unused
+    svc -> db : Insert user with password hash and create session
+    db --> svc : Committed
+    svc --> route : User and session
+    route --> page : 201 with session cookie
+    page --> actor : Signed in
+  end
+end
+@enduml

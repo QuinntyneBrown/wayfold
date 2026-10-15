@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - View member profile
+Person(member, "Signed-in member", "Views profiles")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Member profile page at /members/:id")
+  Container(api, "Route handlers", "Next.js", "GET /api/members/:id, PATCH /api/members/me")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Users, garage, listings, recommendations, posts")
+}
+Rel(member, web, "Uses", "HTTPS")
+Rel(web, api, "Requests profile from", "JSON/HTTPS")
+Rel(api, db, "Reads and writes", "<TO SUPPLY>")
+@enduml

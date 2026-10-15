@@ -1,0 +1,39 @@
+@startuml
+title UML sequence behaviour - Edit or remove a car
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Signed-in member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "GarageSection" as section
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "GarageCarsRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "GarageService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> section : Edit or remove a car
+section -> route : PATCH or DELETE /api/garage-cars/:id
+route -> route : Require session
+route -> svc : edit or remove(carId, userId, input)
+svc -> db : Load car
+db --> svc : GarageCar
+alt requester is not the owner
+  svc --> route : Forbidden (L2-024)
+  route --> section : 403
+  section --> actor : No change
+else owner
+  svc -> svc : Validate fields for an edit
+  svc -> db : Update or delete car
+  db --> svc : Committed
+  svc --> route : Result
+  route --> section : 200 or 204
+  section --> actor : Garage reflects the change
+end
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Manage listing
+Person(member, "Member", "Signed-in member who sells a car privately")
+Person(dealer, "Dealer owner", "Member who owns a dealer provider profile")
+System(wayfold, "Wayfold", "Autos community and marketplace for the GTA")
+System_Ext(storage, "Image storage", "<TO SUPPLY>")
+Rel(member, wayfold, "Creates, edits and removes private listings using")
+Rel(dealer, wayfold, "Manages dealer inventory using")
+Rel(wayfold, storage, "Stores listing photos in", "<TO SUPPLY>")
+@enduml

@@ -1,0 +1,42 @@
+@startuml
+title UML sequence behaviour - Like and comment
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Signed-in member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "PostCard" as card
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "InteractionRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "InteractionService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> card : Select Like
+card -> route : POST /api/posts/:id/like
+route -> svc : toggleLike(postId, userId)
+svc -> db : Insert or delete Like (L2-013)
+db --> svc : Committed
+svc --> route : liked, likeCount
+route --> card : 200
+card --> actor : Show new like count
+actor -> card : Submit comment
+card -> route : POST /api/posts/:id/comments
+route -> svc : comment(postId, userId, text)
+alt text empty or over 500 characters
+  svc --> route : Rejected (L2-013)
+  route --> card : 400
+  card --> actor : Show comment error
+else valid
+  svc -> db : Insert comment
+  db --> svc : Committed
+  route --> card : 201
+  card --> actor : Comment appears under the post
+end
+@enduml

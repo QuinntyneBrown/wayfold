@@ -1,0 +1,37 @@
+@startuml
+title UML sequence behaviour - Recommend a product
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Signed-in member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "RecommendDialog" as dlg
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "ProductRecommendationRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "RecommendationService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> dlg : Enter name, category, where bought and why, then submit
+dlg -> route : PUT /api/products/recommendation
+route -> route : Require session and all four fields (L2-027)
+alt a field is missing
+  route --> dlg : 400 field-level errors
+  dlg --> actor : Show inline errors, nothing saved
+else all fields present
+  route -> svc : recommendProduct(authorId, input)
+  svc -> db : Find or create product, find existing recommendation by author and product
+  db --> svc : Product and existing or none
+  svc -> db : Insert, or update the existing entry
+  db --> svc : Committed
+  svc --> route : Recommendation and recommender count
+  route --> dlg : 200
+  dlg --> actor : Recommendation appears with name and purchase source
+end
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Price rating
+Person(user, "Visitor or member", "Views a vehicle")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Vehicle detail page")
+  Container(api, "Route handlers", "Next.js", "GET /api/vehicles/:id")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Published vehicles")
+}
+Rel(user, web, "Uses", "HTTPS")
+Rel(web, api, "Calls", "JSON/HTTPS")
+Rel(api, db, "Reads comparable listings", "<TO SUPPLY>")
+@enduml

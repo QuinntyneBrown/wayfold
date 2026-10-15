@@ -1,0 +1,55 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - View member profile
+class MemberProfile {
+  +string id
+  +string displayName
+  +string bio
+  +string area
+  +string homeChurch
+  +boolean isOwn
+  +GarageCar[] garage
+  +Listing[] listings
+  +RecommendationView[] recommendations
+  +Post[] posts
+}
+class RecommendationView {
+  +string authorName
+  +string authorChurch
+  +string text
+}
+class ProfileService {
+  +getProfile(memberId: string, viewer: Session): MemberProfile
+  +updateBio(memberId: string, bio: string): Result
+}
+class ChurchVisibilityPolicy {
+  +churchFor(member: User, viewer: Session): string
+}
+class User {
+  +string id
+  +string displayName
+  +string bio
+  +string area
+  +string homeChurch
+  +boolean showHomeChurch
+}
+class Session {
+  +string id
+  +string userId
+}
+ProfileService --> MemberProfile : returns
+ProfileService --> ChurchVisibilityPolicy : uses
+ProfileService --> User : reads
+ChurchVisibilityPolicy ..> Session : checks
+ChurchVisibilityPolicy ..> User : reads opt-in
+MemberProfile "1" *-- "*" RecommendationView : contains
+@enduml

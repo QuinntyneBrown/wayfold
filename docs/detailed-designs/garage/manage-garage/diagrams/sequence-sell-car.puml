@@ -1,0 +1,41 @@
+@startuml
+title UML sequence behaviour - Sell a garage car
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Signed-in member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "GarageSection" as section
+  participant "VehicleEditorPage" as editor
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "ListingDraftRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "GarageService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> section : Choose Sell this car
+section -> editor : Open /vehicles/new for the car
+editor -> route : GET /api/garage-cars/:id/listing-draft
+route -> svc : draftListing(carId, userId)
+svc -> db : Load car
+db --> svc : GarageCar
+alt requester is not the owner
+  svc --> route : Forbidden (L2-025)
+  route --> editor : 403
+  editor --> actor : Show error state
+else owner
+  svc --> route : ListingDraft
+  route --> editor : 200 year, make, model, photo
+  editor --> actor : Show listing form with editable prefilled fields
+  actor -> editor : Publish listing
+  editor -> db : Save listing with garageCarId (listing feature)
+  db --> editor : Committed
+  editor --> actor : Car and listing stay linked in the garage (L2-025)
+end
+@enduml

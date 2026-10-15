@@ -1,0 +1,47 @@
+@startuml
+title UML sequence behaviour - Search providers
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Visitor" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "ProvidersPage" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "ProvidersRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "ProviderDirectoryService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Open /providers
+page --> actor : Show loading state
+page -> route : GET /api/providers
+route -> route : Validate category and municipality against defined lists (L2-014)
+route -> svc : search(category, keyword, municipality)
+svc -> db : Select published providers matching filters
+svc -> db : Count distinct recommending members per provider
+db --> svc : Providers with counts
+svc -> svc : Order by distinct recommendation count, highest first (L2-031)
+svc --> route : Ranked summaries
+alt server failure
+  route --> page : 500
+  page --> actor : Show Could not load this page and Try again
+else no published providers and no filters
+  route --> page : 200 empty list
+  page --> actor : Show empty state
+else filters match nothing
+  route --> page : 200 empty list
+  page --> actor : Show No matches and Clear filters (L2-031)
+else matches found
+  route --> page : 200 ranked summaries with counts
+  page --> actor : Show cards with Recommended by N members (L2-031)
+end
+actor -> page : Apply or clear category, keyword or municipality filter
+page -> route : GET /api/providers with filters, or without them
+route --> page : 200 matching providers (L2-031, L2-014)
+@enduml

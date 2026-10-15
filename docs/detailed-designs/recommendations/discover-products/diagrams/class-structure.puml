@@ -1,0 +1,45 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Discover products
+class ProductQuery {
+  +string q
+  +string category
+  +string municipality
+}
+class ProductSummary {
+  +string id
+  +string name
+  +string category
+  +string whereBought
+  +string municipality
+  +int recommenderCount
+  +string sampleText
+  +string sampleAuthor
+}
+class ProductDiscoveryService {
+  +list(query: ProductQuery): ProductSummary[]
+}
+class Product {
+  +string id
+  +string name
+  +string category
+}
+class Recommendation {
+  +string authorId
+  +string targetId
+  +string text
+}
+ProductDiscoveryService ..> ProductQuery : receives
+ProductDiscoveryService --> ProductSummary : returns
+ProductDiscoveryService --> Product : reads
+Recommendation "*" --> "1" Product : about
+@enduml

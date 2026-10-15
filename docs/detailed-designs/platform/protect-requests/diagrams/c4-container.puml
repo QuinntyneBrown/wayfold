@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Protect requests
+Person(member, "Member or visitor", "Sends requests")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Renders user content with escaping and sends the CSRF credential")
+  Container(api, "Route handlers", "Next.js", "Authorization, validation, CSRF check and data protection policy")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Accounts, profiles, posts, listings")
+}
+Rel(member, web, "Uses", "HTTPS")
+Rel(web, api, "Calls", "JSON/HTTPS")
+Rel(api, db, "Reads and writes with parameterized queries", "<TO SUPPLY>")
+@enduml

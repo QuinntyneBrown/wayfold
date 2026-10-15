@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Discover products
+Person(visitor, "Visitor or member", "Browses products")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Products page at /products")
+  Container(api, "Route handlers", "Next.js", "GET /api/products")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Products and recommendations")
+}
+Rel(visitor, web, "Uses", "HTTPS")
+Rel(web, api, "Requests products from", "JSON/HTTPS")
+Rel(api, db, "Reads", "<TO SUPPLY>")
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Manage provider profile
+Container_Boundary(web, "Web application") {
+  Component(view, "ProviderProfilePage", "React page", "Profile at /providers/:id")
+  Component(editor, "ProviderEditorPage", "React page", "Form at /providers/new")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(route, "ProvidersRoute", "Route handler", "Authenticates, validates, maps results to 200, 201, 400, 401, 403, 404")
+  Component(svc, "ProviderService", "Module", "Creates, updates and reads provider profiles")
+  Component(policy, "OwnershipPolicy", "Module", "Allows only the owner to edit a profile")
+  Component(church, "ChurchVisibility", "Module", "Returns the owner church only to signed-in members who were opted in")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Providers, users, sessions and recommendations")
+}
+Rel(view, route, "GETs /api/providers/:id from", "JSON/HTTPS")
+Rel(editor, route, "POSTs and PUTs profile to", "JSON/HTTPS")
+Rel(route, svc, "Calls")
+Rel(svc, policy, "Checks edit rights with")
+Rel(svc, church, "Applies church visibility with")
+Rel(svc, db, "Persists and reads profiles", "<TO SUPPLY>")
+Rel(church, db, "Reads owner church and flag", "<TO SUPPLY>")
+@enduml

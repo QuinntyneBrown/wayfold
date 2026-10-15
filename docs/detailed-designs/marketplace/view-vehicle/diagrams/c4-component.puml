@@ -1,0 +1,25 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - View vehicle
+Container_Boundary(web, "Web application") {
+  Component(page, "VehicleDetailPage", "React page", "Details, seller panel and page states at /vehicles/:id")
+  Component(dlg, "ContactSellerDialog", "React dialog", "Message form with validation states")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(vroute, "VehicleDetailRoute", "Route handler", "GET /api/vehicles/:id")
+  Component(iroute, "InquiriesRoute", "Route handler", "POST /api/vehicles/:id/inquiries")
+  Component(vsvc, "VehicleDetailService", "Module", "Builds the detail and seller panel")
+  Component(isvc, "InquiryService", "Module", "Validates and stores an inquiry")
+  Component(church, "ChurchVisibility", "Module", "Returns the home church only to signed-in members for opted-in owners")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Vehicles, members, providers and inquiries")
+}
+Rel(page, vroute, "Loads vehicle from", "JSON/HTTPS")
+Rel(page, dlg, "Opens")
+Rel(dlg, iroute, "Posts message to", "JSON/HTTPS")
+Rel(vroute, vsvc, "Calls")
+Rel(iroute, isvc, "Calls")
+Rel(vsvc, church, "Applies church visibility with")
+Rel(vsvc, db, "Reads vehicle and seller", "<TO SUPPLY>")
+Rel(isvc, db, "Stores inquiry", "<TO SUPPLY>")
+@enduml

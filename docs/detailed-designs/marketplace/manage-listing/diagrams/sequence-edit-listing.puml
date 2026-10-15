@@ -1,0 +1,47 @@
+@startuml
+title UML sequence behaviour - Edit listing
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Listing owner" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "VehicleEditorPage" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "VehiclesRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "ListingService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Open edit form for the listing
+page -> route : GET /api/vehicles/:id
+route --> page : Current listing values
+actor -> page : Change fields and submit
+page -> route : PATCH /api/vehicles/:id
+route -> svc : update(actor, id, request)
+svc -> db : Load vehicle
+db --> svc : Vehicle
+alt actor is not the owner
+  svc --> route : Forbidden
+  route --> page : 403 (L2-007)
+  page --> actor : Show error state
+else owner
+  svc -> svc : Re-apply the field, price, photo and municipality checks of create
+  alt invalid
+    svc --> route : Field errors
+    route --> page : 400 field errors
+    page --> actor : Show invalid state
+  else valid
+    svc -> db : Save changes
+    db --> svc : Committed
+    svc --> route : Vehicle
+    route --> page : 200 with vehicle
+    page --> actor : Show saved changes (L2-007)
+  end
+end
+@enduml

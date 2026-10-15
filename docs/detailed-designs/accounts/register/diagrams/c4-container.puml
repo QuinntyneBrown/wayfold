@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Register
+Person(visitor, "Visitor", "Registers an account")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Registration page")
+  Container(api, "Route handlers", "Next.js", "POST /api/auth/register")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Users and sessions")
+}
+Rel(visitor, web, "Uses", "HTTPS")
+Rel(web, api, "Submits form to", "JSON/HTTPS")
+Rel(api, db, "Reads and writes", "<TO SUPPLY>")
+@enduml

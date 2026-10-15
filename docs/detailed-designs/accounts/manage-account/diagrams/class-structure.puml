@@ -1,0 +1,52 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Manage account
+enum GtaArea {
+  <TO SUPPLY>
+}
+class UpdateAccountRequest {
+  +string displayName
+  +GtaArea gtaArea
+  +string homeChurch
+  +boolean showHomeChurch
+  +string currentPassword
+  +string newPassword
+}
+class AccountService {
+  +get(userId: string): AccountView
+  +updateProfile(userId: string, request: UpdateAccountRequest): Result
+  +changePassword(userId: string, sessionId: string, request: UpdateAccountRequest): Result
+}
+class PasswordHasher {
+  +hash(password: string): string
+  +verify(password: string, hash: string): boolean
+}
+class User {
+  +string id
+  +string passwordHash
+  +string displayName
+  +GtaArea gtaArea
+  +string homeChurch
+  +boolean showHomeChurch
+}
+class Session {
+  +string id
+  +string userId
+  +datetime invalidatedAt
+}
+AccountService ..> UpdateAccountRequest : receives
+AccountService --> PasswordHasher : uses
+AccountService --> User : updates
+AccountService --> Session : invalidates other
+User --> GtaArea : located in
+Session "*" --> "1" User : belongs to
+@enduml

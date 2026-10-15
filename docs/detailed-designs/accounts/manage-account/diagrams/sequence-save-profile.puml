@@ -1,0 +1,37 @@
+@startuml
+title UML sequence behaviour - Save profile
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "SettingsPage" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "AccountRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "AccountService" as svc
+  participant "PasswordHasher" as hasher
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Change display name, area or home church and save
+page -> route : PUT /api/account
+route -> route : Authenticate session
+route -> route : Validate name, area and church of at most 80 characters (L2-022)
+alt invalid input
+  route --> page : 400 field-level errors
+  page --> actor : Show Check your settings, nothing saved
+else valid input
+  route -> svc : updateProfile(userId, request)
+  svc -> db : Update display name, area, home church and visibility (L2-003, L2-022)
+  db --> svc : Committed
+  svc --> route : Updated account
+  route --> page : 200 account
+  page --> actor : Show Saved, new name shown across the application
+end
+@enduml

@@ -1,0 +1,51 @@
+@startuml
+title UML sequence behaviour - Contact seller
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Signed-in member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "VehicleDetailPage" as page
+  participant "ContactSellerDialog" as dlg
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "InquiriesRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "InquiryService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Choose Message seller
+alt signed out
+  page --> actor : Redirect to /sign-in (behaviour <TO SUPPLY>)
+else signed in
+  page -> dlg : Open Message the seller
+  actor -> dlg : Write message and choose Send message
+  dlg -> dlg : Show busy state
+  dlg -> route : POST /api/vehicles/:id/inquiries
+  route -> svc : send(viewer, vehicleId, request)
+  svc -> db : Load vehicle and owner
+  db --> svc : Vehicle and owner
+  alt viewer owns the listing
+    svc --> route : Rejected
+    route --> dlg : Rejected (L2-009)
+  else message empty or over 2000 characters
+    svc --> route : Field error
+    route --> dlg : 400 field error (L2-009)
+    dlg --> actor : Show invalid state, Write a message
+  else valid
+    svc -> db : Insert inquiry for the owner
+    db --> svc : Committed
+    svc --> route : Inquiry
+    route --> dlg : 201
+    dlg --> actor : Show success state with Done (L2-009)
+  end
+  opt server or network error
+    dlg --> actor : Show failed state, text kept
+  end
+end
+@enduml

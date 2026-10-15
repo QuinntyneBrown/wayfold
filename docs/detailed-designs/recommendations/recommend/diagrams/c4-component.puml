@@ -1,0 +1,25 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Recommend
+Container_Boundary(web, "Web application") {
+  Component(btn, "RecommendButton", "React component", "Opens the dialog or sends a visitor to sign-in")
+  Component(dlg, "RecommendDialog", "React dialog", "Provider and product forms")
+  Component(list, "RecommendationList", "React component", "Recommendations and Recommended by N members")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(prov, "ProviderRecommendationRoute", "Route handler", "PUT provider recommendation")
+  Component(prod, "ProductRecommendationRoute", "Route handler", "PUT product recommendation")
+  Component(svc, "RecommendationService", "Module", "Validates, upserts and counts")
+  Component(query, "RecommendationQuery", "Module", "Reads recommendations for display")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Recommendations and products")
+}
+Rel(btn, dlg, "Opens")
+Rel(dlg, prov, "PUTs provider text", "JSON/HTTPS")
+Rel(dlg, prod, "PUTs product fields", "JSON/HTTPS")
+Rel(list, query, "Reads through the page routes", "JSON/HTTPS")
+Rel(prov, svc, "Calls")
+Rel(prod, svc, "Calls")
+Rel(svc, db, "Persists", "<TO SUPPLY>")
+Rel(query, db, "Reads", "<TO SUPPLY>")
+@enduml

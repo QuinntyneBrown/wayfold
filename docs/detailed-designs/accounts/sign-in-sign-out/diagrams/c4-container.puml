@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Sign in and sign out
+Person(member, "Member", "Signs in and out")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Sign-in page and protected pages")
+  Container(api, "Route handlers", "Next.js", "POST /api/auth/sign-in, POST /api/auth/sign-out")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Users, sessions and failed sign-in attempts")
+}
+Rel(member, web, "Uses", "HTTPS")
+Rel(web, api, "Submits credentials to", "JSON/HTTPS")
+Rel(api, db, "Reads and writes", "<TO SUPPLY>")
+@enduml

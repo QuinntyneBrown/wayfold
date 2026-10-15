@@ -1,0 +1,32 @@
+@startuml
+title UML sequence behaviour - Display recommendations
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Member or visitor" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "RecommendationList" as list
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "Page route (provider, profile or feed)" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "RecommendationQuery" as query
+  participant "ChurchVisibilityPolicy" as policy
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> list : Open provider page, member profile or feed
+list -> route : GET page data
+route -> query : forProvider, forAuthor or forFeed(viewer)
+query -> db : Read recommendations and count distinct authors
+db --> query : Rows
+query -> policy : churchFor(author, viewer) (L2-023)
+policy --> query : Church name only for a signed-in viewer and an opted-in author
+query --> route : RecommendationView list and count
+route --> list : 200
+list --> actor : Show author, text and Recommended by N members, no stars (L2-028)
+@enduml

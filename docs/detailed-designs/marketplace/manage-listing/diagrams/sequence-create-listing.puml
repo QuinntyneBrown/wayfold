@@ -1,0 +1,61 @@
+@startuml
+title UML sequence behaviour - Create listing
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Member or dealer owner" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "VehicleEditorPage" as page
+  participant "InventoryToast" as toast
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "VehiclesRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "ListingService" as svc
+  participant "PhotoValidator" as photos
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Open /vehicles/new
+alt signed out
+  page --> actor : Redirect to /sign-in (L2-006)
+else signed in
+  opt garage car chosen
+    page -> page : Pre-fill year, make, model and photo, all editable (L2-006)
+  end
+  opt dealer variant for dealer owner
+    page -> page : Show Add dealer inventory form for the dealer provider (L2-034)
+  end
+  actor -> page : Submit listing
+  page -> page : Show submitting state
+  page -> route : POST /api/vehicles
+  route -> svc : create(actor, request)
+  svc -> svc : Check required fields and non-negative price (L2-006)
+  svc -> svc : Check municipality is in the defined list (L2-014)
+  svc -> photos : Validate each photo, accepted image type and 10 MB maximum (L2-006)
+  alt dealer listing
+    svc -> db : Load provider
+    db --> svc : Provider
+    svc -> svc : Check actor owns provider and category is dealer (L2-034)
+  end
+  alt validation or authorization failure
+    svc --> route : Field errors or forbidden
+    route --> page : 400 field errors or 403
+    page --> actor : Show invalid state with field-level errors, nothing saved
+  else valid
+    svc -> db : Insert vehicle and photo records as Published
+    db --> svc : Committed
+    svc --> route : Vehicle
+    route --> page : 201 with vehicle id
+    page --> actor : Show success state with View your listing link
+    page -> toast : Listing published
+  end
+end
+opt server or network error
+  page --> actor : Show error state, entered values kept
+end
+@enduml

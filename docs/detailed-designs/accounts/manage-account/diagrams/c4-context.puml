@@ -1,0 +1,8 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Manage account
+Person(member, "Member", "Signed-in user of Wayfold")
+System(wayfold, "Wayfold", "Autos-only community and marketplace for Toronto and the GTA")
+Rel(member, wayfold, "Manages display name, password, area and home church in")
+@enduml

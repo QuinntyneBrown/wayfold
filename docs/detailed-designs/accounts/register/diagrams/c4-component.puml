@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Register
+Container_Boundary(web, "Web application") {
+  Component(page, "RegisterPage", "React page", "Form and field-level errors")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(route, "RegisterRoute", "Route handler", "Validates input and calls the service")
+  Component(svc, "RegistrationService", "Module", "Creates the account and session")
+  Component(hasher, "PasswordHasher", "Module", "Hashes passwords")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Users and sessions")
+}
+Rel(page, route, "POSTs credentials to", "JSON/HTTPS")
+Rel(route, svc, "Calls")
+Rel(svc, hasher, "Hashes password with")
+Rel(svc, db, "Persists user and session", "<TO SUPPLY>")
+@enduml

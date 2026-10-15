@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - View vehicle
+Person(user, "Visitor or member", "Views a vehicle")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Vehicle detail page and contact dialog")
+  Container(api, "Route handlers", "Next.js", "/api/vehicles/:id and /api/vehicles/:id/inquiries")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Vehicles, members, providers and inquiries")
+}
+System_Ext(email, "Email provider", "<TO SUPPLY>")
+Rel(user, web, "Uses", "HTTPS")
+Rel(web, api, "Calls", "JSON/HTTPS")
+Rel(api, db, "Reads and writes", "<TO SUPPLY>")
+Rel(api, email, "Delivers inquiry notices via", "<TO SUPPLY>")
+@enduml

@@ -1,0 +1,61 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - App shell
+enum NavState {
+  SignedOut
+  SignedIn
+}
+class RootLayout {
+  +children: ReactNode
+  +render(): ReactNode
+}
+class SiteHeader {
+  +navState: NavState
+}
+class NavLink {
+  +label: string
+  +href: string
+  +current: boolean
+}
+class SiteMenuSheet {
+  +open: boolean
+  +items: NavLink[]
+  +close(): void
+}
+class AccountMenu {
+  +open: boolean
+  +displayName: string
+  +items: NavLink[]
+  +close(): void
+}
+class FocusReturn {
+  +trigger: HTMLElement
+  +restore(): void
+}
+class SiteFooter {
+  +links: NavLink[]
+}
+class ErrorPage {
+  +title: string
+  +message: string
+  +homeHref: string
+}
+RootLayout *-- SiteHeader
+RootLayout *-- SiteFooter
+SiteHeader --> NavState : has
+SiteHeader "1" o-- "*" NavLink
+SiteHeader --> SiteMenuSheet : opens
+SiteHeader --> AccountMenu : opens
+SiteMenuSheet ..> FocusReturn : uses
+AccountMenu ..> FocusReturn : uses
+RootLayout ..> ErrorPage : falls back to
+@enduml

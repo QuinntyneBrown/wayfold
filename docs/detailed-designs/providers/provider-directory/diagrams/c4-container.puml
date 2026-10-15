@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Provider directory
+Person(visitor, "Visitor or member", "Searches providers")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Providers page at /providers")
+  Container(api, "Route handlers", "Next.js", "GET /api/providers")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Providers and recommendations")
+}
+Rel(visitor, web, "Uses", "HTTPS")
+Rel(web, api, "Requests filtered providers from", "JSON/HTTPS")
+Rel(api, db, "Reads", "<TO SUPPLY>")
+@enduml

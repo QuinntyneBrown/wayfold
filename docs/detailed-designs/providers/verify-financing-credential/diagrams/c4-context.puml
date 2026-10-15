@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Verify financing credential
+Person(fin, "Financing professional", "Member who submits a licence or credential")
+Person(reviewer, "Wayfold reviewer", "Checks submitted credentials")
+Person(reader, "Visitor or member", "Views the provider profile")
+System(wayfold, "Wayfold", "Autos-only community and marketplace for Toronto and the GTA")
+Rel(fin, wayfold, "Submits a credential to")
+Rel(reviewer, wayfold, "Marks a checked credential verified in")
+Rel(reader, wayfold, "Sees the Verified badge in")
+@enduml

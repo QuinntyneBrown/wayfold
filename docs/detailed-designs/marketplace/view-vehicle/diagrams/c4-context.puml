@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - View vehicle
+Person(visitor, "Visitor", "Views any vehicle without an account")
+Person(member, "Member", "Signed-in member who messages a seller")
+System(wayfold, "Wayfold", "Autos community and marketplace for the GTA")
+System_Ext(email, "Email provider", "<TO SUPPLY>")
+Rel(visitor, wayfold, "Views vehicle details using")
+Rel(member, wayfold, "Sends inquiries using")
+Rel(wayfold, email, "Delivers inquiry notices via", "<TO SUPPLY>")
+@enduml

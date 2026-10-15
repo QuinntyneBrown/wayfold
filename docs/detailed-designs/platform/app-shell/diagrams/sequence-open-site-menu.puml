@@ -1,0 +1,27 @@
+@startuml
+title UML sequence behaviour - Open the site menu
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Visitor or member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "SiteNav" as nav
+  participant "SiteMenuSheet" as sheet
+  participant "FocusReturn" as focus
+end box
+actor -> nav : Choose Menu control (below 768 px, touch or keyboard) (L2-015)
+nav -> sheet : Open as modal dialog
+sheet -> focus : Remember Menu control
+sheet -> sheet : Mark page behind inert and move focus into the dialog (L2-016)
+sheet --> actor : Show navigation list
+alt Close control or Escape pressed
+  actor -> sheet : Close
+  sheet -> focus : Restore focus
+  focus --> actor : Focus on Menu control with visible focus ring (L2-016)
+else Navigation link chosen
+  actor -> sheet : Choose a link
+  sheet --> actor : Navigate to the page
+end
+@enduml

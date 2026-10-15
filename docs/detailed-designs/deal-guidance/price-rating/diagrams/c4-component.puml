@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Price rating
+Container_Boundary(web, "Web application") {
+  Component(badge, "PriceRatingBadge", "React component", "Shows the rating and comparison context, or the no-rating explanation")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(route, "VehicleDetailRoute", "Route handler", "Includes the rating in the vehicle response")
+  Component(svc, "PriceRatingService", "Module", "Rates a vehicle against comparable listings")
+  Component(finder, "ComparableFinder", "Module", "Selects comparable GTA listings")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Published vehicles")
+}
+Rel(badge, route, "Receives rating from", "JSON/HTTPS")
+Rel(route, svc, "Calls")
+Rel(svc, finder, "Gets comparables from")
+Rel(finder, db, "Queries Published GTA vehicles", "<TO SUPPLY>")
+@enduml

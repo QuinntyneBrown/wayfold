@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Manage account
+Person(member, "Member", "Edits own account")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Account settings page at /settings")
+  Container(api, "Route handlers", "Next.js", "GET and PUT /api/account")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Users and sessions")
+}
+Rel(member, web, "Uses", "HTTPS")
+Rel(web, api, "Loads and saves settings through", "JSON/HTTPS")
+Rel(api, db, "Reads and writes", "<TO SUPPLY>")
+@enduml

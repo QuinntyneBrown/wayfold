@@ -1,0 +1,20 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Verify financing credential
+Person(fin, "Financing professional", "Submits a credential")
+Person(reviewer, "Wayfold reviewer", "Checks credentials")
+Person(reader, "Visitor or member", "Views the badge")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Provider editor and provider profile pages")
+  Container(api, "Route handlers", "Next.js", "POST and PUT /api/providers, GET /api/providers/:id")
+  Container(review, "Verification entry point", "<TO SUPPLY>", "Lets a reviewer mark a credential verified")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Providers and credentials")
+}
+Rel(fin, web, "Uses", "HTTPS")
+Rel(reader, web, "Uses", "HTTPS")
+Rel(web, api, "Calls", "JSON/HTTPS")
+Rel(reviewer, review, "Uses", "<TO SUPPLY>")
+Rel(api, db, "Reads and writes", "<TO SUPPLY>")
+Rel(review, db, "Updates credential status", "<TO SUPPLY>")
+@enduml

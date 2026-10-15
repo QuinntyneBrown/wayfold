@@ -1,0 +1,10 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Protect requests
+Person(visitor, "Visitor", "Signed out; reads public content")
+Person(member, "Member", "Signed in; acts on own resources")
+System(wayfold, "Wayfold", "Autos-only community for Toronto and the GTA")
+Rel(visitor, wayfold, "Sends requests to")
+Rel(member, wayfold, "Sends requests to")
+@enduml

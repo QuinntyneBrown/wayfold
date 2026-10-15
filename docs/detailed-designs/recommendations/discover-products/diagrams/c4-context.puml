@@ -1,0 +1,8 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Discover products
+Person(visitor, "Visitor or member", "Browses recommended products")
+System(wayfold, "Wayfold", "Autos-only community for Toronto and the GTA")
+Rel(visitor, wayfold, "Browses and filters products using")
+@enduml

@@ -1,0 +1,48 @@
+@startuml
+title UML sequence behaviour - Ask a deal question
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Signed-in member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "DealQuestionsSection" as page
+  participant "AskExpertDialog" as dlg
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "QuestionsRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "DealQuestionService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Choose Ask a question
+alt signed out
+  page --> actor : Redirect to /sign-in (L2-037)
+else signed in
+  page -> dlg : Open Ask about this deal
+  actor -> dlg : Choose topic, write question and choose Post question
+  dlg -> dlg : Show busy state
+  dlg -> route : POST /api/vehicles/:id/questions
+  route -> svc : ask(actor, vehicleId, request)
+  alt missing topic, empty question or over 1000 characters
+    svc --> route : Field errors
+    route --> dlg : 400 field errors
+    dlg --> actor : Show invalid state, nothing posted (L2-037)
+  else valid
+    svc -> db : Insert question
+    db --> svc : Committed
+    svc --> route : Question
+    route --> dlg : 201
+    dlg --> actor : Show success state with Done
+    dlg --> page : Close and refresh list
+    page --> actor : Question visible publicly on the vehicle page (L2-037)
+  end
+  opt server or network error
+    dlg --> actor : Show failed state, text kept
+  end
+end
+@enduml

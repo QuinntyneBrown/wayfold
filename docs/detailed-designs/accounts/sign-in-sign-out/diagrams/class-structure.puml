@@ -1,0 +1,51 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Sign in and sign out
+class SignInRequest {
+  +string email
+  +string password
+}
+class AuthService {
+  +signIn(request: SignInRequest): SignInResult
+  +signOut(sessionId: string): void
+  +findSession(sessionId: string): Session
+}
+class SignInLimiter {
+  +isBlocked(userId: string): boolean
+  +recordFailure(userId: string): void
+}
+class PasswordHasher {
+  +verify(password: string, hash: string): boolean
+}
+class User {
+  +string id
+  +string email
+  +string passwordHash
+}
+class FailedSignIn {
+  +string userId
+  +datetime attemptedAt
+}
+class Session {
+  +string id
+  +string userId
+  +datetime createdAt
+  +datetime invalidatedAt
+}
+AuthService ..> SignInRequest : receives
+AuthService --> SignInLimiter : uses
+AuthService --> PasswordHasher : uses
+AuthService --> Session : creates / invalidates
+SignInLimiter --> FailedSignIn : counts
+FailedSignIn "*" --> "1" User : concerns
+Session "*" --> "1" User : belongs to
+@enduml

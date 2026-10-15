@@ -1,0 +1,57 @@
+@startuml
+title UML sequence behaviour - Guard a request
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Member or visitor" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "Web client" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "Route handler" as route
+  participant "RequestGuard" as guard
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "Application service" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Submit a change
+page -> route : POST with session cookie and CSRF credential
+route -> guard : check(request, rule)
+guard -> guard : Verify CSRF defense for state-changing method (L2-018)
+alt CSRF defense missing or invalid
+  guard --> route : CsrfRejected
+  route --> page : 403 rejected, nothing changed
+else defense valid
+  guard -> guard : Require valid session (L2-018)
+  alt no valid session
+    guard --> route : Unauthenticated401
+    route --> page : 401
+  else session valid
+    guard -> db : Load owner of target resource
+    db --> guard : Owner id
+    alt acting on another member's resource
+      guard --> route : Forbidden403
+      route --> page : 403
+    else owner matches
+      guard -> guard : Validate input against schema (L2-018)
+      alt input invalid
+        guard --> route : Invalid400
+        route --> page : 400 field-level errors
+      else input valid
+        guard --> route : Allow
+        route -> svc : Run use case with parameterized queries (L2-018)
+        svc -> db : Persist
+        db --> svc : Committed
+        svc --> route : Result
+        route --> page : Success
+        page --> actor : Render stored text as escaped text (L2-018)
+      end
+    end
+  end
+end
+@enduml

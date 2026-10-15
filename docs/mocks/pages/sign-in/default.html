@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sign in - default - Wayfold mocks</title>
+<meta name="mock:kind" content="page">
+<meta name="mock:screen" content="sign-in">
+<meta name="mock:state" content="default">
+<meta name="mock:requirements" content="L2-002 L2-016 L2-017">
+<meta name="description" content="Sign in — default state.">
+<link rel="stylesheet" href="../../../design-system/tokens/tokens.css">
+<link rel="stylesheet" href="../../../design-system/assets/components.css">
+<link rel="stylesheet" href="../../assets/ui.css">
+<link rel="stylesheet" href="../../assets/mock.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header"><a class="wordmark" href="../home/default.html">Wayfold <span class="wordmark__tag">Toronto</span></a></header>
+
+<main id="main" class="auth" tabindex="-1"><div class="auth__head"><h1>Sign in to Wayfold</h1><p>Welcome back to your GTA auto community.</p></div><form class="card stack" action="success.html" method="get"><div class="field"><label class="field__label" for="email">Email</label><input class="input" id="email" name="email" type="email" value="" required></div><div class="field"><label class="field__label" for="password">Password</label><input class="input" id="password" name="password" type="password" value="" required></div><button class="btn btn--primary" type="submit">Sign in</button></form><p>New here? <a href="../sign-up/default.html">Create an account</a>.</p></main>
+
+<footer class="site-footer"><div class="site-footer__brand"><strong>Wayfold</strong><span>Cars, care and community across Toronto and the GTA.</span></div><nav class="site-footer__links" aria-label="Footer"><ul><li><a href="../vehicles/default.html">Vehicles</a></li><li><a href="../providers/default.html">Providers</a></li><li><a href="../products/default.html">Products</a></li><li><a href="../sign-up/default.html">Create account</a></li></ul></nav><p class="site-footer__copy">&copy; 2026 Wayfold - Toronto and the GTA</p></footer>
+
+
+<nav class="mock-bar" aria-label="Mock navigation">
+  <a class="mock-bar__home" href="../../index.html" aria-label="All mocks"></a>
+  <span class="mock-bar__screen">Sign in</span>
+  <ul class="mock-bar__states">
+    <li><a href="default.html" aria-current="page">default</a></li>
+    <li><a href="loading.html">loading</a></li>
+    <li><a href="error.html">error</a></li>
+    <li><a href="locked.html">locked</a></li>
+    <li><a href="invalid.html">invalid</a></li>
+    <li><a href="submitting.html">submitting</a></li>
+  </ul>
+  <button type="button" data-theme-toggle aria-pressed="false">Dark</button>
+  <button type="button" data-chrome-toggle aria-label="Hide mock chrome">x</button>
+</nav>
+<script src="../../assets/mock.js"></script>
+</body>
+</html>

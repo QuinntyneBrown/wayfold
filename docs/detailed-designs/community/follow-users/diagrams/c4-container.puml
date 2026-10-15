@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Follow users
+Person(member, "Signed-in member", "Follows other members")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Member profile page with follow control")
+  Container(api, "Route handlers", "Next.js", "POST and DELETE /api/members/:id/follow")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Follow links")
+}
+Rel(member, web, "Uses", "HTTPS")
+Rel(web, api, "Calls", "JSON/HTTPS")
+Rel(api, db, "Reads and writes", "<TO SUPPLY>")
+@enduml

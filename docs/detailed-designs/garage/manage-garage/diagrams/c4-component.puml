@@ -1,0 +1,26 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Manage garage
+Container_Boundary(web, "Web application") {
+  Component(section, "GarageSection", "React component", "Car cards and actions")
+  Component(dialog, "AddCarDialog", "React dialog", "Add a car form and states")
+  Component(editor, "VehicleEditorPage", "React page", "Listing form prefilled from a garage car")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(cars, "GarageCarsRoute", "Route handler", "Create, edit and remove cars")
+  Component(draft, "ListingDraftRoute", "Route handler", "Returns the prefilled draft")
+  Component(svc, "GarageService", "Module", "Validates and checks ownership")
+  Component(photo, "PhotoStore", "Module", "Stores car photos")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Garage cars and listings")
+}
+Rel(section, dialog, "Opens")
+Rel(section, editor, "Opens for Sell this car")
+Rel(dialog, cars, "POSTs car", "JSON/HTTPS")
+Rel(section, cars, "PATCHes or DELETEs car", "JSON/HTTPS")
+Rel(editor, draft, "GETs draft", "JSON/HTTPS")
+Rel(cars, svc, "Calls")
+Rel(draft, svc, "Calls")
+Rel(svc, photo, "Stores photo with")
+Rel(svc, db, "Persists and reads", "<TO SUPPLY>")
+@enduml

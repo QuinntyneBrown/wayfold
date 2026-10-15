@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Manage garage
+Person(member, "Signed-in member", "Manages a garage")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Garage section, add-car dialog, vehicle editor")
+  Container(api, "Route handlers", "Next.js", "/api/garage-cars and listing draft")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Garage cars and listings")
+}
+System_Ext(photos, "Photo storage", "<TO SUPPLY>")
+Rel(member, web, "Uses", "HTTPS")
+Rel(web, api, "Calls", "JSON/HTTPS")
+Rel(api, db, "Reads and writes", "<TO SUPPLY>")
+Rel(api, photos, "Stores photos in", "<TO SUPPLY>")
+@enduml

@@ -1,0 +1,61 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - View vehicle
+
+class VehicleDetail {
+  +string id
+  +number year
+  +string make
+  +string model
+  +number price
+  +string[] photos
+  +string description
+  +number mileage
+  +string condition
+  +string[] features
+  +string municipality
+  +string status
+  +SellerPanel seller
+  +PriceRating priceRating
+}
+class SellerPanel {
+  +string sellerType
+  +string name
+  +string profilePath
+  +string homeChurch
+  +boolean canMessage
+}
+class InquiryRequest {
+  +string message
+}
+class Inquiry {
+  +string id
+  +string vehicleId
+  +string senderMemberId
+  +string recipientMemberId
+  +string message
+}
+class VehicleDetailService {
+  +get(id: string, viewer: Member): VehicleDetail
+}
+class InquiryService {
+  +send(viewer: Member, vehicleId: string, request: InquiryRequest): Result
+}
+class ChurchVisibility {
+  +homeChurchFor(owner: Member, viewer: Member): string
+}
+VehicleDetailService --> VehicleDetail : returns
+VehicleDetailService --> ChurchVisibility : uses
+VehicleDetail *-- "1" SellerPanel : has
+InquiryService ..> InquiryRequest : receives
+InquiryService --> Inquiry : creates
+@enduml

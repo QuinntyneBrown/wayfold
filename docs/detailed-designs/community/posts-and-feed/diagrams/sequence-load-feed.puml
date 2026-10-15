@@ -1,0 +1,45 @@
+@startuml
+title UML sequence behaviour - Load feed
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Visitor or member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "HomePage" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "FeedRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "FeedService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Open /
+page -> route : GET /api/feed
+alt no session
+  route --> page : 401, no protected data (L2-039)
+  page --> actor : Show public landing content
+else session present
+  route -> svc : load(userId)
+  svc -> db : Read posts and recommendations by self and followed members, newest first (L2-012, L2-028)
+  alt read failed
+    db --> svc : Error
+    svc --> route : Error
+    route --> page : 500
+    page --> actor : Show error state with Try again
+  else items found
+    db --> svc : Items
+    svc --> route : FeedItem list
+    route --> page : 200
+    page --> actor : Show feed
+  else no items
+    db --> svc : None
+    route --> page : 200 empty list
+    page --> actor : Show empty state
+  end
+end
+@enduml

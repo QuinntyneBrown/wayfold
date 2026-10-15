@@ -1,0 +1,69 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Protect requests
+enum Decision {
+  Allow
+  Unauthenticated401
+  Forbidden403
+  CsrfRejected
+  Invalid400
+}
+class RequestContext {
+  +string requestId
+  +string? viewerId
+  +string method
+}
+class RequestGuard {
+  +check(ctx: RequestContext, rule: RouteRule): Decision
+}
+class RouteRule {
+  +bool requiresSession
+  +string? ownerOf
+  +Schema input
+}
+class AccessPolicy {
+  +requireSession(ctx): Decision
+  +requireOwner(ctx, resourceOwnerId): Decision
+}
+class CsrfGuard {
+  +verify(ctx): Decision
+}
+class InputValidator {
+  +validate(input, schema): Decision
+}
+class MemberProfile {
+  +string id
+  +string displayName
+  +string email
+  +string? homeChurch
+  +bool showHomeChurch
+}
+class MemberView {
+  +string id
+  +string displayName
+  +string? homeChurch
+}
+class MemberViewPolicy {
+  +project(profile: MemberProfile, ctx: RequestContext): MemberView
+}
+class AccountDeletionService {
+  +delete(memberId: string): void
+}
+RequestGuard --> RouteRule : reads
+RequestGuard --> CsrfGuard : uses
+RequestGuard --> AccessPolicy : uses
+RequestGuard --> InputValidator : uses
+RequestGuard ..> Decision : returns
+MemberViewPolicy ..> MemberProfile : reads
+MemberViewPolicy --> MemberView : produces
+AccountDeletionService ..> MemberProfile : removes
+@enduml

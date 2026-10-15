@@ -1,0 +1,63 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Manage provider profile
+enum ProviderCategory {
+  Dealer
+  Mechanic
+  BodyShop
+  TireShop
+  Detailer
+  Towing
+  InsuranceBroker
+  FinancingProfessional
+  PartsStore
+}
+class ProviderRequest {
+  +string name
+  +ProviderCategory category
+  +string municipality
+  +string description
+  +string contactEmail
+}
+class ProviderService {
+  +create(ownerId: string, request: ProviderRequest): Provider
+  +update(actorId: string, providerId: string, request: ProviderRequest): Provider
+  +get(providerId: string, viewerId: string): ProviderView
+}
+class OwnershipPolicy {
+  +canEdit(actorId: string, provider: Provider): boolean
+}
+class ChurchVisibility {
+  +churchFor(owner: User, viewerId: string): string
+}
+class Provider {
+  +string id
+  +string ownerId
+  +string name
+  +ProviderCategory category
+  +string municipality
+  +string description
+  +string contactEmail
+}
+class User {
+  +string id
+  +string homeChurch
+  +boolean showHomeChurch
+}
+ProviderService ..> ProviderRequest : receives
+ProviderService --> OwnershipPolicy : uses
+ProviderService --> ChurchVisibility : uses
+ProviderService --> Provider : creates / updates
+Provider --> ProviderCategory : has
+Provider "*" --> "1" User : owned by
+ChurchVisibility ..> User : reads
+@enduml

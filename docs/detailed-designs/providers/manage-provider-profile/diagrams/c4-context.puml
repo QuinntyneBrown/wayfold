@@ -1,0 +1,10 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Manage provider profile
+Person(owner, "Member", "Owns a provider profile")
+Person(reader, "Visitor or member", "Views provider profiles")
+System(wayfold, "Wayfold", "Autos-only community and marketplace for Toronto and the GTA")
+Rel(owner, wayfold, "Creates and edits a provider profile in")
+Rel(reader, wayfold, "Views provider profiles in")
+@enduml

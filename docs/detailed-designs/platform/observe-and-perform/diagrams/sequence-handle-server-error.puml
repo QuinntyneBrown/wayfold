@@ -1,0 +1,32 @@
+@startuml
+title UML sequence behaviour - Handle a server error
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Visitor or member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "Web application" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "Route handler" as route
+  participant "RequestContext" as ctx
+  participant "ErrorHandler" as handler
+  participant "Logger" as log
+end box
+box "Backend - Infrastructure" #FFF4E5
+  participant "Log destination" as sink
+end box
+actor -> page : Request
+page -> route : HTTPS request
+route -> ctx : Assign request ID
+route -> route : Run use case
+route -> handler : Unexpected error
+handler -> log : error(requestId, error)
+log -> log : Redact passwords and session tokens (L2-019)
+log -> sink : Write structured entry with request ID (L2-021)
+handler --> route : Generic 500 response with request ID only
+route --> page : 500 without stack trace (L2-021)
+page --> actor : Show Something went wrong
+@enduml

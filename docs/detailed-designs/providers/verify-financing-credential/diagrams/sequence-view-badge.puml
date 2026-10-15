@@ -1,0 +1,35 @@
+@startuml
+title UML sequence behaviour - View Verified badge
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Visitor" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "ProviderProfilePage" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "ProvidersRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "CredentialService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Open /providers/:id for a financing professional
+page -> route : GET /api/providers/:id
+route -> svc : isVerified(providerId)
+svc -> db : Load credential status
+db --> svc : Submitted or Verified
+alt status Submitted
+  svc --> route : Not verified
+  route --> page : 200 provider without verified flag
+  page --> actor : Show profile without badge (L2-033)
+else status Verified
+  svc --> route : Verified
+  route --> page : 200 provider with verified flag
+  page --> actor : Show Verified badge and checked credential (L2-033)
+end
+@enduml

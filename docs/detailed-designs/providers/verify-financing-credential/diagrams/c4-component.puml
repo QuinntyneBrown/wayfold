@@ -1,0 +1,20 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Verify financing credential
+Container_Boundary(web, "Web application") {
+  Component(editor, "ProviderEditorPage", "React page", "Credential field and its error")
+  Component(view, "ProviderProfilePage", "React page", "Verified badge and credentials section")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(route, "ProvidersRoute", "Route handler", "Requires a credential for the financing category")
+  Component(svc, "CredentialService", "Module", "Stores submissions and derives the badge state")
+  Component(verify, "CredentialVerification", "Module", "Marks a checked credential verified")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Providers and credentials")
+}
+Rel(editor, route, "Submits credential with profile to", "JSON/HTTPS")
+Rel(view, route, "GETs profile with badge state from", "JSON/HTTPS")
+Rel(route, svc, "Calls")
+Rel(svc, db, "Reads and writes credentials", "<TO SUPPLY>")
+Rel(verify, db, "Sets status to Verified", "<TO SUPPLY>")
+@enduml

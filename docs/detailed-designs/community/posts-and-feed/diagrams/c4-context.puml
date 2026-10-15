@@ -1,0 +1,10 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Posts and feed
+Person(member, "Signed-in member", "Posts, reads the feed, likes and comments")
+Person_Ext(visitor, "Visitor", "Browses public pages only")
+System(wayfold, "Wayfold", "Autos-only community for Toronto and the GTA")
+Rel(member, wayfold, "Posts and reads the feed using")
+Rel(visitor, wayfold, "Browses vehicles, providers and products using")
+@enduml

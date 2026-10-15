@@ -1,0 +1,28 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - App shell
+Container_Boundary(web, "Web application") {
+  Component(layout, "RootLayout", "React layout", "Wraps every page with skip link, header, main landmark and footer")
+  Component(header, "SiteHeader", "React component", "Wordmark and primary navigation")
+  Component(nav, "SiteNav", "React component", "Inline links from 768 px, Menu control below 768 px")
+  Component(sheet, "SiteMenuSheet", "React modal dialog", "Full navigation list with focus containment")
+  Component(acct, "AccountMenu", "React popover dialog", "Account actions for a signed-in member")
+  Component(footer, "SiteFooter", "React component", "Brand, footer links and copyright")
+  Component(nf, "NotFoundPage", "React page", "Page not found at /404")
+  Component(err, "ServerErrorPage", "React error boundary page", "Generic failure message at /500")
+  Component(tokens, "Design tokens", "CSS custom properties", "Colour, spacing, focus ring and breakpoints")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(session, "SessionRoute", "Route handler", "Returns display name and initials of the signed-in member")
+}
+Rel(layout, header, "Renders")
+Rel(layout, footer, "Renders")
+Rel(header, nav, "Contains")
+Rel(nav, sheet, "Opens")
+Rel(nav, acct, "Opens")
+Rel(nav, session, "Reads signed-in state from", "JSON/HTTPS")
+Rel(layout, tokens, "Styles with")
+Rel(layout, nf, "Falls back to for unknown routes")
+Rel(layout, err, "Falls back to for unhandled errors")
+@enduml

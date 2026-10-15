@@ -1,0 +1,24 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Deal questions
+Container_Boundary(web, "Web application") {
+  Component(list, "DealQuestionsSection", "React component", "Public questions and answers on the vehicle page")
+  Component(dlg, "AskExpertDialog", "React dialog", "Topic and question form")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(qroute, "QuestionsRoute", "Route handler", "GET and POST /api/vehicles/:id/questions")
+  Component(aroute, "AnswersRoute", "Route handler", "POST /api/questions/:id/answers")
+  Component(svc, "DealQuestionService", "Module", "Validates questions and answers and checks the answerer")
+  Component(notify, "AskerNotifier", "Module", "Notifies the asker of an answer")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Questions, answers and providers")
+}
+Rel(list, qroute, "Loads questions from", "JSON/HTTPS")
+Rel(list, dlg, "Opens")
+Rel(dlg, qroute, "Posts question to", "JSON/HTTPS")
+Rel(list, aroute, "Posts answer to", "JSON/HTTPS")
+Rel(qroute, svc, "Calls")
+Rel(aroute, svc, "Calls")
+Rel(svc, notify, "Notifies asker with")
+Rel(svc, db, "Persists", "<TO SUPPLY>")
+@enduml

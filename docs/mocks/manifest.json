@@ -1,0 +1,486 @@
+{
+  "project": "Wayfold",
+  "required_states": {
+    "page": [
+      "default",
+      "loading",
+      "empty",
+      "error"
+    ],
+    "dialog": [
+      "default",
+      "busy",
+      "invalid"
+    ],
+    "notification": [
+      "info",
+      "success",
+      "warning",
+      "danger"
+    ]
+  },
+  "screens": [
+    {
+      "id": "sign-in",
+      "kind": "page",
+      "title": "Sign in",
+      "route": "/sign-in",
+      "requirements": [
+        "L2-002",
+        "L2-016",
+        "L2-017"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "error",
+        "locked",
+        "invalid",
+        "submitting"
+      ],
+      "not_applicable": {
+        "empty": "This screen has no collection to be empty."
+      }
+    },
+    {
+      "id": "sign-up",
+      "kind": "page",
+      "title": "Create account",
+      "route": "/sign-up",
+      "requirements": [
+        "L2-001"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "error",
+        "invalid",
+        "submitting",
+        "success"
+      ],
+      "not_applicable": {
+        "empty": "This screen has no collection to be empty."
+      }
+    },
+    {
+      "id": "home",
+      "kind": "page",
+      "title": "Home",
+      "route": "/",
+      "requirements": [
+        "L2-039",
+        "L2-011",
+        "L2-012",
+        "L2-013",
+        "L2-028"
+      ],
+      "states": [
+        "default",
+        "feed",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "not_applicable": {}
+    },
+    {
+      "id": "settings",
+      "kind": "page",
+      "title": "Account settings",
+      "route": "/settings",
+      "requirements": [
+        "L2-003",
+        "L2-022"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "error",
+        "invalid",
+        "submitting",
+        "success"
+      ],
+      "not_applicable": {
+        "empty": "This screen has no collection to be empty."
+      }
+    },
+    {
+      "id": "member",
+      "kind": "page",
+      "title": "Member profile",
+      "route": "/members/:id",
+      "requirements": [
+        "L2-010",
+        "L2-011",
+        "L2-022",
+        "L2-023",
+        "L2-024",
+        "L2-025",
+        "L2-028"
+      ],
+      "states": [
+        "default",
+        "for-sale",
+        "recommendations",
+        "posts",
+        "own",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "not_applicable": {}
+    },
+    {
+      "id": "providers",
+      "kind": "page",
+      "title": "Providers",
+      "route": "/providers",
+      "requirements": [
+        "L2-031",
+        "L2-014"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "no-results"
+      ],
+      "not_applicable": {}
+    },
+    {
+      "id": "provider",
+      "kind": "page",
+      "title": "Provider profile",
+      "route": "/providers/:id",
+      "requirements": [
+        "L2-030",
+        "L2-028",
+        "L2-023",
+        "L2-033",
+        "L2-034",
+        "L2-038"
+      ],
+      "states": [
+        "default",
+        "dealer",
+        "financing",
+        "loading",
+        "error"
+      ],
+      "not_applicable": {
+        "empty": "This screen has no collection to be empty."
+      }
+    },
+    {
+      "id": "products",
+      "kind": "page",
+      "title": "Products",
+      "route": "/products",
+      "requirements": [
+        "L2-029",
+        "L2-027"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "no-results"
+      ],
+      "not_applicable": {}
+    },
+    {
+      "id": "provider-editor",
+      "kind": "page",
+      "title": "List your business",
+      "route": "/providers/new",
+      "requirements": [
+        "L2-032",
+        "L2-033"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "error",
+        "invalid",
+        "submitting",
+        "success"
+      ],
+      "not_applicable": {
+        "empty": "This screen has no collection to be empty."
+      }
+    },
+    {
+      "id": "vehicles",
+      "kind": "page",
+      "title": "Vehicles",
+      "route": "/vehicles",
+      "requirements": [
+        "L2-008",
+        "L2-014",
+        "L2-036"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "no-results"
+      ],
+      "not_applicable": {}
+    },
+    {
+      "id": "vehicle-detail",
+      "kind": "page",
+      "title": "Vehicle detail",
+      "route": "/vehicles/:id",
+      "requirements": [
+        "L2-035",
+        "L2-036",
+        "L2-037",
+        "L2-038",
+        "L2-009",
+        "L2-023"
+      ],
+      "states": [
+        "default",
+        "private",
+        "loading",
+        "error",
+        "sold",
+        "no-rating",
+        "no-questions"
+      ],
+      "not_applicable": {
+        "empty": "This screen has no collection to be empty."
+      }
+    },
+    {
+      "id": "vehicle-editor",
+      "kind": "page",
+      "title": "Sell your car",
+      "route": "/vehicles/new",
+      "requirements": [
+        "L2-006",
+        "L2-025",
+        "L2-034"
+      ],
+      "states": [
+        "default",
+        "dealer",
+        "loading",
+        "error",
+        "invalid",
+        "submitting",
+        "success"
+      ],
+      "not_applicable": {
+        "empty": "This screen has no collection to be empty."
+      }
+    },
+    {
+      "id": "dealer-inventory",
+      "kind": "page",
+      "title": "Dealer inventory",
+      "route": "/inventory",
+      "requirements": [
+        "L2-034",
+        "L2-007"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "not_applicable": {}
+    },
+    {
+      "id": "not-found",
+      "kind": "page",
+      "title": "Page not found",
+      "route": "/404",
+      "requirements": [
+        "L2-021"
+      ],
+      "states": [
+        "default"
+      ],
+      "not_applicable": {
+        "loading": "Static error page.",
+        "empty": "Static error page.",
+        "error": "This is the error state."
+      }
+    },
+    {
+      "id": "server-error",
+      "kind": "page",
+      "title": "Something went wrong",
+      "route": "/500",
+      "requirements": [
+        "L2-021"
+      ],
+      "states": [
+        "default"
+      ],
+      "not_applicable": {
+        "loading": "Static error page.",
+        "empty": "Static error page.",
+        "error": "This is the error state."
+      }
+    },
+    {
+      "id": "add-car",
+      "kind": "dialog",
+      "title": "Add a car",
+      "opens_from": "member",
+      "requirements": [
+        "L2-024"
+      ],
+      "states": [
+        "default",
+        "busy",
+        "invalid",
+        "failed"
+      ],
+      "not_applicable": {}
+    },
+    {
+      "id": "recommend",
+      "kind": "dialog",
+      "title": "Recommend",
+      "opens_from": "provider",
+      "requirements": [
+        "L2-026",
+        "L2-027"
+      ],
+      "states": [
+        "default",
+        "product",
+        "busy",
+        "invalid",
+        "failed",
+        "success"
+      ],
+      "not_applicable": {}
+    },
+    {
+      "id": "contact-dealer",
+      "kind": "dialog",
+      "title": "Contact seller",
+      "opens_from": "vehicle-detail",
+      "requirements": [
+        "L2-009"
+      ],
+      "states": [
+        "default",
+        "busy",
+        "invalid",
+        "failed",
+        "success"
+      ],
+      "not_applicable": {}
+    },
+    {
+      "id": "delete-vehicle",
+      "kind": "dialog",
+      "title": "Delete vehicle",
+      "opens_from": "dealer-inventory",
+      "requirements": [
+        "L2-007"
+      ],
+      "states": [
+        "default",
+        "busy",
+        "failed"
+      ],
+      "not_applicable": {
+        "invalid": "No input fields."
+      }
+    },
+    {
+      "id": "ask-expert",
+      "kind": "dialog",
+      "title": "Ask about this deal",
+      "opens_from": "vehicle-detail",
+      "requirements": [
+        "L2-037"
+      ],
+      "states": [
+        "default",
+        "busy",
+        "invalid",
+        "failed",
+        "success"
+      ],
+      "not_applicable": {}
+    },
+    {
+      "id": "site-menu",
+      "kind": "dialog",
+      "title": "Site menu",
+      "opens_from": "home",
+      "requirements": [
+        "L2-015"
+      ],
+      "states": [
+        "default",
+        "signed-in"
+      ],
+      "not_applicable": {
+        "busy": "Navigation has no asynchronous action.",
+        "invalid": "Navigation has no inputs."
+      }
+    },
+    {
+      "id": "account-menu",
+      "kind": "dialog",
+      "title": "Account menu",
+      "opens_from": "home",
+      "requirements": [
+        "L2-015"
+      ],
+      "states": [
+        "default"
+      ],
+      "not_applicable": {
+        "busy": "Navigation has no asynchronous action.",
+        "invalid": "Navigation has no inputs."
+      }
+    },
+    {
+      "id": "inventory-toast",
+      "kind": "notification",
+      "title": "Inventory toasts",
+      "opens_from": "dealer-inventory",
+      "requirements": [
+        "L2-034"
+      ],
+      "states": [
+        "info",
+        "success",
+        "warning",
+        "danger",
+        "stacked"
+      ]
+    },
+    {
+      "id": "community-toast",
+      "kind": "notification",
+      "title": "Community toasts",
+      "opens_from": "home",
+      "requirements": [
+        "L2-012",
+        "L2-026"
+      ],
+      "states": [
+        "info",
+        "success",
+        "warning",
+        "danger",
+        "stacked"
+      ]
+    }
+  ]
+}

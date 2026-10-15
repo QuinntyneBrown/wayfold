@@ -1,0 +1,30 @@
+@startuml
+title UML sequence behaviour - Delete an account
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Signed-in member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "Settings page" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "Account route" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "AccountDeletionService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Confirm delete account
+page -> route : DELETE own account with CSRF credential
+route -> route : Guard request as the owner (L2-018)
+route -> svc : delete(memberId)
+svc -> db : Remove profile, posts and listings in one transaction (L2-019)
+db --> svc : Committed
+svc --> route : Deleted
+route --> page : 204 and session ended
+page --> actor : Show signed-out home
+@enduml

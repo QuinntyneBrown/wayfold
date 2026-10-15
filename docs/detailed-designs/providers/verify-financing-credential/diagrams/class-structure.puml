@@ -1,0 +1,41 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Verify financing credential
+enum CredentialStatus {
+  Submitted
+  Verified
+}
+class FinancingCredential {
+  +string id
+  +string providerId
+  +string value
+  +CredentialStatus status
+  +datetime submittedAt
+  +datetime verifiedAt
+  +string verifiedBy
+}
+class CredentialService {
+  +submit(providerId: string, value: string): FinancingCredential
+  +isVerified(providerId: string): boolean
+}
+class CredentialVerification {
+  +markVerified(credentialId: string, reviewerId: string): void
+}
+class Provider {
+  +string id
+  +ProviderCategory category
+}
+CredentialService --> FinancingCredential : creates / reads
+CredentialVerification --> FinancingCredential : sets Verified
+FinancingCredential --> CredentialStatus : has
+FinancingCredential "*" --> "1" Provider : supports
+@enduml

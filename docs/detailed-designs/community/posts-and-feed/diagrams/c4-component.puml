@@ -1,0 +1,32 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Posts and feed
+Container_Boundary(web, "Web application") {
+  Component(page, "HomePage", "React page", "Landing or feed with page states")
+  Component(composer, "PostComposer", "React component", "Topic and text form")
+  Component(card, "PostCard", "React component", "Post with like and comment")
+  Component(toast, "CommunityToast", "React component", "Failure messages")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(posts, "PostsRoute", "Route handler", "Publish and delete posts")
+  Component(feed, "FeedRoute", "Route handler", "Returns the feed")
+  Component(inter, "InteractionRoute", "Route handler", "Likes and comments")
+  Component(psvc, "PostService", "Module", "Validates and persists posts")
+  Component(fsvc, "FeedService", "Module", "Builds the feed")
+  Component(isvc, "InteractionService", "Module", "Toggles likes and adds comments")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Posts, likes, comments, follows")
+}
+Rel(page, composer, "Renders")
+Rel(page, card, "Renders")
+Rel(page, toast, "Shows failures with")
+Rel(composer, posts, "POSTs", "JSON/HTTPS")
+Rel(page, feed, "GETs", "JSON/HTTPS")
+Rel(card, inter, "POSTs like or comment", "JSON/HTTPS")
+Rel(posts, psvc, "Calls")
+Rel(feed, fsvc, "Calls")
+Rel(inter, isvc, "Calls")
+Rel(psvc, db, "Persists", "<TO SUPPLY>")
+Rel(fsvc, db, "Reads", "<TO SUPPLY>")
+Rel(isvc, db, "Persists", "<TO SUPPLY>")
+@enduml

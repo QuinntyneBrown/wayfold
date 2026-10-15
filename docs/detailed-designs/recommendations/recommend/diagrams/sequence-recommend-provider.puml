@@ -1,0 +1,46 @@
+@startuml
+title UML sequence behaviour - Recommend a provider
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Signed-in member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "RecommendDialog" as dlg
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "ProviderRecommendationRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "RecommendationService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> dlg : Select Recommend and submit text
+alt no session
+  dlg --> actor : Redirect to sign-in (L2-026)
+else session present
+  dlg --> actor : Show busy state
+  dlg -> route : PUT /api/providers/:id/recommendation
+  route -> route : Validate 10 to 500 characters (L2-026)
+  alt invalid length
+    route --> dlg : 400 field-level error
+    dlg --> actor : Show Write 10 to 500 characters, nothing changes
+  else valid
+    route -> svc : recommendProvider(authorId, providerId, text)
+    svc -> db : Find recommendation by author and provider
+    db --> svc : Existing or none
+    svc -> db : Insert, or update the existing entry
+    db --> svc : Committed
+    svc --> route : Recommendation and recommender count
+    route --> dlg : 200
+    dlg --> actor : Show Posted, page shows the recommendation with the member name
+  end
+  opt server or network failure
+    route --> dlg : 5xx
+    dlg --> actor : Show Could not send, text is kept
+  end
+end
+@enduml

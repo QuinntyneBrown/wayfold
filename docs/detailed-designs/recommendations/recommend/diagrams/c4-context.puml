@@ -1,0 +1,10 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Recommend
+Person(member, "Signed-in member", "Recommends providers and products")
+Person_Ext(visitor, "Visitor", "Reads public recommendations")
+System(wayfold, "Wayfold", "Autos-only community for Toronto and the GTA")
+Rel(member, wayfold, "Recommends providers and products using")
+Rel(visitor, wayfold, "Reads recommendations on, and is sent to sign-in by")
+@enduml

@@ -1,0 +1,61 @@
+@startuml
+title UML sequence behaviour - Sign in
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "SignInPage" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "SignInRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "AuthService" as svc
+  participant "SignInLimiter" as lim
+  participant "PasswordHasher" as hasher
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Submit email and password
+page -> route : POST /api/auth/sign-in
+route -> route : Validate email format and non-empty password
+alt invalid input
+  route --> page : 400 field-level errors
+  page --> actor : Show Check these fields
+else valid input
+  route -> svc : signIn(email, password)
+  svc -> db : Find user by email
+  db --> svc : User or none
+  alt user found
+    svc -> lim : isBlocked(user) (L2-017)
+    lim -> db : Count failures in the last 15 minutes
+    db --> lim : Count
+    lim --> svc : Blocked when count is 5 or more
+  end
+  alt blocked
+    svc --> route : Blocked
+    route --> page : 429 until the window ends (L2-017)
+    page --> actor : Show Too many attempts
+  else user unknown or password wrong
+    svc -> hasher : verify(password, hash) (L2-017)
+    hasher --> svc : Mismatch
+    svc -> lim : recordFailure(user)
+    lim -> db : Insert failed sign-in
+    svc --> route : Invalid credentials
+    route --> page : 401 generic error (L2-002)
+    page --> actor : Show generic error
+  else password correct
+    svc -> hasher : verify(password, hash)
+    hasher --> svc : Match
+    svc -> db : Create session
+    db --> svc : Committed
+    svc --> route : Session
+    route --> page : 200 with HttpOnly, Secure, SameSite cookie (L2-017)
+    page --> actor : Redirect to home page (L2-002)
+  end
+end
+@enduml

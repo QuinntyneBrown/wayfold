@@ -1,0 +1,44 @@
+@startuml
+title UML sequence behaviour - Create provider profile
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "ProviderEditorPage" as editor
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "ProvidersRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "ProviderService" as svc
+  participant "OwnershipPolicy" as policy
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> editor : Open /providers/new
+editor --> actor : Show form
+actor -> editor : Submit name, category, municipality, description and contact
+editor -> route : POST /api/providers
+route -> route : Authenticate session
+alt not signed in
+  route --> editor : 401
+  editor --> actor : Redirect to /sign-in
+else signed in
+  route -> route : Validate required fields, category list and municipality list (L2-030, L2-014)
+  alt missing or invalid input
+    route --> editor : 400 field-level errors
+    editor --> actor : Show Complete the required fields, no profile created (L2-032)
+  else valid input
+    route -> svc : create(ownerId, request)
+    svc -> db : Insert provider owned by the member (L2-032)
+    db --> svc : Committed
+    svc --> route : Provider
+    route --> editor : 201 provider
+    editor --> actor : Show Business submitted and View provider profile
+  end
+end
+@enduml

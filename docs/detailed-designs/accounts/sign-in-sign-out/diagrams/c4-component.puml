@@ -1,0 +1,26 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Sign in and sign out
+Container_Boundary(web, "Web application") {
+  Component(page, "SignInPage", "React page", "Form, field errors, form errors, lockout message")
+  Component(guard, "SessionGuard", "Next.js middleware", "Redirects signed-out requests for protected pages to /sign-in")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(inRoute, "SignInRoute", "Route handler", "Validates input, returns 200, 400, 401, 429")
+  Component(outRoute, "SignOutRoute", "Route handler", "Invalidates the session and clears the cookie")
+  Component(svc, "AuthService", "Module", "Checks credentials, creates and invalidates sessions")
+  Component(limiter, "SignInLimiter", "Module", "Counts failed sign-ins per account in a 15-minute window")
+  Component(hasher, "PasswordHasher", "Module", "Verifies passwords against salted adaptive hashes")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Users, sessions and failed sign-in attempts")
+}
+Rel(page, inRoute, "POSTs credentials to", "JSON/HTTPS")
+Rel(page, outRoute, "POSTs sign-out to", "HTTPS")
+Rel(guard, svc, "Looks up session with")
+Rel(inRoute, svc, "Calls")
+Rel(outRoute, svc, "Calls")
+Rel(svc, limiter, "Checks and records failures with")
+Rel(svc, hasher, "Verifies password with")
+Rel(svc, db, "Reads users, writes sessions", "<TO SUPPLY>")
+Rel(limiter, db, "Reads and writes attempts", "<TO SUPPLY>")
+@enduml

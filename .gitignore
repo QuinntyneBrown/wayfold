@@ -1,0 +1,5 @@
+node_modules/
+docs/mocks/.cache/
+docs/design-system/.cache/
+.cache/
+__pycache__/

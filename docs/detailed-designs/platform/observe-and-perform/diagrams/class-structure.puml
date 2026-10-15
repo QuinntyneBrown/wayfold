@@ -1,0 +1,57 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Observe and perform
+class RequestContext {
+  +string requestId
+  +Date startedAt
+}
+class Logger {
+  +info(ctx: RequestContext, event: string, fields: object): void
+  +error(ctx: RequestContext, error: Error): void
+  -redact(fields: object): object
+}
+class LogEntry {
+  +string timestamp
+  +string level
+  +string requestId
+  +string event
+  +string route
+  +int status
+}
+class ErrorHandler {
+  +handle(ctx: RequestContext, error: Error): Response
+}
+class LatencyRecorder {
+  +record(route: string, status: int, durationMs: number): void
+}
+class HealthRoute {
+  +get(): Response
+}
+class DependencyCheck {
+  +check(): HealthReport
+}
+class HealthReport {
+  +bool healthy
+  +DependencyStatus[] dependencies
+}
+class DependencyStatus {
+  +string name
+  +bool available
+}
+Logger --> LogEntry : writes
+Logger ..> RequestContext : reads
+ErrorHandler --> Logger : uses
+LatencyRecorder ..> RequestContext : reads
+HealthRoute --> DependencyCheck : calls
+DependencyCheck --> HealthReport : returns
+HealthReport "1" *-- "*" DependencyStatus
+@enduml

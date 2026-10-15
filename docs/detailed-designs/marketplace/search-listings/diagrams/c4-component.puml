@@ -1,0 +1,20 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Search listings
+Container_Boundary(web, "Web application") {
+  Component(page, "VehiclesPage", "React page", "Filters, result cards and page states at /vehicles")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(route, "VehicleSearchRoute", "Route handler", "Parses query string for GET /api/vehicles")
+  Component(svc, "VehicleSearchService", "Module", "Filters, orders and pages results")
+  Component(munis, "MunicipalityList", "Module", "Defined Toronto and GTA municipalities")
+  Component(rating, "PriceRatingService", "Module", "Supplies the rating shown on each card")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Published vehicles")
+}
+Rel(page, route, "Requests results from", "JSON/HTTPS")
+Rel(route, svc, "Calls")
+Rel(svc, munis, "Validates municipality with")
+Rel(svc, rating, "Reads rating from")
+Rel(svc, db, "Queries Published vehicles", "<TO SUPPLY>")
+@enduml

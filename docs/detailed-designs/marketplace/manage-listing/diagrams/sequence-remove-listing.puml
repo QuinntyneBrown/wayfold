@@ -1,0 +1,45 @@
+@startuml
+title UML sequence behaviour - Remove listing
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Listing owner" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "DealerInventoryPage" as page
+  participant "DeleteVehicleDialog" as dlg
+  participant "InventoryToast" as toast
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "VehiclesRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "ListingService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Choose Delete selected vehicle
+page -> dlg : Open Delete this vehicle?
+actor -> dlg : Confirm Delete vehicle
+dlg -> dlg : Show busy state
+dlg -> route : DELETE /api/vehicles/:id
+route -> svc : remove(actor, id)
+svc -> db : Load vehicle
+db --> svc : Vehicle
+alt actor is not the owner
+  svc --> route : Forbidden
+  route --> dlg : 403 (L2-007)
+  dlg --> actor : Show failed state with Try again
+  dlg -> toast : Could not delete vehicle
+else owner
+  svc -> db : Mark vehicle Removed
+  db --> svc : Committed
+  svc --> route : Removed
+  route --> dlg : 204
+  dlg --> page : Close and refresh inventory
+  page --> actor : Listing absent from inventory, browse and search (L2-007)
+  page -> toast : Vehicle removed
+end
+@enduml

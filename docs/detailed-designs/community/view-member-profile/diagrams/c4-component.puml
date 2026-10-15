@@ -1,0 +1,23 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - View member profile
+Container_Boundary(web, "Web application") {
+  Component(page, "MemberProfilePage", "React page", "Header, four sections and page states")
+  Component(tag, "ChurchTag", "React component", "Cross icon and church name")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(route, "MemberProfileRoute", "Route handler", "Requires a session and returns the profile")
+  Component(bio, "UpdateBioRoute", "Route handler", "Validates and saves the bio")
+  Component(svc, "ProfileService", "Module", "Assembles the profile")
+  Component(policy, "ChurchVisibilityPolicy", "Module", "Decides if the church name is returned")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Member records")
+}
+Rel(page, tag, "Renders")
+Rel(page, route, "GETs profile from", "JSON/HTTPS")
+Rel(page, bio, "PATCHes bio to", "JSON/HTTPS")
+Rel(route, svc, "Calls")
+Rel(bio, db, "Saves bio", "<TO SUPPLY>")
+Rel(svc, policy, "Applies")
+Rel(svc, db, "Reads", "<TO SUPPLY>")
+@enduml

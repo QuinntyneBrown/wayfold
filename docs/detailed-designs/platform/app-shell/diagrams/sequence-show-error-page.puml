@@ -1,0 +1,27 @@
+@startuml
+title UML sequence behaviour - Show an error page
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Visitor or member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "RootLayout" as layout
+  participant "NotFoundPage" as nf
+  participant "ServerErrorPage" as err
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "ErrorHandler" as handler
+end box
+actor -> layout : Request a page
+alt route does not exist
+  layout -> nf : Render Page not found with header and footer
+  nf --> actor : Message and Go home link
+else rendering or data load fails
+  layout -> handler : Report unhandled error with request ID (L2-021)
+  handler --> layout : Logged
+  layout -> err : Render Something went wrong
+  err --> actor : Generic message and Go home link, no stack trace (L2-021)
+end
+@enduml

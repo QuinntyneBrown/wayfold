@@ -1,0 +1,34 @@
+@startuml
+title UML sequence behaviour - Read deal questions
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Visitor or member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "DealQuestionsSection" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "QuestionsRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "DealQuestionService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Open /vehicles/:id
+page -> route : GET /api/vehicles/:id/questions
+route -> svc : list(vehicleId)
+svc -> db : Find questions with answers and answering providers
+db --> svc : Questions
+svc --> route : Questions without any church affiliation (L2-038)
+alt no questions
+  route --> page : 200 empty list
+  page --> actor : Show No questions yet and Ask a question
+else questions found
+  route --> page : 200 questions
+  page --> actor : Show each question with answers, name and Verified badge, visible to any visitor (L2-038)
+end
+@enduml

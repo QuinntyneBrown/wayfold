@@ -1,0 +1,8 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Provider directory
+Person(visitor, "Visitor or member", "Looks for auto providers in the GTA")
+System(wayfold, "Wayfold", "Autos-only community and marketplace for Toronto and the GTA")
+Rel(visitor, wayfold, "Searches the provider directory of")
+@enduml

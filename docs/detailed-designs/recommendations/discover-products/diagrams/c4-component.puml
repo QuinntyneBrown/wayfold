@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Discover products
+Container_Boundary(web, "Web application") {
+  Component(page, "ProductsPage", "React page", "Cards and page states")
+  Component(filters, "ProductFilters", "React form", "Search, category and municipality")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(route, "ProductsRoute", "Route handler", "Public GET /api/products")
+  Component(svc, "ProductDiscoveryService", "Module", "Filters and sorts by recommender count")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Products and recommendations")
+}
+Rel(page, filters, "Renders")
+Rel(filters, route, "GETs with filters", "JSON/HTTPS")
+Rel(route, svc, "Calls")
+Rel(svc, db, "Reads", "<TO SUPPLY>")
+@enduml

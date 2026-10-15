@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Manage listing
+Person(owner, "Listing owner", "Member or dealer owner")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Vehicle editor, dealer inventory, delete dialog and inventory toasts")
+  Container(api, "Route handlers", "Next.js", "/api/vehicles and /api/inventory")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Vehicles, photos, providers and municipalities")
+}
+System_Ext(storage, "Image storage", "<TO SUPPLY>")
+Rel(owner, web, "Uses", "HTTPS")
+Rel(web, api, "Calls", "JSON/HTTPS")
+Rel(api, db, "Reads and writes", "<TO SUPPLY>")
+Rel(api, storage, "Stores photos in", "<TO SUPPLY>")
+@enduml

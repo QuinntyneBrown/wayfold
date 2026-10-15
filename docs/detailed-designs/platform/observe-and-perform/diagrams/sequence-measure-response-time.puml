@@ -1,0 +1,32 @@
+@startuml
+title UML sequence behaviour - Measure response time
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Visitor or member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "Web application" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "Route handler" as route
+  participant "LatencyRecorder" as timer
+end box
+box "Backend - Infrastructure" #FFF4E5
+  participant "Metrics destination" as sink
+end box
+actor -> page : Open a listing browse page
+page -> route : API read request
+route -> timer : Start timer with request ID
+route -> route : Serve response
+route -> timer : Stop timer
+timer -> sink : Record route, status and duration (L2-020)
+route --> page : Response
+page --> actor : Render page
+note over sink
+  Read requests are judged by 95th percentile under 300 ms.
+  Browse page load is judged by Largest Contentful Paint under 2.5 s
+  on a mid-range mobile device over 4G (L2-020).
+end note
+@enduml

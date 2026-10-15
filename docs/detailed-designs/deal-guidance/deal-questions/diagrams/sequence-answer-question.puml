@@ -1,0 +1,40 @@
+@startuml
+title UML sequence behaviour - Answer a deal question
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Financing professional" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "DealQuestionsSection" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "AnswersRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "DealQuestionService" as svc
+  participant "AskerNotifier" as notify
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Write answer to a public question
+page -> route : POST /api/questions/:id/answers
+route -> svc : answer(actor, questionId, text)
+svc -> db : Load actor's financing provider and its Verified status
+db --> svc : Provider or none
+alt no verified financing provider for actor
+  svc --> route : Forbidden
+  route --> page : 403 (L2-038)
+  page --> actor : Answer rejected
+else verified financing professional
+  svc -> db : Insert answer
+  db --> svc : Committed
+  svc -> notify : notify(question, answer) (L2-038)
+  notify --> svc : Queued
+  svc --> route : Answer
+  route --> page : 201
+  page --> actor : Answer shown with name and Verified badge (L2-038)
+end
+@enduml

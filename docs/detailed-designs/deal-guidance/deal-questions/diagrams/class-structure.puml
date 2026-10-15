@@ -1,0 +1,57 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Deal questions
+
+enum QuestionTopic {
+  Price
+  Financing
+  Both
+}
+class QuestionRequest {
+  +QuestionTopic topic
+  +string text
+}
+class Question {
+  +string id
+  +string vehicleId
+  +string askerMemberId
+  +QuestionTopic topic
+  +string text
+}
+class Answer {
+  +string id
+  +string questionId
+  +string providerId
+  +string text
+}
+class Provider {
+  +string id
+  +string ownerMemberId
+  +string category
+  +boolean verified
+}
+class DealQuestionService {
+  +ask(actor: Member, vehicleId: string, request: QuestionRequest): Result
+  +answer(actor: Member, questionId: string, text: string): Result
+  +list(vehicleId: string): Question[]
+}
+class AskerNotifier {
+  +notify(question: Question, answer: Answer): void
+}
+DealQuestionService ..> QuestionRequest : receives
+DealQuestionService --> Question : creates
+DealQuestionService --> Answer : creates
+DealQuestionService --> AskerNotifier : uses
+Question --> QuestionTopic : has
+Question "1" o-- "*" Answer : answered by
+Answer "*" --> "1" Provider : written by
+@enduml

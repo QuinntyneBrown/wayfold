@@ -1,0 +1,38 @@
+@startuml
+title UML sequence behaviour - View dealer inventory
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Dealer owner" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "DealerInventoryPage" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "InventoryRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "ListingService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Open /inventory
+page -> page : Show loading state
+page -> route : GET /api/inventory
+route -> svc : listInventory(actor)
+svc -> db : Find Published vehicles of the dealer provider owned by actor
+db --> svc : Vehicles
+svc --> route : Vehicles
+alt request failed
+  route --> page : Error
+  page --> actor : Show error state with Try again
+else no vehicles
+  route --> page : 200 empty list
+  page --> actor : Show empty state with Add vehicle (L2-034)
+else vehicles found
+  route --> page : 200 vehicles
+  page --> actor : Show inventory cards with dealer name linking to the provider profile (L2-034)
+end
+@enduml

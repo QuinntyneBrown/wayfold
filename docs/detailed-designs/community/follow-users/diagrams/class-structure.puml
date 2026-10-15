@@ -1,0 +1,34 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Follow users
+class FollowService {
+  +follow(followerId: string, followeeId: string): FollowResult
+  +unfollow(followerId: string, followeeId: string): FollowResult
+}
+class FollowResult {
+  +boolean following
+  +int followerCount
+}
+class Follow {
+  +string followerId
+  +string followeeId
+  +datetime createdAt
+}
+class User {
+  +string id
+  +string displayName
+}
+FollowService --> Follow : creates / deletes
+FollowService --> FollowResult : returns
+Follow "*" --> "1" User : follower
+Follow "*" --> "1" User : followee
+@enduml

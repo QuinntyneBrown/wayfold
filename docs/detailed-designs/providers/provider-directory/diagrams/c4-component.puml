@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Provider directory
+Container_Boundary(web, "Web application") {
+  Component(page, "ProvidersPage", "React page", "Filters, ranked cards, no-results, empty and error states")
+}
+Container_Boundary(api, "Route handlers") {
+  Component(route, "ProvidersRoute", "Route handler", "Validates filters and maps results to HTTP")
+  Component(svc, "ProviderDirectoryService", "Module", "Filters providers and ranks by distinct recommenders")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Providers and recommendations")
+}
+Rel(page, route, "GETs providers from", "JSON/HTTPS")
+Rel(route, svc, "Calls")
+Rel(svc, db, "Queries providers and counts distinct recommenders", "<TO SUPPLY>")
+@enduml

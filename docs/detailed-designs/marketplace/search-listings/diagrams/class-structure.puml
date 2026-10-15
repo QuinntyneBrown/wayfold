@@ -1,0 +1,56 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Search listings
+
+class VehicleSearchQuery {
+  +string keyword
+  +number minPrice
+  +number maxPrice
+  +string make
+  +string model
+  +string sellerType
+  +string municipality
+  +number page
+}
+class VehicleSearchResult {
+  +VehicleCard[] items
+  +number total
+  +number page
+  +number pageSize
+}
+class VehicleCard {
+  +string id
+  +number price
+  +number year
+  +string make
+  +string model
+  +number mileage
+  +string municipality
+  +string sellerName
+  +string sellerType
+  +string priceRating
+}
+class VehicleSearchService {
+  +search(query: VehicleSearchQuery): VehicleSearchResult
+}
+class MunicipalityList {
+  +contains(name: string): boolean
+}
+class PriceRatingService {
+  +rate(vehicleId: string): PriceRating
+}
+VehicleSearchService ..> VehicleSearchQuery : receives
+VehicleSearchService --> VehicleSearchResult : returns
+VehicleSearchService --> MunicipalityList : uses
+VehicleSearchService --> PriceRatingService : uses
+VehicleSearchResult *-- "*" VehicleCard : contains
+@enduml

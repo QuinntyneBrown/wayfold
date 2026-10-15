@@ -1,0 +1,38 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Register
+class RegisterRequest {
+  +string email
+  +string password
+}
+class RegistrationService {
+  +register(request: RegisterRequest): Result
+}
+class PasswordHasher {
+  +hash(password: string): string
+}
+class User {
+  +string id
+  +string email
+  +string passwordHash
+  +string displayName
+}
+class Session {
+  +string id
+  +string userId
+}
+RegistrationService ..> RegisterRequest : receives
+RegistrationService --> PasswordHasher : uses
+RegistrationService --> User : creates
+RegistrationService --> Session : creates
+Session "*" --> "1" User : belongs to
+@enduml

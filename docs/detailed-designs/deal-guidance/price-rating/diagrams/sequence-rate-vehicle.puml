@@ -1,0 +1,42 @@
+@startuml
+title UML sequence behaviour - Rate vehicle
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Visitor or member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "VehicleDetailPage" as page
+  participant "PriceRatingBadge" as badge
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "VehicleDetailRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "PriceRatingService" as svc
+  participant "ComparableFinder" as finder
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Open /vehicles/:id (signed in or signed out)
+page -> route : GET /api/vehicles/:id
+route -> svc : rate(vehicleId)
+svc -> finder : find(vehicle)
+finder -> db : Find comparable Published GTA vehicles (criteria <TO SUPPLY>)
+db --> finder : Vehicles
+finder --> svc : Comparables
+alt five or more comparables
+  svc -> svc : Compare price with comparables and choose Great, Good, Fair or High (thresholds <TO SUPPLY>) (L2-036)
+  svc --> route : PriceRating with level and comparableCount
+  route --> page : Vehicle with rating
+  page -> badge : Render level
+  badge --> actor : Show rating and Compared with N similar GTA listings (L2-036)
+else fewer than five comparables
+  svc --> route : PriceRating with hasRating false
+  route --> page : Vehicle without rating
+  page -> badge : Render no-rating
+  badge --> actor : Show Not enough comparable GTA listings for a price rating yet (L2-036)
+end
+@enduml

@@ -1,0 +1,45 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Price rating
+
+enum PriceRatingLevel {
+  Great
+  Good
+  Fair
+  High
+}
+class PriceRating {
+  +PriceRatingLevel level
+  +number comparableCount
+  +string context
+  +boolean hasRating
+}
+class PriceRatingService {
+  +rate(vehicleId: string): PriceRating
+}
+class ComparableFinder {
+  +find(vehicle: Vehicle): Vehicle[]
+}
+class Vehicle {
+  +string id
+  +number price
+  +number year
+  +string make
+  +string model
+  +number mileage
+  +string municipality
+}
+PriceRatingService --> ComparableFinder : uses
+PriceRatingService --> PriceRating : returns
+PriceRating --> PriceRatingLevel : has
+ComparableFinder ..> Vehicle : selects
+@enduml

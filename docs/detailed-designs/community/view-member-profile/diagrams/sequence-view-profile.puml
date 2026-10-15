@@ -1,0 +1,43 @@
+@startuml
+title UML sequence behaviour - View member profile
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "MemberProfilePage" as page
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "MemberProfileRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "ProfileService" as svc
+  participant "ChurchVisibilityPolicy" as policy
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> page : Open /members/:id
+page -> route : GET /api/members/:id
+alt no session
+  route --> page : 401
+  page --> actor : Redirect to sign-in, no profile data (L2-039)
+else session present
+  route -> svc : getProfile(id, viewer)
+  svc -> db : Load user, garage, listings, recommendations, posts
+  db --> svc : Records
+  alt member not found
+    svc --> route : Not found
+    route --> page : 404
+    page --> actor : Show error state
+  else member found
+    svc -> policy : churchFor(member, viewer) for member and each recommendation author (L2-022, L2-023)
+    policy --> svc : Church name or none
+    svc --> route : MemberProfile
+    route --> page : 200 profile
+    page --> actor : Show header and sections, or empty state when all sections are empty
+  end
+end
+@enduml

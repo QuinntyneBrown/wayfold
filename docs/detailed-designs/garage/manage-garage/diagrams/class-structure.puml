@@ -1,0 +1,60 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Manage garage
+class GarageCar {
+  +string id
+  +string ownerId
+  +int year
+  +string make
+  +string model
+  +string nickname
+  +string photoRef
+  +string notes
+}
+class ListingDraft {
+  +string garageCarId
+  +int year
+  +string make
+  +string model
+  +string photoRef
+}
+class Listing {
+  +string id
+  +string garageCarId
+}
+class GarageService {
+  +add(ownerId: string, input: GarageCarInput): Result
+  +edit(carId: string, userId: string, input: GarageCarInput): Result
+  +remove(carId: string, userId: string): Result
+  +draftListing(carId: string, userId: string): ListingDraft
+}
+class GarageCarInput {
+  +int year
+  +string make
+  +string model
+  +string nickname
+  +File photo
+  +string notes
+}
+class PhotoStore {
+  +save(photo: File): string
+}
+class User {
+  +string id
+}
+User "1" --> "*" GarageCar : owns
+Listing "0..1" --> "1" GarageCar : sells
+GarageService ..> GarageCarInput : receives
+GarageService --> GarageCar : creates / mutates
+GarageService --> ListingDraft : returns
+GarageService --> PhotoStore : uses
+@enduml

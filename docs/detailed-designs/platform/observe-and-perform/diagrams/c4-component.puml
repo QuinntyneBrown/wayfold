@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Component>
+LAYOUT_WITH_LEGEND()
+title Components - Observe and perform
+Container_Boundary(api, "Route handlers") {
+  Component(ctx, "RequestContext", "Module", "Assigns a request ID to each request")
+  Component(timer, "LatencyRecorder", "Module", "Records duration per route and status")
+  Component(log, "Logger", "Module", "Writes structured entries and redacts passwords and session tokens")
+  Component(err, "ErrorHandler", "Module", "Logs the error and returns a generic response")
+  Component(health, "HealthRoute", "Route handler", "GET /api/health")
+  Component(dep, "DependencyCheck", "Module", "Probes the database")
+  ComponentDb(db, "Database", "<TO SUPPLY>", "Application data")
+}
+System_Ext(monitor, "Monitoring and log service", "<TO SUPPLY>")
+Rel(ctx, timer, "Starts")
+Rel(ctx, log, "Supplies request ID to")
+Rel(err, log, "Writes error entry with")
+Rel(health, dep, "Calls")
+Rel(dep, db, "Probes", "<TO SUPPLY>")
+Rel(log, monitor, "Ships entries to", "<TO SUPPLY>")
+Rel(timer, monitor, "Ships measurements to", "<TO SUPPLY>")
+@enduml

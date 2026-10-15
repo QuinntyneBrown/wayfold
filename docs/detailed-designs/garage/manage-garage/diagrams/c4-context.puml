@@ -1,0 +1,10 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Manage garage
+Person(member, "Signed-in member", "Owns cars and shares them")
+System(wayfold, "Wayfold", "Autos-only community for Toronto and the GTA")
+System_Ext(photos, "Photo storage", "<TO SUPPLY>")
+Rel(member, wayfold, "Manages a garage and starts sales using")
+Rel(wayfold, photos, "Stores car photos in", "<TO SUPPLY>")
+@enduml

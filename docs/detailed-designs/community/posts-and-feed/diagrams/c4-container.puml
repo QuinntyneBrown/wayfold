@@ -1,0 +1,14 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Posts and feed
+Person(member, "Signed-in member", "Posts and reads the feed")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Home page at /")
+  Container(api, "Route handlers", "Next.js", "/api/posts, /api/feed, like and comment endpoints")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Posts, likes, comments, follows, recommendations")
+}
+Rel(member, web, "Uses", "HTTPS")
+Rel(web, api, "Calls", "JSON/HTTPS")
+Rel(api, db, "Reads and writes", "<TO SUPPLY>")
+@enduml

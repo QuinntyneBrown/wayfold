@@ -1,0 +1,8 @@
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title System Context - Price rating
+Person(visitor, "Visitor or member", "Views a vehicle")
+System(wayfold, "Wayfold", "Autos community and marketplace for the GTA")
+Rel(visitor, wayfold, "Sees the price rating of a vehicle using")
+@enduml

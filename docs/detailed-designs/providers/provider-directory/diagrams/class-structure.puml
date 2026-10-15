@@ -1,0 +1,57 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+skinparam class {
+  BorderColor #344054
+  FontColor #101828
+  BackgroundColor #F9FAFB
+}
+title Class structure - Provider directory
+enum ProviderCategory {
+  Dealer
+  Mechanic
+  BodyShop
+  TireShop
+  Detailer
+  Towing
+  InsuranceBroker
+  FinancingProfessional
+  PartsStore
+}
+class ProviderSearch {
+  +ProviderCategory category
+  +string keyword
+  +string municipality
+}
+class ProviderDirectoryService {
+  +search(search: ProviderSearch): ProviderSummary[]
+}
+class ProviderSummary {
+  +string id
+  +string name
+  +ProviderCategory category
+  +string municipality
+  +int recommendationCount
+}
+class Provider {
+  +string id
+  +string name
+  +ProviderCategory category
+  +string municipality
+  +string description
+  +boolean published
+}
+class Recommendation {
+  +string providerId
+  +string memberId
+}
+ProviderDirectoryService ..> ProviderSearch : receives
+ProviderDirectoryService ..> ProviderSummary : returns
+ProviderDirectoryService --> Provider : reads published
+ProviderDirectoryService --> Recommendation : counts distinct members
+Provider --> ProviderCategory : has
+Recommendation "*" --> "1" Provider : recommends
+@enduml

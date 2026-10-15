@@ -1,0 +1,18 @@
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Containers - Observe and perform
+Person(visitor, "Visitor or member", "Uses Wayfold")
+Person(operator, "Operator", "Operates Wayfold")
+System_Boundary(wayfold, "Wayfold") {
+  Container(web, "Web application", "Next.js App Router, React", "Server-rendered pages and generic error pages")
+  Container(api, "Route handlers", "Next.js", "APIs, GET /api/health, request ID, structured logging and latency recording")
+  ContainerDb(db, "Database", "<TO SUPPLY>", "Application data")
+}
+System_Ext(monitor, "Monitoring and log service", "<TO SUPPLY>")
+Rel(visitor, web, "Uses", "HTTPS")
+Rel(web, api, "Calls", "JSON/HTTPS")
+Rel(api, db, "Reads, writes and probes", "<TO SUPPLY>")
+Rel(api, monitor, "Emits logs and metrics to", "<TO SUPPLY>")
+Rel(operator, api, "Requests health from", "HTTPS")
+@enduml

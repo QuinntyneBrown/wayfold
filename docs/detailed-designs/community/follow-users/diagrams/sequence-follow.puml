@@ -1,0 +1,46 @@
+@startuml
+title UML sequence behaviour - Follow and unfollow
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #344054
+actor "Signed-in member" as actor
+box "Frontend - Web application" #E0F2FE
+  participant "FollowButton" as btn
+  participant "CommunityToast" as toast
+end box
+box "Backend - Route handlers" #D1FADF
+  participant "FollowRoute" as route
+end box
+box "Backend - Application and Domain" #ECFDF3
+  participant "FollowService" as svc
+end box
+box "Backend - Infrastructure" #FFF4E5
+  database "Database" as db
+end box
+actor -> btn : Select Follow or Following
+btn -> route : POST or DELETE /api/members/:id/follow
+route -> route : Require session
+alt no session
+  route --> btn : 401
+  btn --> actor : Redirect to sign-in
+else session present
+  route -> svc : follow or unfollow(followerId, followeeId)
+  alt followee is the requester
+    svc --> route : Rejected
+    route --> btn : 400
+  else other member
+    svc -> db : Insert or delete Follow (L2-011)
+    svc -> db : Count followers of followee
+    db --> svc : followerCount
+    svc --> route : following, followerCount
+    route --> btn : 200
+    btn --> actor : Show Following or Follow and the new count
+  end
+end
+opt request failed
+  btn -> toast : Show danger toast
+  toast --> actor : Could not save
+end
+@enduml
