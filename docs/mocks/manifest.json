@@ -36,7 +36,8 @@
         "error",
         "locked",
         "invalid",
-        "submitting"
+        "submitting",
+        "rejected"
       ],
       "not_applicable": {
         "empty": "This screen has no collection to be empty."
