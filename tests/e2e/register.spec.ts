@@ -35,6 +35,22 @@ test.describe("Create an account", () => {
     expect(await signUp.shell.accessibilityViolations()).toEqual([]);
   });
 
+  test("continues home with the member navigation after registering", async ({ page }) => {
+    await fakeSession(page, null);
+    await fakeApi(page, "POST", "/api/auth/register", { status: 201, json: { displayName: "Tendai Mensah" } });
+    const signUp = new SignUpPage(page);
+    await signUp.open();
+    await signUp.register(TENDAI_REGISTRATION);
+    await expect(signUp.successHeading).toBeVisible();
+    await fakeSession(page, TENDAI);
+
+    await signUp.continueToFirstCar();
+
+    const home = new HomePage(page);
+    await expect(home.heading).toBeVisible();
+    await expect.poll(() => home.shell.primaryNavLinks()).toContain("Feed");
+  });
+
   test("shows a focused header without the primary navigation", async ({ page }) => {
     await fakeSession(page, null);
     const signUp = new SignUpPage(page);

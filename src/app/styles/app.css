@@ -2,3 +2,6 @@
 dialog.sheet { max-width: none; max-height: none; width: auto; height: auto; margin: 0; border: 0; padding: 0; color: inherit; }
 @media (min-width: 48rem) { dialog.sheet { width: min(100%, var(--layout-sheet-width)); } }
 dialog.sheet:not([open]) { display: none; }
+
+/* The account menu is a native popover in the top layer; pin it under the header's right edge. */
+.account-menu[popover] { position: fixed; margin: 0; bottom: auto; left: auto; }

@@ -21,6 +21,10 @@ export class SiteShell {
       .allInnerTexts();
   }
 
+  async primaryNavLinks() {
+    return this.page.getByRole("navigation", { name: "Primary" }).getByRole("link").filter({ visible: true }).allInnerTexts();
+  }
+
   async footerLinks() {
     return this.page.getByRole("navigation", { name: "Footer" }).getByRole("link").allInnerTexts();
   }

@@ -52,9 +52,11 @@ export function RegisterForm() {
       <section className="card stack">
         <h2>You&apos;re in</h2>
         <p>Your account is ready. Start by adding a car to your garage.</p>
-        <Link className="btn btn--primary" href="/">
+        {/* A full page load, so the header picks up the new session. */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        <a className="btn btn--primary" href="/">
           Add your first car
-        </Link>
+        </a>
       </section>
     );
   }

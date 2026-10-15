@@ -14,3 +14,11 @@ export function sessionIdFor(token: string) {
 export function sessionCookieHeader(token: string) {
   return `${SESSION_COOKIE}=${token}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${SESSION_LIFETIME_SECONDS}`;
 }
+
+export function readSessionToken(request: Request) {
+  for (const part of (request.headers.get("cookie") ?? "").split(";")) {
+    const [name, ...value] = part.trim().split("=");
+    if (name === SESSION_COOKIE) return value.join("=");
+  }
+  return null;
+}

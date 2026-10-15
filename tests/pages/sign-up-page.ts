@@ -42,6 +42,10 @@ export class SignUpPage {
     return this.page.getByRole("heading", { name: "You're in" });
   }
 
+  async continueToFirstCar() {
+    await this.page.getByRole("link", { name: "Add your first car" }).click();
+  }
+
   get primaryNav() {
     return this.page.getByRole("navigation", { name: "Primary" });
   }

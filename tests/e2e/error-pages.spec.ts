@@ -1,9 +1,11 @@
 import { expect, test } from "@playwright/test";
+import { fakeSession } from "../pages/fake-api";
 import { HomePage } from "../pages/home-page";
 import { NotFoundPage } from "../pages/not-found-page";
 
 test.describe("Page not found", () => {
   test("answers an unknown address with 404, a generic message and a way home", async ({ page }) => {
+    await fakeSession(page, null);
     const notFound = new NotFoundPage(page);
 
     const response = await notFound.open("/no-such-page");

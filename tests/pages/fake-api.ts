@@ -1,7 +1,7 @@
 import type { Page, Request } from "@playwright/test";
 
 export type FakeResponse = { status: number; json?: unknown };
-export type Member = { displayName: string; initials: string };
+export type Member = { id: string; displayName: string; initials: string };
 
 /**
  * Answers one API endpoint from the browser, so no backend runs during e2e tests.
@@ -38,4 +38,4 @@ export function fakeSession(page: Page, member: Member | null, options?: { hold?
   return fakeApi(page, "GET", "/api/session", member ? { status: 200, json: member } : { status: 401 }, options);
 }
 
-export const TENDAI: Member = { displayName: "Tendai Mensah", initials: "TM" };
+export const TENDAI: Member = { id: "6f1d2c1e-0000-4000-8000-000000000001", displayName: "Tendai Mensah", initials: "TM" };

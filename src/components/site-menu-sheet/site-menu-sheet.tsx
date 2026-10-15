@@ -2,22 +2,16 @@
 
 import Link from "next/link";
 import type { RefObject } from "react";
+import type { Destination } from "@/components/site-nav/destinations";
 
 type Props = {
   ref: RefObject<HTMLDialogElement | null>;
+  destinations: Destination[];
   onClose: () => void;
 };
 
-const DESTINATIONS = [
-  { href: "/vehicles", label: "Vehicles" },
-  { href: "/providers", label: "Providers" },
-  { href: "/products", label: "Products" },
-  { href: "/sign-in", label: "Sign in" },
-  { href: "/sign-up", label: "Create account" },
-];
-
 /** Modal site menu below 768 px; the native dialog keeps the page inert and returns focus on close. */
-export function SiteMenuSheet({ ref, onClose }: Props) {
+export function SiteMenuSheet({ ref, destinations, onClose }: Props) {
   const close = () => ref.current?.close();
 
   return (
@@ -31,8 +25,8 @@ export function SiteMenuSheet({ ref, onClose }: Props) {
       <div className="sheet__body">
         <nav aria-label="Main">
           <ul className="section-list">
-            {DESTINATIONS.map((d) => (
-              <li key={d.href}>
+            {destinations.map((d) => (
+              <li key={d.label}>
                 <Link className="section-link" href={d.href} onClick={close}>
                   {d.label}
                 </Link>
