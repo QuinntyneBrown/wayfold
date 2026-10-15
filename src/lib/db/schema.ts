@@ -1,4 +1,4 @@
-import { boolean, index, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { boolean, index, integer, pgTable, primaryKey, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -7,6 +7,7 @@ export const users = pgTable("users", {
   displayName: text("display_name").notNull(),
   gtaArea: text("gta_area"),
   homeChurch: text("home_church"),
+  bio: text("bio"),
   showHomeChurch: boolean("show_home_church").notNull().default(false),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
@@ -33,3 +34,63 @@ export const failedSignIns = pgTable(
   },
   (table) => [index("failed_sign_ins_user_attempted_idx").on(table.userId, table.attemptedAt)],
 );
+
+const owner = (column: string) =>
+  uuid(column)
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" });
+
+export const garageCars = pgTable("garage_cars", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  ownerId: owner("owner_id"),
+  year: integer("year").notNull(),
+  make: text("make").notNull(),
+  model: text("model").notNull(),
+  nickname: text("nickname"),
+  photoRef: text("photo_ref"),
+  notes: text("notes"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const follows = pgTable(
+  "follows",
+  {
+    followerId: owner("follower_id"),
+    followeeId: owner("followee_id"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [primaryKey({ columns: [table.followerId, table.followeeId] })],
+);
+
+export const posts = pgTable(
+  "posts",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    authorId: owner("author_id"),
+    topic: text("topic").notNull(),
+    text: text("text").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [index("posts_author_created_idx").on(table.authorId, table.createdAt)],
+);
+
+export const likes = pgTable(
+  "likes",
+  {
+    postId: uuid("post_id")
+      .notNull()
+      .references(() => posts.id, { onDelete: "cascade" }),
+    userId: owner("user_id"),
+  },
+  (table) => [primaryKey({ columns: [table.postId, table.userId] })],
+);
+
+export const comments = pgTable("comments", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  postId: uuid("post_id")
+    .notNull()
+    .references(() => posts.id, { onDelete: "cascade" }),
+  authorId: owner("author_id"),
+  text: text("text").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
