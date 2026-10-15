@@ -1,9 +1,10 @@
+import { withErrorHandling } from "@/lib/with-error-handling";
 import { signIn } from "@/features/accounts/auth-service";
 import { isSameOrigin } from "@/lib/csrf";
 import { sessionCookieHeader } from "@/lib/session-cookie";
 import { type FieldErrors, isEmail, text } from "@/lib/validation";
 
-export async function POST(request: Request) {
+export const POST = withErrorHandling("/api/auth/sign-in", async (request: Request) => {
   if (!isSameOrigin(request)) return new Response(null, { status: 403 });
 
   const body = await request.json().catch(() => ({}));
@@ -22,4 +23,4 @@ export async function POST(request: Request) {
     { displayName: result.displayName },
     { headers: { "set-cookie": sessionCookieHeader(result.token) } },
   );
-}
+});
