@@ -43,6 +43,7 @@ test.describe("Create an account", () => {
     await signUp.register(TENDAI_REGISTRATION);
     await expect(signUp.successHeading).toBeVisible();
     await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", "/api/feed", { status: 200, json: { posts: [] } });
 
     await signUp.continueToFirstCar();
 
@@ -127,6 +128,7 @@ test.describe("Create an account", () => {
 
   test("sends a signed-in member home", async ({ page }) => {
     await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", "/api/feed", { status: 200, json: { posts: [] } });
     const signUp = new SignUpPage(page);
 
     await signUp.open();

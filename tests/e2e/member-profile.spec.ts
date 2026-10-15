@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { fakeApi, fakeSession, PRIYA, TENDAI } from "../pages/fake-api";
+import { fakeApi, fakeSession, PRIYA, PRIYA_POST, TENDAI } from "../pages/fake-api";
 import { MemberProfilePage } from "../pages/member-profile-page";
 
 test.describe("Member profile", () => {
@@ -244,5 +244,22 @@ test.describe("Member profile: follow", () => {
 
     await expect(profile.heading).toHaveText("Tendai Mensah");
     await expect(profile.followButton).toHaveCount(0);
+  });
+});
+
+test.describe("Member profile: posts", () => {
+  test("lists the member's posts in the Posts section", async ({ page }) => {
+    await page.setViewportSize({ width: 1200, height: 800 });
+    await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", `/api/members/${PRIYA.id}`, { status: 200, json: { ...PRIYA, posts: [PRIYA_POST] } });
+    const profile = new MemberProfilePage(page);
+    await profile.open(PRIYA.id);
+
+    await profile.section("Posts").click();
+
+    await expect(profile.sectionContent).toContainText(PRIYA_POST.text);
+    await expect(profile.sectionContent).toContainText("Beautiful car");
+    await expect(profile.sectionContent.getByRole("button", { name: "Delete post" })).toHaveCount(0);
+    expect(await profile.shell.accessibilityViolations()).toEqual([]);
   });
 });

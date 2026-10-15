@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { AccountMenu } from "../pages/account-menu";
-import { fakeSession, TENDAI } from "../pages/fake-api";
+import { fakeApi, fakeSession, TENDAI } from "../pages/fake-api";
 import { HomePage } from "../pages/home-page";
 import { SiteMenu } from "../pages/site-menu";
 
@@ -103,6 +103,7 @@ test.describe("Site menu on a phone", () => {
 test.describe("App shell for a signed-in member", () => {
   test.beforeEach(async ({ page }) => {
     await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", "/api/feed", { status: 200, json: { posts: [] } });
   });
 
   test("shows the member navigation and an account menu that opens and closes by keyboard", async ({ page }) => {

@@ -7,6 +7,7 @@ import { SiteMenu } from "../pages/site-menu";
 test.describe("Sign out", () => {
   test.beforeEach(async ({ page }) => {
     await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", "/api/feed", { status: 200, json: { posts: [] } });
   });
 
   test("signs out from the account menu and shows the visitor navigation", async ({ page }) => {

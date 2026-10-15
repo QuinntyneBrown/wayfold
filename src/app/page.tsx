@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { Home } from "@/features/community/home";
 
-export default function HomePage() {
+function Landing() {
   return (
     <div className="container">
       <section className="home-hero">
@@ -40,4 +41,8 @@ export default function HomePage() {
       </section>
     </div>
   );
+}
+
+export default function HomePage() {
+  return <Home landing={<Landing />} />;
 }

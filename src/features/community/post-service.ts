@@ -4,8 +4,6 @@ import { comments, follows, likes, posts, users } from "@/lib/db/schema";
 import { projectMember } from "@/lib/member-view-policy";
 import { isUuid } from "@/lib/validation";
 
-export const TOPICS = ["My car", "Question", "Recommendation", "For sale"] as const;
-
 type Author = { id: string; displayName: string; gtaArea: string | null; homeChurch?: string };
 export type PostComment = { id: string; text: string; createdAt: Date; author: { id: string; displayName: string } };
 export type PostItem = {

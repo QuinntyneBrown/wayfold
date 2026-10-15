@@ -27,6 +27,7 @@ test.describe("Sign in", () => {
     expect(signInApi.lastBody()).toEqual({ email: EMAIL, password: PASSWORD });
 
     await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", "/api/feed", { status: 200, json: { posts: [] } });
     signInApi.release();
 
     const home = new HomePage(page);
@@ -116,6 +117,7 @@ test.describe("Sign in", () => {
 
   test("sends a signed-in member home", async ({ page }) => {
     await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", "/api/feed", { status: 200, json: { posts: [] } });
     const signIn = new SignInPage(page);
 
     await signIn.open();

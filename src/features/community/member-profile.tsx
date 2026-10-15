@@ -3,13 +3,15 @@
 import { notFound, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert } from "@/components/alert/alert";
-import { CommunityToast, type ToastMessage } from "./community-toast";
+import { CommunityToast, SAVE_FAILED, type ToastMessage } from "./community-toast";
 import { EditProfileDialog } from "./edit-profile-dialog";
 import { CarDialog } from "@/features/garage/car-dialog";
 import { GarageSection } from "@/features/garage/garage-section";
 import type { Car } from "@/features/garage/garage-service";
 import { RemoveCarDialog } from "@/features/garage/remove-car-dialog";
 import { FollowButton } from "./follow-button";
+import { PostList } from "./post-list";
+import type { PostItem } from "./post-service";
 
 export type Profile = {
   id: string;
@@ -21,7 +23,7 @@ export type Profile = {
   following: boolean;
   isOwner: boolean;
   garage: Car[];
-  posts: unknown[];
+  posts: PostItem[];
   listings: unknown[];
   recommendations: unknown[];
 };
@@ -163,7 +165,7 @@ function ProfileBody({ profile, onChange }: { profile: Profile; onChange: (chang
               firstName={profile.displayName.split(/\s+/)[0]}
               following={profile.following}
               onChange={(following, followers) => onChange({ following, followers })}
-              onError={() => setToast({ tone: "danger", title: "Could not save", text: "Please try again." })}
+              onError={() => setToast(SAVE_FAILED)}
             />
           )}
         </div>
@@ -184,6 +186,8 @@ function ProfileBody({ profile, onChange }: { profile: Profile; onChange: (chang
             onEdit={(car) => setCarDialog({ kind: "edit", car })}
             onRemove={(car) => setCarDialog({ kind: "remove", car })}
           />
+        ) : section === "posts" && profile.posts.length > 0 ? (
+          <PostList posts={profile.posts} onChange={(posts) => onChange({ posts })} onToast={setToast} />
         ) : (
           <p>{active.empty}</p>
         )}

@@ -1,5 +1,6 @@
 import { currentMember } from "@/features/accounts/auth-service";
-import { createPost, TOPICS } from "@/features/community/post-service";
+import { createPost } from "@/features/community/post-service";
+import { TOPICS } from "@/features/community/topics";
 import { isSameOrigin } from "@/lib/csrf";
 import { type FieldErrors, text } from "@/lib/validation";
 import { withErrorHandling } from "@/lib/with-error-handling";
