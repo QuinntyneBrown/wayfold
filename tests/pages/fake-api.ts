@@ -54,3 +54,33 @@ export const TENDAI_SETTINGS: AccountSettings = {
   homeChurch: "Lakeshore Fellowship",
   showHomeChurch: true,
 };
+
+export type MemberProfile = {
+  id: string;
+  displayName: string;
+  gtaArea: string | null;
+  bio: string | null;
+  homeChurch?: string;
+  followers: number;
+  following: boolean;
+  isOwner: boolean;
+  garage: unknown[];
+  posts: unknown[];
+  listings: unknown[];
+  recommendations: unknown[];
+};
+
+export const PRIYA: MemberProfile = {
+  id: "6f1d2c1e-0000-4000-8000-000000000002",
+  displayName: "Priya Nair",
+  gtaArea: "Etobicoke",
+  bio: "Keeping good cars on the road and helping neighbours find honest service.",
+  homeChurch: "Lakeshore Fellowship",
+  followers: 32,
+  following: false,
+  isOwner: false,
+  garage: [],
+  posts: [],
+  listings: [],
+  recommendations: [],
+};
