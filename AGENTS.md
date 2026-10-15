@@ -37,6 +37,19 @@ This is the absolute highest-priority rule in this repository. AI agents tend to
 ### 3. Hard Stop & Query Clause
 *   **When in Doubt, Ask:** If a task seems to logically require expanding the scope, introduces a major jump in complexity, or conflicts with the existing architecture, **STOP IMMEDIATELY**. Do not guess. Present the trade-offs to the user and await explicit confirmation before writing a single line of code.
 
+## Deferred work
+
+Until every feature is complete and working, do not build or test the following. They are
+tracked in the requirements and designs and are done last:
+
+- **Performance testing:** L2-020 (95th percentile latency, Largest Contentful Paint, load
+  tests, latency recording).
+- **Security hardening:** the `RequestGuard`/`RouteRule`/`AccessPolicy` consolidation, a CSRF
+  mechanism beyond the same-origin check, and the OWASP Top 10 mapping.
+
+Routes keep the basic checks they already have: Origin check, 401, input validation.
+Deferred work does not count toward percent complete in `docs/estimates`.
+
 ## Incremental Implementation and ATDD - mandatory
 
 Mocks and the design system are design artifacts. ATDD does not apply to their

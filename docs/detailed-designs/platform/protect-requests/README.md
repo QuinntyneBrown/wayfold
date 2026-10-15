@@ -22,6 +22,8 @@ The home church is sensitive because it reveals religious affiliation. The desig
 
 The feature is a vertical slice from the browser to the database. Checks run on the server. Client checks improve feedback and carry no authority.
 
+> **Deferred** until all features are complete and working (see AGENTS.md): `RequestGuard`, `RouteRule`, `AccessPolicy`, a CSRF mechanism beyond the same-origin check, and the OWASP mapping. Routes keep their inline checks meanwhile.
+
 - **`RequestGuard`** — module called at the start of each route handler with a `RouteRule`. It runs the CSRF check, the session check, the ownership check and the input validation in that order, and returns a `Decision`.
 - **`RouteRule`** — declaration per route of whether a session is required, which resource owner applies, and the input `Schema`.
 - **`AccessPolicy`** — `requireSession` returns `401` when no valid session exists. `requireOwner` returns `403` when the signed-in member is not the owner of the target resource. The session lookup itself belongs to `accounts/sign-in-sign-out`.

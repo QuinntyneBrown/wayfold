@@ -29,6 +29,8 @@ The feature is a vertical slice from the route handlers to the log and metric de
 
 ### Performance budget
 
+> **Deferred** until all features are complete and working (see AGENTS.md).
+
 - API read requests: 95th percentile under 300 ms under normal load. The definition of normal load is `<TO SUPPLY>`.
 - Listing browse page: Largest Contentful Paint under 2.5 s on a simulated mid-range mobile device over a 4G connection.
 
@@ -86,6 +88,8 @@ An unexpected error is logged with the request ID after redaction, and the calle
 ![Sequence diagram for handling a server error](diagrams/sequence-handle-server-error.png)
 
 ### Behaviour - measure response time
+
+> **Deferred** until all features are complete and working (see AGENTS.md).
 
 Each request is timed and recorded so the 95th percentile and the browse page budget can be judged (`L2-020`).
 
