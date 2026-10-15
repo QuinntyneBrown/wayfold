@@ -1,10 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import { SiteMenuSheet } from "@/components/site-menu-sheet/site-menu-sheet";
 
+/** The sign-in and sign-up pages show only the wordmark, as in their mocks. */
+const FOCUSED_ROUTES = ["/sign-in", "/sign-up"];
+
 export function SiteNav() {
+  const pathname = usePathname();
   const menuRef = useRef<HTMLDialogElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -12,6 +17,8 @@ export function SiteNav() {
     menuRef.current?.showModal();
     setMenuOpen(true);
   };
+
+  if (FOCUSED_ROUTES.includes(pathname)) return null;
 
   return (
     <>
