@@ -402,6 +402,23 @@
       }
     },
     {
+      "id": "delete-account",
+      "kind": "dialog",
+      "title": "Delete account",
+      "opens_from": "settings",
+      "requirements": [
+        "L2-019"
+      ],
+      "states": [
+        "default",
+        "busy",
+        "failed"
+      ],
+      "not_applicable": {
+        "invalid": "No input fields."
+      }
+    },
+    {
       "id": "ask-expert",
       "kind": "dialog",
       "title": "Ask about this deal",

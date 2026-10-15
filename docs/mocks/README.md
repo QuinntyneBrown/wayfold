@@ -60,6 +60,7 @@ Legend: ✅ mock exists · ➖ not applicable (reason in manifest) · ❌ missin
 | Recommend (`recommend`) | [✅](dialogs/recommend/default.html) | [✅](dialogs/recommend/busy.html) | [✅](dialogs/recommend/invalid.html) | [✅](dialogs/recommend/failed.html) | [✅](dialogs/recommend/product.html) | [✅](dialogs/recommend/success.html) |  | `L2-026`, `L2-027` |
 | Contact seller (`contact-dealer`) | [✅](dialogs/contact-dealer/default.html) | [✅](dialogs/contact-dealer/busy.html) | [✅](dialogs/contact-dealer/invalid.html) | [✅](dialogs/contact-dealer/failed.html) |  | [✅](dialogs/contact-dealer/success.html) |  | `L2-009` |
 | Delete vehicle (`delete-vehicle`) | [✅](dialogs/delete-vehicle/default.html) | [✅](dialogs/delete-vehicle/busy.html) | ➖ | [✅](dialogs/delete-vehicle/failed.html) |  |  |  | `L2-007` |
+| Delete account (`delete-account`) | [✅](dialogs/delete-account/default.html) | [✅](dialogs/delete-account/busy.html) | ➖ | [✅](dialogs/delete-account/failed.html) |  |  |  | `L2-019` |
 | Ask about this deal (`ask-expert`) | [✅](dialogs/ask-expert/default.html) | [✅](dialogs/ask-expert/busy.html) | [✅](dialogs/ask-expert/invalid.html) | [✅](dialogs/ask-expert/failed.html) |  | [✅](dialogs/ask-expert/success.html) |  | `L2-037` |
 | Site menu (`site-menu`) | [✅](dialogs/site-menu/default.html) | ➖ | ➖ |  |  |  | [✅](dialogs/site-menu/signed-in.html) | `L2-015` |
 | Account menu (`account-menu`) | [✅](dialogs/account-menu/default.html) | ➖ | ➖ |  |  |  |  | `L2-015` |
