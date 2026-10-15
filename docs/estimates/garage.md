@@ -2,4 +2,6 @@
 
 | Design | Effort | Complete |
 |---|---|---|
-| manage-garage | 5 days | 0% |
+| manage-garage | 5 days | 100% |
+
+Excludes deferred work (see AGENTS.md).
