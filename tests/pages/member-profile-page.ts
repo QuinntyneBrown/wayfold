@@ -75,4 +75,64 @@ export class MemberProfilePage {
   get toast() {
     return this.page.locator(".toast-region .toast");
   }
+
+  get addCarButton() {
+    return this.page.getByRole("main").getByRole("button", { name: "Add a car" });
+  }
+
+  get carDialog() {
+    return this.page.getByRole("dialog", { name: /^(Add a car to your garage|Edit your car)$/ });
+  }
+
+  carField(label: string) {
+    return this.carDialog.getByLabel(label);
+  }
+
+  get submitCar() {
+    return this.carDialog.getByRole("button", { name: /^(Add car|Save changes|Sending…|Saving…)$/ });
+  }
+
+  get cancelCar() {
+    return this.carDialog.getByRole("button", { name: "Cancel" });
+  }
+
+  get carAlert() {
+    return this.carDialog.getByRole("alert");
+  }
+
+  carCard(title: string) {
+    return this.sectionContent.getByRole("article").filter({ has: this.page.getByRole("heading", { name: title }) });
+  }
+
+  get carCards() {
+    return this.sectionContent.getByRole("article");
+  }
+
+  editCarButton(title: string) {
+    return this.carCard(title).getByRole("button", { name: "Edit car" });
+  }
+
+  removeCarButton(title: string) {
+    return this.carCard(title).getByRole("button", { name: "Remove car" });
+  }
+
+  get removeDialog() {
+    return this.page.getByRole("dialog", { name: "Remove this car?" });
+  }
+
+  get confirmRemove() {
+    return this.removeDialog.getByRole("button", { name: /^(Remove car|Removing…|Try again)$/ });
+  }
+
+  get cancelRemove() {
+    return this.removeDialog.getByRole("button", { name: "Cancel" });
+  }
+
+  get removeAlert() {
+    return this.removeDialog.getByRole("alert");
+  }
+
+  async hasHorizontalScroll() {
+    return this.page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+  }
 }

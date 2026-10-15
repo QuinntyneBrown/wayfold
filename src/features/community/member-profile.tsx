@@ -5,6 +5,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert } from "@/components/alert/alert";
 import { CommunityToast, type ToastMessage } from "./community-toast";
 import { EditProfileDialog } from "./edit-profile-dialog";
+import { CarDialog } from "@/features/garage/car-dialog";
+import { GarageSection } from "@/features/garage/garage-section";
+import type { Car } from "@/features/garage/garage-service";
+import { RemoveCarDialog } from "@/features/garage/remove-car-dialog";
 import { FollowButton } from "./follow-button";
 
 export type Profile = {
@@ -16,7 +20,7 @@ export type Profile = {
   followers: number;
   following: boolean;
   isOwner: boolean;
-  garage: unknown[];
+  garage: Car[];
   posts: unknown[];
   listings: unknown[];
   recommendations: unknown[];
@@ -111,7 +115,9 @@ export function MemberProfile({ id }: { id: string }) {
 function ProfileBody({ profile, onChange }: { profile: Profile; onChange: (change: Partial<Profile>) => void }) {
   const [section, setSection] = useState<SectionKey>(initialSection);
   const [toast, setToast] = useState<ToastMessage | null>(null);
+  const [carDialog, setCarDialog] = useState<{ kind: "add" } | { kind: "edit"; car: Car } | { kind: "remove"; car: Car } | null>(null);
   const editDialog = useRef<HTMLDialogElement>(null);
+  const content = useRef<HTMLElement>(null);
   const initials = profile.displayName
     .split(/\s+/)
     .map((word) => word[0])
@@ -146,6 +152,11 @@ function ProfileBody({ profile, onChange }: { profile: Profile; onChange: (chang
               Edit profile
             </button>
           )}
+          {profile.isOwner && (
+            <button type="button" className="btn btn--primary" aria-haspopup="dialog" onClick={() => setCarDialog({ kind: "add" })}>
+              Add a car
+            </button>
+          )}
           {!profile.isOwner && (
             <FollowButton
               memberId={profile.id}
@@ -165,9 +176,37 @@ function ProfileBody({ profile, onChange }: { profile: Profile; onChange: (chang
           </button>
         ))}
       </nav>
-      <section aria-label="Profile content">
-        <p>{active.empty}</p>
+      <section ref={content} aria-label="Profile content" tabIndex={-1}>
+        {section === "garage" ? (
+          <GarageSection
+            cars={profile.garage}
+            isOwner={profile.isOwner}
+            onEdit={(car) => setCarDialog({ kind: "edit", car })}
+            onRemove={(car) => setCarDialog({ kind: "remove", car })}
+          />
+        ) : (
+          <p>{active.empty}</p>
+        )}
       </section>
+      {carDialog && carDialog.kind !== "remove" && (
+        <CarDialog
+          car={carDialog.kind === "edit" ? carDialog.car : undefined}
+          onSaved={(saved) =>
+            onChange({ garage: carDialog.kind === "edit" ? profile.garage.map((c) => (c.id === saved.id ? saved : c)) : [saved, ...profile.garage] })
+          }
+          onClose={() => setCarDialog(null)}
+        />
+      )}
+      {carDialog?.kind === "remove" && (
+        <RemoveCarDialog
+          car={carDialog.car}
+          onRemoved={(removed) => {
+            onChange({ garage: profile.garage.filter((c) => c.id !== removed.id) });
+            content.current?.focus();
+          }}
+          onClose={() => setCarDialog(null)}
+        />
+      )}
       <CommunityToast toast={toast} onDismiss={() => setToast(null)} />
     </>
   );
