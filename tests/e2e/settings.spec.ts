@@ -175,3 +175,68 @@ test.describe("Settings: password", () => {
     await expect(settings.currentPassword).toHaveAttribute("aria-invalid", "true");
   });
 });
+
+test.describe("Settings: delete account", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 1200, height: 800 });
+    await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", "/api/account", { status: 200, json: TENDAI_SETTINGS });
+  });
+
+  test("opens a modal confirmation with focus on Cancel and returns focus when cancelled", async ({ page }) => {
+    const deleteApi = await fakeApi(page, "DELETE", "/api/account", { status: 204 });
+    const settings = new SettingsPage(page);
+    await settings.open();
+
+    await settings.deleteAccountButton.click();
+
+    await expect(settings.deleteDialog).toBeVisible();
+    await expect(settings.deleteDialog).toContainText("This cannot be undone.");
+    await expect(settings.cancelDelete).toBeFocused();
+    expect(await settings.shell.accessibilityViolations()).toEqual([]);
+
+    await page.keyboard.press("Escape");
+    await expect(settings.deleteDialog).toBeHidden();
+    await expect(settings.deleteAccountButton).toBeFocused();
+
+    await settings.deleteAccountButton.click();
+    await settings.cancelDelete.click();
+    await expect(settings.deleteDialog).toBeHidden();
+    expect(deleteApi.callCount()).toBe(0);
+  });
+
+  test("shows a busy dialog, then takes the member to the signed-out home page", async ({ page }) => {
+    const deleteApi = await fakeApi(page, "DELETE", "/api/account", { status: 204 }, { hold: true });
+    const settings = new SettingsPage(page);
+    await settings.open();
+    await settings.deleteAccountButton.click();
+
+    await settings.confirmDelete.click();
+
+    await expect(settings.confirmDelete).toBeDisabled();
+    await expect(settings.confirmDelete).toHaveAttribute("aria-busy", "true");
+    await expect(settings.cancelDelete).toBeDisabled();
+    await page.keyboard.press("Escape");
+    await expect(settings.deleteDialog).toBeVisible();
+
+    await fakeSession(page, null);
+    deleteApi.release();
+
+    await expect(page).toHaveURL("/");
+    expect(deleteApi.callCount()).toBe(1);
+  });
+
+  test("keeps the dialog open with an error and lets the member try again", async ({ page }) => {
+    await fakeApi(page, "DELETE", "/api/account", { status: 500 });
+    const settings = new SettingsPage(page);
+    await settings.open();
+    await settings.deleteAccountButton.click();
+
+    await settings.confirmDelete.click();
+
+    await expect(settings.deleteAlert).toContainText("Could not delete your account");
+    await expect(settings.confirmDelete).toHaveText("Try again");
+    await expect(settings.confirmDelete).toBeEnabled();
+    expect(await settings.shell.accessibilityViolations()).toEqual([]);
+  });
+});

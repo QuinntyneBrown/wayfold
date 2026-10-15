@@ -1,11 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { type FormEvent, useCallback, useEffect, useState } from "react";
+import { type FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Alert } from "@/components/alert/alert";
 import { TextField } from "@/components/text-field/text-field";
 import { SESSION_CHANGED } from "@/components/site-nav/use-session";
 import { GTA_AREAS } from "@/lib/gta-areas";
+import { DeleteAccountDialog } from "./delete-account-dialog";
 
 type Settings = { displayName: string; gtaArea: string | null; homeChurch: string | null; showHomeChurch: boolean };
 type Load = { state: "loading" } | { state: "failed" } | { state: "ready"; settings: Settings };
@@ -76,7 +77,22 @@ export function SettingsForm() {
     <>
       {head}
       <SettingsFields settings={load.settings} />
+      <DeleteAccountSection />
     </>
+  );
+}
+
+function DeleteAccountSection() {
+  const dialog = useRef<HTMLDialogElement>(null);
+  return (
+    <section className="stack" aria-labelledby="delete-title">
+      <h2 id="delete-title">Delete account</h2>
+      <p>Remove your profile, garage, posts and listings. This cannot be undone.</p>
+      <button type="button" className="btn btn--danger" aria-haspopup="dialog" onClick={() => dialog.current?.showModal()}>
+        Delete account
+      </button>
+      <DeleteAccountDialog ref={dialog} />
+    </section>
   );
 }
 

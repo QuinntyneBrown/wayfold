@@ -56,6 +56,26 @@ export class SettingsPage {
     return this.page.getByRole("button", { name: "Try again" });
   }
 
+  get deleteAccountButton() {
+    return this.page.getByRole("main").getByRole("button", { name: "Delete account" });
+  }
+
+  get deleteDialog() {
+    return this.page.getByRole("dialog", { name: "Delete your account?" });
+  }
+
+  get confirmDelete() {
+    return this.deleteDialog.getByRole("button", { name: /^(Delete account|Deleting…|Try again)$/ });
+  }
+
+  get cancelDelete() {
+    return this.deleteDialog.getByRole("button", { name: "Cancel" });
+  }
+
+  get deleteAlert() {
+    return this.deleteDialog.getByRole("alert");
+  }
+
   async areaOptions() {
     return this.area.locator("option").allInnerTexts();
   }

@@ -11,3 +11,7 @@ dialog.sheet:not([open]) { display: none; }
 .account-menu button:hover { background: var(--color-bg-subtle); }
 .account-menu button:focus-visible { outline-offset: calc(-1 * var(--focus-ring-width)); }
 button.section-link { width: 100%; border-inline: 0; border-top: 0; background: none; font: inherit; text-align: start; cursor: pointer; }
+/* Same glue for the design-system .dialog on a native <dialog>; the browser supplies the backdrop. */
+dialog.dialog { max-width: none; max-height: none; width: 100%; height: 100%; margin: 0; border: 0; background: transparent; color: inherit; }
+dialog.dialog:not([open]) { display: none; }
+dialog.dialog::backdrop { background: var(--color-bg-backdrop); }
