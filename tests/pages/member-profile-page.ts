@@ -67,4 +67,12 @@ export class MemberProfilePage {
   get editProfileAlert() {
     return this.editProfileDialog.getByRole("alert");
   }
+
+  get followButton() {
+    return this.page.getByRole("main").getByRole("button", { name: /^(Follow |Following)/ });
+  }
+
+  get toast() {
+    return this.page.locator(".toast-region .toast");
+  }
 }

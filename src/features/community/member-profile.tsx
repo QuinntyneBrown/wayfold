@@ -3,7 +3,9 @@
 import { notFound, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert } from "@/components/alert/alert";
+import { CommunityToast, type ToastMessage } from "./community-toast";
 import { EditProfileDialog } from "./edit-profile-dialog";
+import { FollowButton } from "./follow-button";
 
 export type Profile = {
   id: string;
@@ -101,13 +103,14 @@ export function MemberProfile({ id }: { id: string }) {
   return (
     <div className="container stack">
       {head}
-      <ProfileBody profile={load.profile} onBioSaved={(bio) => setLoad({ state: "ready", profile: { ...load.profile, bio } })} />
+      <ProfileBody profile={load.profile} onChange={(change) => setLoad({ state: "ready", profile: { ...load.profile, ...change } })} />
     </div>
   );
 }
 
-function ProfileBody({ profile, onBioSaved }: { profile: Profile; onBioSaved: (bio: string | null) => void }) {
+function ProfileBody({ profile, onChange }: { profile: Profile; onChange: (change: Partial<Profile>) => void }) {
   const [section, setSection] = useState<SectionKey>(initialSection);
+  const [toast, setToast] = useState<ToastMessage | null>(null);
   const editDialog = useRef<HTMLDialogElement>(null);
   const initials = profile.displayName
     .split(/\s+/)
@@ -143,9 +146,18 @@ function ProfileBody({ profile, onBioSaved }: { profile: Profile; onBioSaved: (b
               Edit profile
             </button>
           )}
+          {!profile.isOwner && (
+            <FollowButton
+              memberId={profile.id}
+              firstName={profile.displayName.split(/\s+/)[0]}
+              following={profile.following}
+              onChange={(following, followers) => onChange({ following, followers })}
+              onError={() => setToast({ tone: "danger", title: "Could not save", text: "Please try again." })}
+            />
+          )}
         </div>
       </section>
-      {profile.isOwner && <EditProfileDialog ref={editDialog} bio={profile.bio} onSaved={onBioSaved} />}
+      {profile.isOwner && <EditProfileDialog ref={editDialog} bio={profile.bio} onSaved={(bio) => onChange({ bio })} />}
       <nav className="segmented" aria-label="Profile sections">
         {SECTIONS.map(({ key, label }) => (
           <button key={key} type="button" aria-pressed={section === key} onClick={() => setSection(key)}>
@@ -156,6 +168,7 @@ function ProfileBody({ profile, onBioSaved }: { profile: Profile; onBioSaved: (b
       <section aria-label="Profile content">
         <p>{active.empty}</p>
       </section>
+      <CommunityToast toast={toast} onDismiss={() => setToast(null)} />
     </>
   );
 }

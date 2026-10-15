@@ -178,3 +178,71 @@ test.describe("Member profile: own profile and bio", () => {
     expect(patch.callCount()).toBe(0);
   });
 });
+
+test.describe("Member profile: follow", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 1200, height: 800 });
+    await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", `/api/members/${PRIYA.id}`, { status: 200, json: PRIYA });
+  });
+
+  test("follows and unfollows, updating the button and the follower count", async ({ page }) => {
+    const followApi = await fakeApi(page, "POST", `/api/members/${PRIYA.id}/follow`, { status: 200, json: { followers: 33 } }, { hold: true });
+    const unfollowApi = await fakeApi(page, "DELETE", `/api/members/${PRIYA.id}/follow`, { status: 200, json: { followers: 32 } });
+    const profile = new MemberProfilePage(page);
+    await profile.open(PRIYA.id);
+    await expect(profile.followButton).toHaveText("Follow Priya");
+    await expect(profile.followButton).toHaveAttribute("aria-pressed", "false");
+
+    await profile.followButton.click();
+
+    await expect(profile.followButton).toBeDisabled();
+    followApi.release();
+    await expect(profile.followButton).toHaveText("Following");
+    await expect(profile.followButton).toHaveAttribute("aria-pressed", "true");
+    await expect(profile.followButton).toBeEnabled();
+    await expect(profile.header).toContainText("33 followers");
+
+    await profile.followButton.click();
+
+    await expect(profile.followButton).toHaveText("Follow Priya");
+    await expect(profile.header).toContainText("32 followers");
+    expect(followApi.callCount()).toBe(1);
+    expect(unfollowApi.callCount()).toBe(1);
+  });
+
+  test("shows Following for a member already followed", async ({ page }) => {
+    await page.unroute(`**/api/members/${PRIYA.id}`);
+    await fakeApi(page, "GET", `/api/members/${PRIYA.id}`, { status: 200, json: { ...PRIYA, following: true } });
+    const profile = new MemberProfilePage(page);
+
+    await profile.open(PRIYA.id);
+
+    await expect(profile.followButton).toHaveText("Following");
+    await expect(profile.followButton).toHaveAttribute("aria-pressed", "true");
+  });
+
+  test("keeps the button as it was and shows a toast when the request fails", async ({ page }) => {
+    await fakeApi(page, "POST", `/api/members/${PRIYA.id}/follow`, { status: 500 });
+    const profile = new MemberProfilePage(page);
+    await profile.open(PRIYA.id);
+
+    await profile.followButton.click();
+
+    await expect(profile.toast).toContainText("Could not save");
+    await expect(profile.toast).toContainText("Please try again.");
+    await expect(profile.followButton).toHaveText("Follow Priya");
+    await expect(profile.header).toContainText("32 followers");
+    expect(await profile.shell.accessibilityViolations()).toEqual([]);
+  });
+
+  test("offers no follow action on the member's own profile", async ({ page }) => {
+    await fakeApi(page, "GET", `/api/members/${TENDAI.id}`, { status: 200, json: { ...PRIYA, id: TENDAI.id, displayName: "Tendai Mensah", isOwner: true } });
+    const profile = new MemberProfilePage(page);
+
+    await profile.open(TENDAI.id);
+
+    await expect(profile.heading).toHaveText("Tendai Mensah");
+    await expect(profile.followButton).toHaveCount(0);
+  });
+});

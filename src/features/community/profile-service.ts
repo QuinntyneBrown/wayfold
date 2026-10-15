@@ -2,12 +2,11 @@ import { and, count, eq } from "drizzle-orm";
 import { db } from "@/lib/db/client";
 import { follows, users } from "@/lib/db/schema";
 import { projectMember } from "@/lib/member-view-policy";
-
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+import { isUuid } from "@/lib/validation";
 
 /** The profile as the signed-in viewer may see it, or null for an unknown member. Listings and recommendations wait for their features. */
 export async function loadProfile(id: string, viewerId: string) {
-  if (!UUID.test(id)) return null;
+  if (!isUuid(id)) return null;
   const [user] = await db.select().from(users).where(eq(users.id, id));
   if (!user) return null;
 
