@@ -1,22 +1,9 @@
 import { eq } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
-import { POST as register } from "@/app/api/auth/register/route";
 import { GET } from "@/app/api/session/route";
 import { db } from "@/lib/db/client";
 import { sessions, users } from "@/lib/db/schema";
-import { APP_ORIGIN, postJson, sessionCookie } from "./requests";
-
-async function signedUpCookie() {
-  const response = await register(
-    postJson("/api/auth/register", {
-      displayName: "Tendai Mensah",
-      email: "tendai@example.com",
-      password: "correct horse battery",
-    }),
-  );
-  const { name, value } = sessionCookie(response);
-  return `${name}=${value}`;
-}
+import { APP_ORIGIN, registerTendai } from "./requests";
 
 function getSession(cookie?: string) {
   return GET(new Request(`${APP_ORIGIN}/api/session`, { headers: cookie ? { cookie } : {} }));
@@ -24,7 +11,7 @@ function getSession(cookie?: string) {
 
 describe("GET /api/session", () => {
   it("returns the signed-in member's id, display name and initials", async () => {
-    const cookie = await signedUpCookie();
+    const cookie = await registerTendai();
     const [user] = await db.select().from(users);
 
     const response = await getSession(cookie);
@@ -42,14 +29,14 @@ describe("GET /api/session", () => {
   });
 
   it("returns 401 for an invalidated session", async () => {
-    const cookie = await signedUpCookie();
+    const cookie = await registerTendai();
     await db.update(sessions).set({ invalidatedAt: new Date() });
 
     expect((await getSession(cookie)).status).toBe(401);
   });
 
   it("returns 401 for an expired session", async () => {
-    const cookie = await signedUpCookie();
+    const cookie = await registerTendai();
     const [user] = await db.select().from(users);
     await db.update(sessions).set({ expiresAt: new Date(Date.now() - 1000) }).where(eq(sessions.userId, user.id));
 

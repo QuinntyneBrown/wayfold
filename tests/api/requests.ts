@@ -16,3 +16,12 @@ export function sessionCookie(response: Response) {
   const [name, value] = pair.split("=");
   return { name, value, attributes: attributes.map((a) => a.toLowerCase()) };
 }
+
+export const TENDAI = { displayName: "Tendai Mensah", email: "tendai@example.com", password: "correct horse battery" };
+
+/** Registers Tendai through the real route and returns the session cookie as a request header value. */
+export async function registerTendai() {
+  const { POST } = await import("@/app/api/auth/register/route");
+  const { name, value } = sessionCookie(await POST(postJson("/api/auth/register", TENDAI)));
+  return `${name}=${value}`;
+}
