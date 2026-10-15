@@ -2,11 +2,11 @@ export const APP_ORIGIN = "http://localhost:3000";
 
 type Options = { origin?: string | null; cookie?: string };
 
-export function postJson(path: string, body: unknown, { origin = APP_ORIGIN, cookie }: Options = {}) {
+export function postJson(path: string, body: unknown, { origin = APP_ORIGIN, cookie }: Options = {}, method = "POST") {
   const headers: Record<string, string> = { "content-type": "application/json" };
   if (origin) headers.origin = origin;
   if (cookie) headers.cookie = cookie;
-  return new Request(`${APP_ORIGIN}${path}`, { method: "POST", headers, body: JSON.stringify(body) });
+  return new Request(`${APP_ORIGIN}${path}`, { method, headers, body: JSON.stringify(body) });
 }
 
 /** Parses the session cookie set by a response into its value and attributes. */

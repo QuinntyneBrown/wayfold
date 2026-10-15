@@ -70,3 +70,66 @@ test.describe("Settings: loading", () => {
     await expect(page.getByText("secret detail")).toHaveCount(0);
   });
 });
+
+test.describe("Settings: saving", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 1200, height: 800 });
+    await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", "/api/account", { status: 200, json: TENDAI_SETTINGS });
+  });
+
+  test("saves the profile, confirms it and updates the name in the header", async ({ page }) => {
+    const putApi = await fakeApi(page, "PUT", "/api/account", { status: 200 }, { hold: true });
+    const settings = new SettingsPage(page);
+    await settings.open();
+    await settings.displayName.fill("Tendai M.");
+    await settings.area.selectOption("Brampton");
+    await settings.homeChurch.fill("Grace Community Church");
+    await settings.showChurch.uncheck();
+
+    await settings.save();
+
+    await expect(settings.saveButton).toBeDisabled();
+    await expect(settings.saveButton).toHaveAttribute("aria-busy", "true");
+    await fakeSession(page, { ...TENDAI, displayName: "Tendai M." });
+    putApi.release();
+
+    await expect(settings.savedNotice).toContainText("Your profile and church visibility have been updated.");
+    expect(putApi.lastBody()).toMatchObject({
+      displayName: "Tendai M.",
+      gtaArea: "Brampton",
+      homeChurch: "Grace Community Church",
+      showHomeChurch: false,
+    });
+    await expect(page.getByRole("button", { name: "Account menu for Tendai M." })).toBeVisible();
+    expect(await settings.shell.accessibilityViolations()).toEqual([]);
+  });
+
+  test("shows a field error next to the field and keeps the form editable", async ({ page }) => {
+    await fakeApi(page, "PUT", "/api/account", {
+      status: 400,
+      json: { fieldErrors: { homeChurch: "Use 80 characters or fewer" } },
+    });
+    const settings = new SettingsPage(page);
+    await settings.open();
+    await settings.homeChurch.fill("x".repeat(81));
+
+    await settings.save();
+
+    await expect(settings.alert).toContainText("Check your settings");
+    await expect(settings.homeChurch).toHaveAccessibleDescription("Use 80 characters or fewer");
+    await expect(settings.homeChurch).toHaveAttribute("aria-invalid", "true");
+    await expect(settings.saveButton).toBeEnabled();
+    expect(await settings.shell.accessibilityViolations()).toEqual([]);
+  });
+
+  test("asks the member to try again when saving fails", async ({ page }) => {
+    await fakeApi(page, "PUT", "/api/account", { status: 500 });
+    const settings = new SettingsPage(page);
+    await settings.open();
+
+    await settings.save();
+
+    await expect(settings.alert).toContainText("Something went wrong");
+  });
+});
