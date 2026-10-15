@@ -3,3 +3,16 @@ docs/mocks/.cache/
 docs/design-system/.cache/
 .cache/
 __pycache__/
+
+# next.js app
+/.next/
+/out/
+next-env.d.ts
+*.tsbuildinfo
+.env*
+!.env.example
+/coverage
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
