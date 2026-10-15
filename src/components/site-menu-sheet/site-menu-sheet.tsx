@@ -3,15 +3,17 @@
 import Link from "next/link";
 import type { RefObject } from "react";
 import type { Destination } from "@/components/site-nav/destinations";
+import { signOut } from "@/features/accounts/sign-out";
 
 type Props = {
   ref: RefObject<HTMLDialogElement | null>;
   destinations: Destination[];
+  signedIn: boolean;
   onClose: () => void;
 };
 
 /** Modal site menu below 768 px; the native dialog keeps the page inert and returns focus on close. */
-export function SiteMenuSheet({ ref, destinations, onClose }: Props) {
+export function SiteMenuSheet({ ref, destinations, signedIn, onClose }: Props) {
   const close = () => ref.current?.close();
 
   return (
@@ -32,6 +34,13 @@ export function SiteMenuSheet({ ref, destinations, onClose }: Props) {
                 </Link>
               </li>
             ))}
+            {signedIn && (
+              <li>
+                <button type="button" className="section-link" onClick={signOut}>
+                  Sign out
+                </button>
+              </li>
+            )}
           </ul>
         </nav>
       </div>

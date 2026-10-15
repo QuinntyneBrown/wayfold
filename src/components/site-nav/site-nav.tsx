@@ -74,7 +74,12 @@ export function SiteNav() {
           Menu
         </button>
       </nav>
-      <SiteMenuSheet ref={menuRef} destinations={menuDestinations} onClose={() => setMenuOpen(false)} />
+      <SiteMenuSheet
+        ref={menuRef}
+        destinations={menuDestinations}
+        signedIn={Boolean(member)}
+        onClose={() => setMenuOpen(false)}
+      />
     </>
   );
 }

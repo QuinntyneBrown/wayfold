@@ -64,3 +64,13 @@ export function initialsOf(displayName: string) {
   const letters = words.length > 1 ? [words[0], words[words.length - 1]] : words;
   return letters.map((word) => word[0]?.toUpperCase() ?? "").join("");
 }
+
+/** Ends the session the request carries; the member's other sessions stay signed in. */
+export async function signOut(request: Request) {
+  const token = readSessionToken(request);
+  if (!token) return;
+  await db
+    .update(sessions)
+    .set({ invalidatedAt: new Date() })
+    .where(and(eq(sessions.id, sessionIdFor(token)), isNull(sessions.invalidatedAt)));
+}

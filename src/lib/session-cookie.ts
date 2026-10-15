@@ -22,3 +22,7 @@ export function readSessionToken(request: Request) {
   }
   return null;
 }
+
+export function clearedSessionCookieHeader() {
+  return `${SESSION_COOKIE}=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0`;
+}

@@ -17,12 +17,20 @@ export class SiteMenu {
     await this.page.keyboard.press("Enter");
   }
 
+  /** Signs out and waits for the home page to reload. */
+  async signOut() {
+    await Promise.all([
+      this.page.waitForEvent("load"),
+      this.dialog.getByRole("button", { name: "Sign out" }).click(),
+    ]);
+  }
+
   async closeWithEscape() {
     await this.page.keyboard.press("Escape");
   }
 
   async destinations() {
-    return this.dialog.getByRole("navigation", { name: "Main" }).getByRole("link").allInnerTexts();
+    return this.dialog.getByRole("navigation", { name: "Main" }).locator("a, button").allInnerTexts();
   }
 
   async containsFocus() {

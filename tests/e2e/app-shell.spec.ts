@@ -123,7 +123,13 @@ test.describe("App shell for a signed-in member", () => {
     await accountMenu.openWithKeyboard();
 
     await expect(accountMenu.dialog).toBeVisible();
-    expect(await accountMenu.items()).toEqual(["Your profile", "Your garage", "Settings", "List your business"]);
+    expect(await accountMenu.items()).toEqual([
+      "Your profile",
+      "Your garage",
+      "Settings",
+      "List your business",
+      "Sign out",
+    ]);
     expect(await home.shell.accessibilityViolations()).toEqual([]);
 
     await accountMenu.closeWithEscape();
@@ -150,6 +156,7 @@ test.describe("App shell for a signed-in member", () => {
       "Your garage",
       "Settings",
       "List your business",
+      "Sign out",
     ]);
   });
 });

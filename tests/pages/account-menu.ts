@@ -20,6 +20,14 @@ export class AccountMenu {
     await this.page.keyboard.press("Enter");
   }
 
+  /** Signs out and waits for the home page to reload. */
+  async signOut() {
+    await Promise.all([
+      this.page.waitForEvent("load"),
+      this.dialog.getByRole("button", { name: "Sign out" }).click(),
+    ]);
+  }
+
   async closeWithEscape() {
     await this.page.keyboard.press("Escape");
   }

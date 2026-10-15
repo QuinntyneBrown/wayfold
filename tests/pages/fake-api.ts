@@ -30,6 +30,7 @@ export async function fakeApi(
   return {
     release: () => release?.(),
     lastBody: () => requests.at(-1)?.postDataJSON(),
+    callCount: () => requests.length,
   };
 }
 

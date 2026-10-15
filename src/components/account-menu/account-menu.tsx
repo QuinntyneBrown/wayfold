@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { accountDestinations } from "@/components/site-nav/destinations";
 import type { SessionMember } from "@/components/site-nav/use-session";
+import { signOut } from "@/features/accounts/sign-out";
 
 /** Avatar button and its popover; the native popover closes on Escape or outside click and returns focus. */
 export function AccountMenu({ member }: { member: SessionMember }) {
@@ -40,6 +41,11 @@ export function AccountMenu({ member }: { member: SessionMember }) {
               </Link>
             </li>
           ))}
+          <li>
+            <button type="button" onClick={signOut}>
+              Sign out
+            </button>
+          </li>
         </ul>
       </div>
     </>

@@ -5,3 +5,9 @@ dialog.sheet:not([open]) { display: none; }
 
 /* The account menu is a native popover in the top layer; pin it under the header's right edge. */
 .account-menu[popover] { position: fixed; margin: 0; bottom: auto; left: auto; }
+
+/* Sign out is a button (it posts) styled like the menu links beside it. */
+.account-menu button { display: flex; align-items: center; width: 100%; min-height: var(--target-comfortable); padding-inline: var(--space-3); border: 0; border-radius: var(--radius-sm); background: none; color: var(--color-fg-default); font: inherit; text-align: start; cursor: pointer; }
+.account-menu button:hover { background: var(--color-bg-subtle); }
+.account-menu button:focus-visible { outline-offset: calc(-1 * var(--focus-ring-width)); }
+button.section-link { width: 100%; border-inline: 0; border-top: 0; background: none; font: inherit; text-align: start; cursor: pointer; }
