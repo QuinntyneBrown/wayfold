@@ -8,9 +8,10 @@ import {
   sessionIdFor,
 } from "@/lib/session-cookie";
 import { hashPassword, verifyPassword } from "./password-hasher";
+import { isLockedOut, recordFailure } from "./sign-in-limiter";
 
 export type Member = { id: string; displayName: string };
-export type SignInResult = { ok: true; token: string; displayName: string } | { ok: false; reason: "rejected" };
+export type SignInResult = { ok: true; token: string; displayName: string } | { ok: false; reason: "rejected" | "locked" };
 
 /** A real argon2id hash, verified when no account matches so both failures take the same time. */
 let timingHash: Promise<string> | undefined;
@@ -22,7 +23,12 @@ export async function signIn(email: string, password: string): Promise<SignInRes
     return { ok: false, reason: "rejected" };
   }
 
-  if (!(await verifyPassword(user.passwordHash, password))) return { ok: false, reason: "rejected" };
+  // The lockout is checked before the password, so a blocked account gets 429 whatever is typed (L2-017).
+  if (await isLockedOut(user.id)) return { ok: false, reason: "locked" };
+  if (!(await verifyPassword(user.passwordHash, password))) {
+    await recordFailure(user.id);
+    return { ok: false, reason: "rejected" };
+  }
 
   return { ok: true, token: await startSession(db, user.id), displayName: user.displayName };
 }

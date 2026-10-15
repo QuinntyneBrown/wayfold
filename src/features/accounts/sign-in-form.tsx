@@ -7,7 +7,7 @@ import { TextField } from "@/components/text-field/text-field";
 import { AuthLoading } from "./auth-loading";
 import { useSignedOutOnly } from "./use-signed-out-only";
 
-type Problem = "invalid" | "rejected" | "error";
+type Problem = "invalid" | "rejected" | "locked" | "error";
 
 export function SignInForm() {
   const signedOut = useSignedOutOnly();
@@ -26,13 +26,14 @@ export function SignInForm() {
         body: JSON.stringify({ email: form.get("email"), password: form.get("password") }),
       });
       // A full page load, so the header picks up the new session.
+      // eslint-disable-next-line @next/next/no-location-assign-relative-destination
       if (response.ok) return window.location.assign("/");
       if (response.status === 400) {
         setFieldErrors((await response.json()).fieldErrors ?? {});
         return setProblem("invalid");
       }
       setFieldErrors({});
-      setProblem(response.status === 401 ? "rejected" : "error");
+      setProblem(response.status === 401 ? "rejected" : response.status === 429 ? "locked" : "error");
     } catch {
       setFieldErrors({});
       setProblem("error");
@@ -53,6 +54,11 @@ export function SignInForm() {
         {problem === "rejected" && (
           <Alert tone="danger" title="Email or password is incorrect">
             Check them and try again.
+          </Alert>
+        )}
+        {problem === "locked" && (
+          <Alert tone="warning" title="Too many attempts">
+            Wait 15 minutes before trying again.
           </Alert>
         )}
         {problem === "error" && (

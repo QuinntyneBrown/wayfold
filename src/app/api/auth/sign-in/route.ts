@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   if (Object.keys(fieldErrors).length > 0) return Response.json({ fieldErrors }, { status: 400 });
 
   const result = await signIn(email, password);
-  if (!result.ok) return new Response(null, { status: 401 });
+  if (!result.ok) return new Response(null, { status: result.reason === "locked" ? 429 : 401 });
 
   return Response.json(
     { displayName: result.displayName },

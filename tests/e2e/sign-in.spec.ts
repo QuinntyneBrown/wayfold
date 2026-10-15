@@ -60,6 +60,19 @@ test.describe("Sign in", () => {
     expect(await signIn.shell.accessibilityViolations()).toEqual([]);
   });
 
+  test("tells a locked-out member to wait 15 minutes", async ({ page }) => {
+    await fakeSession(page, null);
+    await fakeApi(page, "POST", "/api/auth/sign-in", { status: 429 });
+    const signIn = new SignInPage(page);
+    await signIn.open();
+
+    await signIn.signIn(EMAIL, PASSWORD);
+
+    await expect(signIn.alert).toContainText("Too many attempts");
+    await expect(signIn.alert).toContainText("Wait 15 minutes before trying again.");
+    expect(await signIn.shell.accessibilityViolations()).toEqual([]);
+  });
+
   test("shows field errors next to their fields", async ({ page }) => {
     await fakeSession(page, null);
     await fakeApi(page, "POST", "/api/auth/sign-in", {
