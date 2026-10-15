@@ -1,5 +1,6 @@
 import { and, count, eq } from "drizzle-orm";
 import { carsOf } from "@/features/garage/garage-service";
+import { postsBy } from "./post-service";
 import { db } from "@/lib/db/client";
 import { follows, users } from "@/lib/db/schema";
 import { projectMember } from "@/lib/member-view-policy";
@@ -24,7 +25,7 @@ export async function loadProfile(id: string, viewerId: string) {
     following: Boolean(follow),
     isOwner: user.id === viewerId,
     garage: await carsOf(id),
-    posts: [],
+    posts: await postsBy(id, viewerId),
     listings: [],
     recommendations: [],
   };
