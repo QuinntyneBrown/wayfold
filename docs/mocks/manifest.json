@@ -56,7 +56,8 @@
         "error",
         "invalid",
         "submitting",
-        "success"
+        "success",
+        "duplicate"
       ],
       "not_applicable": {
         "empty": "This screen has no collection to be empty."
