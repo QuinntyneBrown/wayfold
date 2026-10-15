@@ -3,6 +3,7 @@ import { SiteFooter } from "@/components/site-footer/site-footer";
 import { SiteHeader } from "@/components/site-header/site-header";
 import "./styles/tokens.css";
 import "./styles/components.css";
+import "./styles/app.css";
 
 export const metadata: Metadata = {
   title: "Wayfold",

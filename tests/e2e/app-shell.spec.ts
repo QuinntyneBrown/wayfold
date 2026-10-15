@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { HomePage } from "../pages/home-page";
+import { SiteMenu } from "../pages/site-menu";
 
 const BREAKPOINTS = [360, 576, 768, 992, 1200];
 
@@ -51,4 +52,42 @@ test.describe("App shell for a signed-out visitor", () => {
       expect(await home.shell.accessibilityViolations()).toEqual([]);
     });
   }
+});
+
+test.describe("Site menu on a phone", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 800 });
+  });
+
+  test("replaces the inline links with a Menu control", async ({ page }) => {
+    const home = new HomePage(page);
+
+    await home.open();
+
+    expect(await home.shell.primaryNavItems()).toEqual(["Menu"]);
+  });
+
+  test("opens by keyboard, holds focus, and closes on Escape back to the Menu control", async ({ page }) => {
+    const home = new HomePage(page);
+    const menu = new SiteMenu(page);
+    await home.open();
+
+    await menu.openWithKeyboard();
+
+    await expect(menu.dialog).toBeVisible();
+    expect(await menu.destinations()).toEqual([
+      "Vehicles",
+      "Providers",
+      "Products",
+      "Sign in",
+      "Create account",
+    ]);
+    expect(await menu.containsFocus()).toBe(true);
+    expect(await home.shell.accessibilityViolations()).toEqual([]);
+
+    await menu.closeWithEscape();
+
+    await expect(menu.dialog).toBeHidden();
+    await expect(menu.menuControl).toBeFocused();
+  });
 });
