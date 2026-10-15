@@ -57,6 +57,9 @@ Legend: ✅ mock exists · ➖ not applicable (reason in manifest) · ❌ missin
 | Screen | default | busy | invalid | failed | product | success | signed-in | Requirements |
 |---|---|---|---|---|---|---|---|---|
 | Add a car (`add-car`) | [✅](dialogs/add-car/default.html) | [✅](dialogs/add-car/busy.html) | [✅](dialogs/add-car/invalid.html) | [✅](dialogs/add-car/failed.html) |  |  |  | `L2-024` |
+| Edit car (`edit-car`) | [✅](dialogs/edit-car/default.html) | [✅](dialogs/edit-car/busy.html) | [✅](dialogs/edit-car/invalid.html) | [✅](dialogs/edit-car/failed.html) |  |  |  | `L2-024` |
+| Remove car (`remove-car`) | [✅](dialogs/remove-car/default.html) | [✅](dialogs/remove-car/busy.html) | ➖ | [✅](dialogs/remove-car/failed.html) |  |  |  | `L2-024` |
+| Edit profile (`edit-profile`) | [✅](dialogs/edit-profile/default.html) | [✅](dialogs/edit-profile/busy.html) | [✅](dialogs/edit-profile/invalid.html) | [✅](dialogs/edit-profile/failed.html) |  |  |  | `L2-010` |
 | Recommend (`recommend`) | [✅](dialogs/recommend/default.html) | [✅](dialogs/recommend/busy.html) | [✅](dialogs/recommend/invalid.html) | [✅](dialogs/recommend/failed.html) | [✅](dialogs/recommend/product.html) | [✅](dialogs/recommend/success.html) |  | `L2-026`, `L2-027` |
 | Contact seller (`contact-dealer`) | [✅](dialogs/contact-dealer/default.html) | [✅](dialogs/contact-dealer/busy.html) | [✅](dialogs/contact-dealer/invalid.html) | [✅](dialogs/contact-dealer/failed.html) |  | [✅](dialogs/contact-dealer/success.html) |  | `L2-009` |
 | Delete vehicle (`delete-vehicle`) | [✅](dialogs/delete-vehicle/default.html) | [✅](dialogs/delete-vehicle/busy.html) | ➖ | [✅](dialogs/delete-vehicle/failed.html) |  |  |  | `L2-007` |

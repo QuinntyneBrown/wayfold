@@ -28,6 +28,8 @@ The feature is a vertical slice from the home page to the database. The home pag
 - **`Comment`** - record with `id`, `postId`, `authorId`, `text` and `createdAt`.
 - **`CommunityToast`** - React component for the info, success, warning and danger messages. The warning toast "Connection interrupted - Your post is still here. Try again." appears when the network fails. The danger toast "Could not save - Please try again." appears when the server rejects a save.
 
+> **Deferred** until marketplace and recommendations exist (see AGENTS.md): recommendations merged into the feed (`L2-028`), and the For sale listing link.
+
 Page size and pagination of the feed are `<TO SUPPLY>`. Whether a For sale post links to a listing, as the mock shows with "See Priya's listing", is `<TO SUPPLY>`. The database technology and the auth library are `<TO SUPPLY>`.
 
 ## Requirements

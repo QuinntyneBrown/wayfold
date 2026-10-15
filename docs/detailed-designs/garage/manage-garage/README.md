@@ -22,6 +22,8 @@ The feature is a vertical slice from the profile garage section to the database.
 - **`GarageCar`** - record with `id`, `ownerId`, `year`, `make`, `model`, `nickname`, `photoRef` and `notes`.
 - **`Listing`** - record owned by the vehicle listing feature. It carries an optional `garageCarId`, which keeps the car and its sale listing linked (`L2-025`).
 
+> **Deferred** until marketplace and recommendations exist (see AGENTS.md): `ListingDraftRoute`, `VehicleEditorPage` pre-fill, and the Sell this car action (`L2-025`).
+
 The mocks show the add flow and the Sell this car action. The edit and remove interactions have no mock. The design provides the routes for them (`L2-024`) and leaves their screens `<TO SUPPLY>`.
 
 The database technology, the auth library and the photo storage service are `<TO SUPPLY>`.

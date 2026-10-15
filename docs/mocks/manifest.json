@@ -349,6 +349,55 @@
       "not_applicable": {}
     },
     {
+      "id": "edit-car",
+      "kind": "dialog",
+      "title": "Edit car",
+      "opens_from": "member",
+      "requirements": [
+        "L2-024"
+      ],
+      "states": [
+        "default",
+        "busy",
+        "invalid",
+        "failed"
+      ],
+      "not_applicable": {}
+    },
+    {
+      "id": "remove-car",
+      "kind": "dialog",
+      "title": "Remove car",
+      "opens_from": "member",
+      "requirements": [
+        "L2-024"
+      ],
+      "states": [
+        "default",
+        "busy",
+        "failed"
+      ],
+      "not_applicable": {
+        "invalid": "No input fields."
+      }
+    },
+    {
+      "id": "edit-profile",
+      "kind": "dialog",
+      "title": "Edit profile",
+      "opens_from": "member",
+      "requirements": [
+        "L2-010"
+      ],
+      "states": [
+        "default",
+        "busy",
+        "invalid",
+        "failed"
+      ],
+      "not_applicable": {}
+    },
+    {
       "id": "recommend",
       "kind": "dialog",
       "title": "Recommend",

@@ -47,6 +47,11 @@ tracked in the requirements and designs and are done last:
 - **Security hardening:** the `RequestGuard`/`RouteRule`/`AccessPolicy` consolidation, a CSRF
   mechanism beyond the same-origin check, and the OWASP Top 10 mapping.
 
+- **Cross-subsystem parts of garage and community:** Sell this car and the listing draft
+  (L2-025), the For sale and Recommendations content on profiles, and recommendations in the
+  feed. They wait for marketplace and recommendations; until then those profile sections show
+  their empty states.
+
 Routes keep the basic checks they already have: Origin check, 401, input validation.
 Deferred work does not count toward percent complete in `docs/estimates`.
 

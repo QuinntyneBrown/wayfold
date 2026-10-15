@@ -23,6 +23,8 @@ The feature is a vertical slice from the profile page to the database.
 - **`User`** - record with `id`, `displayName`, `bio`, `area`, `homeChurch` and `showHomeChurch`. The church fields are written by the settings feature (`L2-022`).
 - **`GarageCar`**, **`Listing`**, **`Recommendation`**, **`Post`** - records owned by sibling features and read by this feature.
 
+> **Deferred** until marketplace and recommendations exist (see AGENTS.md): the For sale and Recommendations section content, which show their empty states meanwhile.
+
 The mocks show eight states for `/members/:id`: default (garage section), for-sale, recommendations, posts, own, loading, empty and error. The default, for-sale, recommendations and posts states differ only by the active section. The error state shows "Could not load this page" with a Try again action. The mocks show no editor for the bio, so the bio editing screen is `<TO SUPPLY>`.
 
 Page size and ordering of each section list are `<TO SUPPLY>`. The database technology and the auth library are `<TO SUPPLY>`.
