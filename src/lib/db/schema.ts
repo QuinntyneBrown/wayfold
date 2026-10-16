@@ -94,3 +94,42 @@ export const comments = pgTable("comments", {
   text: text("text").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
+
+export const providers = pgTable("providers", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  ownerId: owner("owner_id"),
+  name: text("name").notNull(),
+  category: text("category").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const vehicles = pgTable(
+  "vehicles",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    sellerType: text("seller_type").notNull(),
+    ownerId: owner("owner_id"),
+    providerId: uuid("provider_id").references(() => providers.id, { onDelete: "cascade" }),
+    title: text("title").notNull(),
+    year: integer("year").notNull(),
+    make: text("make").notNull(),
+    model: text("model").notNull(),
+    price: integer("price").notNull(),
+    mileage: integer("mileage").notNull(),
+    condition: text("condition"),
+    description: text("description").notNull().default(""),
+    municipality: text("municipality").notNull(),
+    status: text("status").notNull().default("published"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [index("vehicles_status_created_idx").on(table.status, table.createdAt)],
+);
+
+export const vehiclePhotos = pgTable("vehicle_photos", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  vehicleId: uuid("vehicle_id")
+    .notNull()
+    .references(() => vehicles.id, { onDelete: "cascade" }),
+  photoRef: text("photo_ref").notNull(),
+  position: integer("position").notNull().default(0),
+});

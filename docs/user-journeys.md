@@ -2,7 +2,7 @@
 
 | Journey | Description | Complete | Estimate |
 |---|---|---|---|
-| Search vehicles | Anyone browses private and dealer listings filtered by make, price and municipality. | 0% | 5 days |
+| Search vehicles | Anyone browses private and dealer listings filtered by make, price and municipality. | 100% | 5 days |
 | View a vehicle | Anyone opens a vehicle's detail page; members message the seller. | 0% | 4 days |
 | Manage a listing | A member or dealer creates, edits and removes a vehicle listing with photos. | 0% | 7 days |
 | Check price rating | Anyone sees a Great, Good, Fair or High rating from comparable GTA listings. | 0% | 4 days |

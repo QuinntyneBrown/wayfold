@@ -12,14 +12,18 @@ Browsing needs no account. The feature scopes every result to the GTA through th
 
 The feature is a vertical slice from the Vehicles page to the database. The screen follows the mock `vehicles` at route `/vehicles`.
 
-- **`VehiclesPage`** - React page in the Next.js App Router. It renders a search form with Seller type (All sellers, Private sellers, Dealers), Make, GTA municipality and a Search action, and a result list that shows the total count, the Newest first order and cards. Each card shows price, year, make, model, mileage, municipality, the price rating and the seller (member name for a private seller, dealer name for a dealer). The page also renders the loading, empty, error and no-results states. The no-results state shows No matches and Clear filters. The empty state is reached when no listing is published. The error state offers Try again.
+- **`VehiclesPage`** - React page in the Next.js App Router. It renders a search form with Search vehicles (keyword), Seller type (All sellers, Private sellers, Dealers), Make, Model, Min price, Max price, GTA municipality and a Search action, and a result list that shows the total count, the Newest first order, cards and Previous/Next pagination ("Page 1 of 13"). The form fields and the page number live in the URL query string (`q`, `seller`, `make`, `model`, `minPrice`, `maxPrice`, `area`, `page`), so a search can be bookmarked. Each card shows photo, price, title, mileage, municipality and the seller (member name for a private seller, dealer name for a dealer). The page also renders the loading, empty, error and no-results states. The no-results state shows No matches and Clear filters. The empty state (No vehicles listed yet) is reached when no listing is published. The error state offers Try again.
 - **`VehicleSearchRoute`** - Next.js route handler for `GET /api/vehicles`. It parses the query string into a `VehicleSearchQuery`.
 - **`VehicleSearchService`** - module that applies the filters, orders results newest first, returns 20 per page and rejects a municipality outside the defined list.
-- **`MunicipalityList`** - module holding the defined municipalities. The complete list is `<TO SUPPLY>`.
-- **`PriceRatingService`** - module described in `price-rating` that supplies the rating on each card.
+- **`MunicipalityList`** - module holding the defined municipalities. The list is `GTA_AREAS` in `src/lib/gta-areas.ts`.
+- **`PriceRatingService`** - module described in `price-rating`. The rating is added to each card by that design, not by this one.
 - **`VehicleCard`** and **`VehicleSearchResult`** - response types.
 
-The database technology, the keyword matching approach (fields searched and ranking) and the make and model value lists are `<TO SUPPLY>`. The mock shows only the seller type, make and municipality controls. The keyword, price range and model inputs required by `L2-008` have no mock and their layout is `<TO SUPPLY>`.
+The database is PostgreSQL through Drizzle. The keyword is a case-insensitive `ILIKE` match on title, make, model and description, with no ranking. Make and model match case-insensitively and exactly. Price bounds are inclusive. The Make control offers the list in `src/lib/vehicle-makes.ts`. Model is free text.
+
+`GET /api/vehicles` returns 400 with `fieldErrors` for a municipality outside the list, a negative or non-numeric price, a minimum above the maximum, an unknown seller type or a page below 1. The response is `{ items, total, page, pageSize }` and each item holds `id, title, price, year, make, model, mileage, municipality, sellerType, sellerName, photoRef`.
+
+Search reads three tables, which `manage-listing` will write: `providers` (id, owner, name, category), `vehicles` (seller type, owner, optional provider, title, year, make, model, price, mileage, condition, description, municipality, status, created at) and `vehicle_photos` (vehicle, photo ref, position). Only vehicles with status `published` are searched.
 
 ## Requirements
 
