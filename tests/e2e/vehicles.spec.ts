@@ -47,4 +47,38 @@ test.describe("Search vehicles", () => {
     await expect(vehicles.cards).toHaveCount(1);
     await expect(vehicles.loadingStatus).toHaveCount(0);
   });
+  test("explains that nothing is listed yet when no vehicle is published", async ({ page }) => {
+    await fakeApi(page, "GET", "/api/vehicles*", vehiclesResult([]));
+    const vehicles = new VehiclesPage(page);
+
+    await vehicles.open();
+
+    await expect(vehicles.emptyMessage).toBeVisible();
+    await expect(vehicles.cards).toHaveCount(0);
+  });
+
+  test("offers Clear filters when the filters match nothing", async ({ page }) => {
+    await fakeApi(page, "GET", "/api/vehicles*", vehiclesResult([]));
+    const vehicles = new VehiclesPage(page);
+
+    await vehicles.open("?make=Ford&area=Brampton");
+
+    await expect(vehicles.noResults).toBeVisible();
+    await vehicles.clearFilters.click();
+    await expect(page).toHaveURL(/\/vehicles$/);
+    await expect(vehicles.make).toHaveValue("");
+  });
+
+  test("offers Try again when the vehicles cannot be loaded", async ({ page }) => {
+    await fakeApi(page, "GET", "/api/vehicles*", { status: 500 });
+    const vehicles = new VehiclesPage(page);
+
+    await vehicles.open();
+
+    await expect(vehicles.loadError).toContainText("Could not load this page");
+    await page.unroute("**/api/vehicles*");
+    await fakeApi(page, "GET", "/api/vehicles*", vehiclesResult([RAV4]));
+    await vehicles.tryAgain.click();
+    await expect(vehicles.cards).toHaveCount(1);
+  });
 });

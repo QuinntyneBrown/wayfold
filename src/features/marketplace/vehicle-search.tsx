@@ -1,11 +1,15 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { Alert } from "@/components/alert/alert";
 import { GTA_AREAS } from "@/lib/gta-areas";
 import { VEHICLE_MAKES } from "@/lib/vehicle-makes";
 import { VehicleCard } from "./vehicle-card";
 import type { VehicleSearchResult } from "./vehicle-search-service";
+
+const FILTERS = ["q", "seller", "make", "model", "minPrice", "maxPrice", "area"];
 
 type Load = { state: "loading" } | { state: "failed" } | { state: "ready"; result: VehicleSearchResult };
 
@@ -81,12 +85,12 @@ export function VehicleSearch() {
         </div>
         <button className="btn btn--primary" type="submit">Search</button>
       </form>
-      <Results load={load} />
+      <Results load={load} filtered={FILTERS.some((name) => params.has(name))} retry={fetchVehicles} />
     </main>
   );
 }
 
-function Results({ load }: { load: Load }) {
+function Results({ load, filtered, retry }: { load: Load; filtered: boolean; retry: () => void }) {
   if (load.state === "loading") {
     return (
       <>
@@ -100,8 +104,31 @@ function Results({ load }: { load: Load }) {
       </>
     );
   }
-  if (load.state === "failed") return null;
+  if (load.state === "failed") {
+    return (
+      <>
+        <Alert tone="danger" title="Could not load this page">
+          Try again. Your information is safe.
+        </Alert>
+        <button className="btn" type="button" onClick={retry}>Try again</button>
+      </>
+    );
+  }
   const { items, total } = load.result;
+  if (total === 0) {
+    return filtered ? (
+      <section className="card stack">
+        <h2>No matches</h2>
+        <p>Try other filters or a different search term.</p>
+        <Link className="btn btn--primary" href="/vehicles">Clear filters</Link>
+      </section>
+    ) : (
+      <section className="card stack">
+        <h2>No vehicles listed yet</h2>
+        <p>Listings will appear here as members and dealers publish them.</p>
+      </section>
+    );
+  }
   return (
     <>
       <p role="status">
