@@ -31,6 +31,7 @@ export async function fakeApi(
     release: () => release?.(),
     lastBody: () => requests.at(-1)?.postDataJSON(),
     lastText: () => requests.at(-1)?.postData() ?? "",
+    lastUrl: () => requests.at(-1)?.url() ?? "",
     callCount: () => requests.length,
   };
 }

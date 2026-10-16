@@ -81,4 +81,47 @@ test.describe("Search vehicles", () => {
     await vehicles.tryAgain.click();
     await expect(vehicles.cards).toHaveCount(1);
   });
+  test("searches with every filter and keeps them in the address", async ({ page }) => {
+    const api = await fakeApi(page, "GET", "/api/vehicles*", vehiclesResult([RAV4]));
+    const vehicles = new VehiclesPage(page);
+    await vehicles.open();
+
+    await vehicles.keyword.fill("winter tires");
+    await vehicles.sellerType.selectOption("private");
+    await vehicles.make.selectOption("Toyota");
+    await vehicles.model.fill("RAV4");
+    await vehicles.minPrice.fill("20000");
+    await vehicles.maxPrice.fill("30000");
+    await vehicles.municipality.selectOption("Etobicoke");
+    await vehicles.searchButton.click();
+
+    await expect(page).toHaveURL(/q=winter\+tires&seller=private&make=Toyota&model=RAV4&minPrice=20000&maxPrice=30000&area=Etobicoke/);
+    await expect(vehicles.cards).toHaveCount(1);
+    expect(new URL(api.lastUrl()).search).toBe("?q=winter+tires&seller=private&make=Toyota&model=RAV4&minPrice=20000&maxPrice=30000&area=Etobicoke");
+  });
+
+  test("fills the form from the address", async ({ page }) => {
+    await fakeApi(page, "GET", "/api/vehicles*", vehiclesResult([RAV4]));
+    const vehicles = new VehiclesPage(page);
+
+    await vehicles.open("?q=hauler&seller=dealer&make=Honda&model=Civic&minPrice=100&maxPrice=900&area=Brampton");
+
+    await expect(vehicles.keyword).toHaveValue("hauler");
+    await expect(vehicles.sellerType).toHaveValue("dealer");
+    await expect(vehicles.make).toHaveValue("Honda");
+    await expect(vehicles.model).toHaveValue("Civic");
+    await expect(vehicles.minPrice).toHaveValue("100");
+    await expect(vehicles.maxPrice).toHaveValue("900");
+    await expect(vehicles.municipality).toHaveValue("Brampton");
+  });
+
+  test("shows the field error when the search is rejected", async ({ page }) => {
+    await fakeApi(page, "GET", "/api/vehicles*", { status: 400, json: { fieldErrors: { maxPrice: "Max price must be at least min price" } } });
+    const vehicles = new VehiclesPage(page);
+
+    await vehicles.open("?minPrice=20000&maxPrice=10000");
+
+    await expect(vehicles.fieldErrors).toHaveText("Max price must be at least min price");
+    await expect(vehicles.loadError).toHaveCount(0);
+  });
 });
