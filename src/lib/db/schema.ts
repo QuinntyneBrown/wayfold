@@ -118,6 +118,7 @@ export const vehicles = pgTable(
     mileage: integer("mileage").notNull(),
     condition: text("condition"),
     description: text("description").notNull().default(""),
+    features: text("features").array().notNull().default([]),
     municipality: text("municipality").notNull(),
     status: text("status").notNull().default("published"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),

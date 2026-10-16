@@ -36,6 +36,13 @@
       "when": 1792191895214,
       "tag": "0004_volatile_hex",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792193199139,
+      "tag": "0005_add_vehicle_features",
+      "breakpoints": true
     }
   ]
 }
