@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { Alert } from "@/components/alert/alert";
+import { useSession } from "@/components/site-nav/use-session";
 import type { VehicleDetail } from "./vehicle-detail-service";
 
 const dollars = new Intl.NumberFormat("en-CA", {
@@ -19,6 +20,7 @@ type Load =
 
 export function VehicleDetailView({ id }: { id: string }) {
   const [load, setLoad] = useState<Load>({ state: "loading" });
+  const session = useSession();
 
   const fetchVehicle = useCallback(async () => {
     setLoad({ state: "loading" });
@@ -160,6 +162,16 @@ export function VehicleDetailView({ id }: { id: string }) {
               )}
               {seller.sellerType === "dealer" && (
                 <Link href={seller.profilePath}>View dealer profile</Link>
+              )}
+              {seller.canMessage && session === null && (
+                <Link className="btn btn--primary" href="/sign-in">
+                  Message seller
+                </Link>
+              )}
+              {seller.canMessage && session && (
+                <button type="button" className="btn btn--primary">
+                  Message seller
+                </button>
               )}
             </section>
           )}

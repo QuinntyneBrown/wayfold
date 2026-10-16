@@ -113,3 +113,40 @@ test.describe("a sold listing", () => {
     await expect(detail.sellerPanel.getByRole("button")).toHaveCount(0);
   });
 });
+
+test.describe("messaging the seller", () => {
+  test("sends a signed-out visitor to sign in", async ({ page }) => {
+    await fakeSession(page, null);
+    await fakeApi(page, "GET", `/api/vehicles/${CIVIC_DETAIL.id}`, { status: 200, json: CIVIC_DETAIL });
+    const detail = new VehicleDetailPage(page);
+
+    await detail.open(CIVIC_DETAIL.id);
+    await detail.messageSellerLink.click();
+
+    await expect(page).toHaveURL(/\/sign-in/);
+  });
+
+  test("offers a signed-in member the Message seller button", async ({ page }) => {
+    await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", `/api/vehicles/${RAV4_DETAIL.id}`, { status: 200, json: RAV4_DETAIL });
+    const detail = new VehicleDetailPage(page);
+
+    await detail.open(RAV4_DETAIL.id);
+
+    await expect(detail.messageSellerButton).toBeVisible();
+  });
+
+  test("offers the owner no way to message themselves", async ({ page }) => {
+    await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", `/api/vehicles/${RAV4_DETAIL.id}`, {
+      status: 200,
+      json: { ...RAV4_DETAIL, seller: { ...RAV4_DETAIL.seller, canMessage: false } },
+    });
+    const detail = new VehicleDetailPage(page);
+
+    await detail.open(RAV4_DETAIL.id);
+
+    await expect(detail.sellerPanel).toContainText("Priya Nair");
+    await expect(detail.messageSeller).toHaveCount(0);
+  });
+});

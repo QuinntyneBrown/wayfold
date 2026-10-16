@@ -55,4 +55,16 @@ export class VehicleDetailPage {
   get soldNotice() {
     return this.sellerPanel.getByText("This vehicle is no longer available.");
   }
+
+  get messageSeller() {
+    return this.sellerPanel.getByRole("link", { name: "Message seller" }).or(this.sellerPanel.getByRole("button", { name: "Message seller" }));
+  }
+
+  get messageSellerLink() {
+    return this.sellerPanel.getByRole("link", { name: "Message seller" });
+  }
+
+  get messageSellerButton() {
+    return this.sellerPanel.getByRole("button", { name: "Message seller" });
+  }
 }
