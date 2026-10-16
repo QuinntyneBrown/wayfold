@@ -150,3 +150,97 @@ test.describe("messaging the seller", () => {
     await expect(detail.messageSeller).toHaveCount(0);
   });
 });
+
+test.describe("the Message the seller dialog", () => {
+  const inquiries = `/api/vehicles/${RAV4_DETAIL.id}/inquiries`;
+
+  test.beforeEach(async ({ page }) => {
+    await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", `/api/vehicles/${RAV4_DETAIL.id}`, { status: 200, json: RAV4_DETAIL });
+  });
+
+  test("sends the message and confirms it", async ({ page }) => {
+    const api = await fakeApi(page, "POST", inquiries, { status: 201 });
+    const detail = new VehicleDetailPage(page);
+    await detail.open(RAV4_DETAIL.id);
+
+    await detail.openMessageDialog();
+    await detail.message.fill("Is it still available?");
+    await detail.sendButton.click();
+
+    await expect(detail.sentConfirmation).toBeVisible();
+    expect(api.lastBody()).toEqual({ message: "Is it still available?" });
+
+    await detail.doneButton.click();
+    await expect(detail.messageDialog).toBeHidden();
+  });
+
+  test("closes without sending when cancelled", async ({ page }) => {
+    const api = await fakeApi(page, "POST", inquiries, { status: 201 });
+    const detail = new VehicleDetailPage(page);
+    await detail.open(RAV4_DETAIL.id);
+
+    await detail.openMessageDialog();
+    await detail.message.fill("Never mind");
+    await detail.cancelButton.click();
+
+    await expect(detail.messageDialog).toBeHidden();
+    expect(api.callCount()).toBe(0);
+  });
+
+  test("disables sending while the message is on its way", async ({ page }) => {
+    const api = await fakeApi(page, "POST", inquiries, { status: 201 }, { hold: true });
+    const detail = new VehicleDetailPage(page);
+    await detail.open(RAV4_DETAIL.id);
+
+    await detail.openMessageDialog();
+    await detail.message.fill("Hello");
+    await detail.sendButton.click();
+
+    await expect(detail.sendButton).toBeDisabled();
+    await expect(detail.sendButton).toHaveText("Sending…");
+
+    api.release();
+    await expect(detail.sentConfirmation).toBeVisible();
+  });
+
+  test("shows the field error when the message is rejected", async ({ page }) => {
+    await fakeApi(page, "POST", inquiries, { status: 400, json: { fieldErrors: { message: "Write a message" } } });
+    const detail = new VehicleDetailPage(page);
+    await detail.open(RAV4_DETAIL.id);
+
+    await detail.openMessageDialog();
+    await detail.sendButton.click();
+
+    await expect(detail.dialogAlert).toContainText("Check the marked fields");
+    await expect(detail.message).toHaveAccessibleDescription("Write a message");
+    await expect(detail.message).toHaveAttribute("aria-invalid", "true");
+  });
+
+  test("keeps the typed text when sending fails", async ({ page }) => {
+    await fakeApi(page, "POST", inquiries, { status: 500 });
+    const detail = new VehicleDetailPage(page);
+    await detail.open(RAV4_DETAIL.id);
+
+    await detail.openMessageDialog();
+    await detail.message.fill("Is it still available?");
+    await detail.sendButton.click();
+
+    await expect(detail.dialogAlert).toContainText("Could not send");
+    await expect(detail.message).toHaveValue("Is it still available?");
+    await expect(detail.sendButton).toBeEnabled();
+  });
+
+  test("keeps the typed text when the network fails", async ({ page }) => {
+    await fakeNetworkFailure(page, "POST", inquiries);
+    const detail = new VehicleDetailPage(page);
+    await detail.open(RAV4_DETAIL.id);
+
+    await detail.openMessageDialog();
+    await detail.message.fill("Is it still available?");
+    await detail.sendButton.click();
+
+    await expect(detail.dialogAlert).toContainText("Could not send");
+    await expect(detail.message).toHaveValue("Is it still available?");
+  });
+});

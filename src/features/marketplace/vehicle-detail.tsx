@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { Alert } from "@/components/alert/alert";
 import { useSession } from "@/components/site-nav/use-session";
+import { ContactSellerDialog } from "./contact-seller-dialog";
 import type { VehicleDetail } from "./vehicle-detail-service";
 
 const dollars = new Intl.NumberFormat("en-CA", {
@@ -20,6 +21,7 @@ type Load =
 
 export function VehicleDetailView({ id }: { id: string }) {
   const [load, setLoad] = useState<Load>({ state: "loading" });
+  const [messaging, setMessaging] = useState(false);
   const session = useSession();
 
   const fetchVehicle = useCallback(async () => {
@@ -169,7 +171,11 @@ export function VehicleDetailView({ id }: { id: string }) {
                 </Link>
               )}
               {seller.canMessage && session && (
-                <button type="button" className="btn btn--primary">
+                <button
+                  type="button"
+                  className="btn btn--primary"
+                  onClick={() => setMessaging(true)}
+                >
                   Message seller
                 </button>
               )}
@@ -177,6 +183,12 @@ export function VehicleDetailView({ id }: { id: string }) {
           )}
         </aside>
       </div>
+      {messaging && (
+        <ContactSellerDialog
+          vehicleId={vehicle.id}
+          onClose={() => setMessaging(false)}
+        />
+      )}
     </main>
   );
 }

@@ -67,4 +67,36 @@ export class VehicleDetailPage {
   get messageSellerButton() {
     return this.sellerPanel.getByRole("button", { name: "Message seller" });
   }
+
+  get messageDialog() {
+    return this.page.getByRole("dialog", { name: "Message the seller" });
+  }
+
+  get message() {
+    return this.messageDialog.getByLabel("Your message (up to 2000 characters)");
+  }
+
+  get sendButton() {
+    return this.messageDialog.getByRole("button", { name: /^(Send message|Sending…)$/ });
+  }
+
+  get cancelButton() {
+    return this.messageDialog.getByRole("button", { name: "Cancel" });
+  }
+
+  get doneButton() {
+    return this.messageDialog.getByRole("button", { name: "Done" });
+  }
+
+  get dialogAlert() {
+    return this.messageDialog.getByRole("alert");
+  }
+
+  get sentConfirmation() {
+    return this.messageDialog.getByRole("status").filter({ hasText: "Posted" });
+  }
+
+  async openMessageDialog() {
+    await this.messageSellerButton.click();
+  }
 }
