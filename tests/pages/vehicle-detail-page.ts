@@ -99,4 +99,8 @@ export class VehicleDetailPage {
   async openMessageDialog() {
     await this.messageSellerButton.click();
   }
+
+  async hasHorizontalScroll() {
+    return this.page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+  }
 }

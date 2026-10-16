@@ -244,3 +244,56 @@ test.describe("the Message the seller dialog", () => {
     await expect(detail.message).toHaveValue("Is it still available?");
   });
 });
+
+test.describe("on a phone and for assistive technology", () => {
+  for (const [name, detail, viewer] of [
+    ["a private listing", RAV4_DETAIL, TENDAI],
+    ["a dealer listing", CIVIC_DETAIL, null],
+  ] as const) {
+    test(`fits ${name} in a 360 px viewport with the photo, details and contact action reachable`, async ({ page }) => {
+      await page.setViewportSize({ width: 360, height: 800 });
+      await fakeSession(page, viewer);
+      await fakeApi(page, "GET", `/api/vehicles/${detail.id}`, { status: 200, json: { ...detail, photos: ["car.jpg"] } });
+      const vehicle = new VehicleDetailPage(page);
+
+      await vehicle.open(detail.id);
+
+      await expect(vehicle.photo).toBeVisible();
+      await expect(vehicle.details).toBeVisible();
+      await vehicle.messageSeller.scrollIntoViewIfNeeded();
+      await expect(vehicle.messageSeller).toBeInViewport();
+      expect(await vehicle.hasHorizontalScroll()).toBe(false);
+      expect(await vehicle.shell.accessibilityViolations()).toEqual([]);
+    });
+  }
+
+  test("has no accessibility violations with the Message the seller dialog open", async ({ page }) => {
+    await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", `/api/vehicles/${RAV4_DETAIL.id}`, { status: 200, json: RAV4_DETAIL });
+    const vehicle = new VehicleDetailPage(page);
+    await vehicle.open(RAV4_DETAIL.id);
+
+    await vehicle.openMessageDialog();
+    await expect(vehicle.messageDialog).toBeVisible();
+
+    expect(await vehicle.shell.accessibilityViolations()).toEqual([]);
+  });
+
+  test("has no accessibility violations on the loading, error and sold states", async ({ page }) => {
+    await fakeSession(page, null);
+    await fakeApi(page, "GET", `/api/vehicles/${RAV4_DETAIL.id}`, { status: 500 });
+    const vehicle = new VehicleDetailPage(page);
+    await vehicle.open(RAV4_DETAIL.id);
+    await expect(vehicle.loadError).toBeVisible();
+    expect(await vehicle.shell.accessibilityViolations()).toEqual([]);
+
+    await page.unroute(`**/api/vehicles/${RAV4_DETAIL.id}`);
+    await fakeApi(page, "GET", `/api/vehicles/${RAV4_DETAIL.id}`, {
+      status: 200,
+      json: { ...RAV4_DETAIL, status: "sold", seller: { ...RAV4_DETAIL.seller, canMessage: false } },
+    });
+    await vehicle.tryAgain.click();
+    await expect(vehicle.soldNotice).toBeVisible();
+    expect(await vehicle.shell.accessibilityViolations()).toEqual([]);
+  });
+});
