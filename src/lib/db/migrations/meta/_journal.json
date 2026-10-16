@@ -50,6 +50,13 @@
       "when": 1792193699685,
       "tag": "0006_create_inquiries",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1792194844096,
+      "tag": "0007_add_provider_profile_fields",
+      "breakpoints": true
     }
   ]
 }
