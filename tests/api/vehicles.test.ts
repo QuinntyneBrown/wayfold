@@ -114,4 +114,20 @@ describe("GET /api/vehicles", () => {
     expect(result.status).toBe(400);
     expect(Object.keys(result.body.fieldErrors).some((k) => k === "minPrice" || k === "maxPrice")).toBe(true);
   });
+  it("shows only the chosen GTA municipality", async () => {
+    const priya = await registerMember("Priya Nair", "priya@example.com");
+    await seedVehicle(priya, { municipality: "Brampton" });
+    await seedVehicle(priya, { municipality: "Scarborough" });
+    await seedVehicle(priya, { municipality: "Scarborough" });
+
+    const result = await search("?area=Scarborough");
+    expect(result.body.total).toBe(2);
+    expect(result.body.items.every((v: { municipality: string }) => v.municipality === "Scarborough")).toBe(true);
+  });
+
+  it("rejects a municipality outside the GTA list", async () => {
+    const result = await search("?area=Ottawa");
+    expect(result.status).toBe(400);
+    expect(result.body.fieldErrors).toHaveProperty("area");
+  });
 });

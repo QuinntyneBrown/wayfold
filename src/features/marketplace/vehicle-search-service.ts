@@ -1,5 +1,6 @@
 import { and, asc, count, desc, eq, gte, ilike, lte, or, type SQL, sql } from "drizzle-orm";
 import { db } from "@/lib/db/client";
+import { isGtaArea } from "@/lib/gta-areas";
 import { providers, users, vehiclePhotos, vehicles } from "@/lib/db/schema";
 import { type FieldErrors, text } from "@/lib/validation";
 
@@ -28,6 +29,7 @@ export type VehicleSearchQuery = {
   model: string;
   minPrice: number | null;
   maxPrice: number | null;
+  area: string;
   page: number;
 };
 
@@ -47,7 +49,10 @@ export function parseSearch(params: URLSearchParams): ParsedSearch {
   const minPrice = parsePrice(params.get("minPrice"));
   const maxPrice = parsePrice(params.get("maxPrice"));
 
+  const area = text(params.get("area"));
+
   const fieldErrors: FieldErrors = {};
+  if (area !== "" && !isGtaArea(area)) fieldErrors.area = "Choose a Toronto or GTA municipality";
   if (minPrice === "invalid") fieldErrors.minPrice = "Enter a price of 0 or more";
   if (maxPrice === "invalid") fieldErrors.maxPrice = "Enter a price of 0 or more";
   if (typeof minPrice === "number" && typeof maxPrice === "number" && minPrice > maxPrice) fieldErrors.maxPrice = "Max price must be at least min price";
@@ -64,6 +69,7 @@ export function parseSearch(params: URLSearchParams): ParsedSearch {
       model: text(params.get("model")),
       minPrice: minPrice as number | null,
       maxPrice: maxPrice as number | null,
+      area,
       page,
     },
   };
@@ -71,13 +77,14 @@ export function parseSearch(params: URLSearchParams): ParsedSearch {
 
 const sameText = (column: typeof vehicles.make | typeof vehicles.model, value: string) => sql`lower(${column}) = lower(${value})`;
 
-export async function searchVehicles({ keyword, sellerType, make, model, minPrice, maxPrice, page }: VehicleSearchQuery): Promise<VehicleSearchResult> {
+export async function searchVehicles({ keyword, sellerType, make, model, minPrice, maxPrice, area, page }: VehicleSearchQuery): Promise<VehicleSearchResult> {
   const conditions: SQL[] = [eq(vehicles.status, "published")];
   if (sellerType) conditions.push(eq(vehicles.sellerType, sellerType));
   if (make) conditions.push(sameText(vehicles.make, make));
   if (model) conditions.push(sameText(vehicles.model, model));
   if (minPrice !== null) conditions.push(gte(vehicles.price, minPrice));
   if (maxPrice !== null) conditions.push(lte(vehicles.price, maxPrice));
+  if (area) conditions.push(eq(vehicles.municipality, area));
   if (keyword) {
     const pattern = `%${keyword.replace(/[\\%_]/g, "\\$&")}%`;
     conditions.push(or(ilike(vehicles.title, pattern), ilike(vehicles.make, pattern), ilike(vehicles.model, pattern), ilike(vehicles.description, pattern))!);
