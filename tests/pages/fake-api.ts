@@ -175,3 +175,54 @@ export const CIVIC: VehicleCardData = {
 export function vehiclesResult(items: VehicleCardData[], total = items.length, page = 1) {
   return { status: 200, json: { items, total, page, pageSize: 20 } };
 }
+
+export type VehicleDetailData = {
+  id: string;
+  title: string;
+  year: number;
+  make: string;
+  model: string;
+  price: number;
+  mileage: number;
+  condition: string | null;
+  description: string;
+  features: string[];
+  municipality: string;
+  status: "published" | "sold";
+  photos: string[];
+  seller: { sellerType: "private" | "dealer"; name: string; profilePath: string; homeChurch?: string; canMessage: boolean };
+};
+
+export const RAV4_DETAIL: VehicleDetailData = {
+  id: RAV4.id,
+  title: RAV4.title,
+  year: 2019,
+  make: "Toyota",
+  model: "RAV4",
+  price: 29500,
+  mileage: 71000,
+  condition: "Used",
+  description: "Regular service, clean interior and ready for a test drive.",
+  features: ["Heated seats", "Backup camera"],
+  municipality: "Etobicoke",
+  status: "published",
+  photos: ["rav4.jpg"],
+  seller: { sellerType: "private", name: "Priya Nair", profilePath: "/members/6f1d2c1e-0000-4000-8000-000000000002", homeChurch: "Lakeshore Fellowship", canMessage: true },
+};
+
+export const CIVIC_DETAIL: VehicleDetailData = {
+  id: CIVIC.id,
+  title: CIVIC.title,
+  year: 2021,
+  make: "Honda",
+  model: "Civic",
+  price: 24995,
+  mileage: 48200,
+  condition: "Used",
+  description: "Certified pre-owned with a full inspection.",
+  features: [],
+  municipality: "Scarborough",
+  status: "published",
+  photos: [],
+  seller: { sellerType: "dealer", name: "Eglinton Auto Group", profilePath: "/providers/6f1d2c1e-0000-4000-8000-0000000000d1", canMessage: true },
+};
