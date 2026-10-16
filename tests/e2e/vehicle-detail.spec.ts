@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { CIVIC_DETAIL, fakeApi, fakeSession, RAV4_DETAIL, TENDAI } from "../pages/fake-api";
+import { CIVIC_DETAIL, fakeApi, fakeNetworkFailure, fakeSession, RAV4_DETAIL, TENDAI } from "../pages/fake-api";
 import { VehicleDetailPage } from "../pages/vehicle-detail-page";
 
 test.beforeEach(async ({ page }) => {
@@ -53,5 +53,63 @@ test.describe("a dealer listing", () => {
     await expect(detail.details).not.toContainText("Features");
     await expect(detail.sellerPanel).toContainText("Eglinton Auto Group");
     await expect(detail.dealerProfileLink).toHaveAttribute("href", CIVIC_DETAIL.seller.profilePath);
+  });
+});
+
+test.describe("loading and failing", () => {
+  test("shows a loading state while the vehicle loads", async ({ page }) => {
+    await fakeSession(page, null);
+    const api = await fakeApi(page, "GET", `/api/vehicles/${RAV4_DETAIL.id}`, { status: 200, json: RAV4_DETAIL }, { hold: true });
+    const detail = new VehicleDetailPage(page);
+
+    await detail.open(RAV4_DETAIL.id);
+    await expect(detail.loadingStatus).toBeVisible();
+
+    api.release();
+    await expect(detail.heading).toHaveText("2019 Toyota RAV4 XLE");
+    await expect(detail.loadingStatus).toHaveCount(0);
+  });
+
+  for (const [name, status] of [["the server fails", 500], ["the vehicle is not found", 404]] as const) {
+    test(`offers Try again when ${name}`, async ({ page }) => {
+      await fakeSession(page, null);
+      await fakeApi(page, "GET", `/api/vehicles/${RAV4_DETAIL.id}`, { status });
+      const detail = new VehicleDetailPage(page);
+
+      await detail.open(RAV4_DETAIL.id);
+      await expect(detail.loadError).toContainText("Could not load this page");
+
+      await page.unroute(`**/api/vehicles/${RAV4_DETAIL.id}`);
+      await fakeApi(page, "GET", `/api/vehicles/${RAV4_DETAIL.id}`, { status: 200, json: RAV4_DETAIL });
+      await detail.tryAgain.click();
+      await expect(detail.heading).toHaveText("2019 Toyota RAV4 XLE");
+    });
+  }
+
+  test("offers Try again when the network fails", async ({ page }) => {
+    await fakeSession(page, null);
+    await fakeNetworkFailure(page, "GET", `/api/vehicles/${RAV4_DETAIL.id}`);
+    const detail = new VehicleDetailPage(page);
+
+    await detail.open(RAV4_DETAIL.id);
+
+    await expect(detail.loadError).toContainText("Could not load this page");
+  });
+});
+
+test.describe("a sold listing", () => {
+  test("says the vehicle is no longer available and offers no way to message the seller", async ({ page }) => {
+    await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", `/api/vehicles/${CIVIC_DETAIL.id}`, {
+      status: 200,
+      json: { ...CIVIC_DETAIL, status: "sold", seller: { ...CIVIC_DETAIL.seller, canMessage: false } },
+    });
+    const detail = new VehicleDetailPage(page);
+
+    await detail.open(CIVIC_DETAIL.id);
+
+    await expect(detail.heading).toHaveText("2021 Honda Civic Sport");
+    await expect(detail.soldNotice).toBeVisible();
+    await expect(detail.sellerPanel.getByRole("button")).toHaveCount(0);
   });
 });

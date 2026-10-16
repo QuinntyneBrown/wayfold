@@ -1,23 +1,90 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { Alert } from "@/components/alert/alert";
 import type { VehicleDetail } from "./vehicle-detail-service";
 
-const dollars = new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD", maximumFractionDigits: 0 });
+const dollars = new Intl.NumberFormat("en-CA", {
+  style: "currency",
+  currency: "CAD",
+  maximumFractionDigits: 0,
+});
 const number = new Intl.NumberFormat("en-CA");
 
-export function VehicleDetailView({ id }: { id: string }) {
-  const [vehicle, setVehicle] = useState<VehicleDetail | null>(null);
+type Load =
+  | { state: "loading" }
+  | { state: "failed" }
+  | { state: "ready"; vehicle: VehicleDetail };
 
-  useEffect(() => {
-    void (async () => {
+export function VehicleDetailView({ id }: { id: string }) {
+  const [load, setLoad] = useState<Load>({ state: "loading" });
+
+  const fetchVehicle = useCallback(async () => {
+    setLoad({ state: "loading" });
+    try {
       const response = await fetch(`/api/vehicles/${id}`);
-      if (response.ok) setVehicle(await response.json());
-    })();
+      if (!response.ok) return setLoad({ state: "failed" });
+      setLoad({ state: "ready", vehicle: await response.json() });
+    } catch {
+      setLoad({ state: "failed" });
+    }
   }, [id]);
 
-  if (!vehicle) return null;
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void fetchVehicle();
+  }, [fetchVehicle]);
+
+  if (load.state !== "ready") {
+    return (
+      <main
+        id="main"
+        className="container stack"
+        tabIndex={-1}
+        aria-busy={load.state === "loading"}
+      >
+        <div className="page-head">
+          <h1>Vehicle detail</h1>
+          <p>A GTA vehicle for sale.</p>
+        </div>
+        {load.state === "loading" ? (
+          <>
+            <div className="card stack" aria-hidden="true">
+              <span
+                className="skeleton skeleton--text"
+                style={{ width: "65%" }}
+              />
+              <span
+                className="skeleton skeleton--text"
+                style={{ width: "95%" }}
+              />
+              <span
+                className="skeleton skeleton--text"
+                style={{ width: "80%" }}
+              />
+              <span
+                className="skeleton skeleton--text"
+                style={{ width: "45%" }}
+              />
+            </div>
+            <p role="status">Loading…</p>
+          </>
+        ) : (
+          <>
+            <Alert tone="danger" title="Could not load this page">
+              Try again. Your information is safe.
+            </Alert>
+            <button type="button" className="btn" onClick={fetchVehicle}>
+              Try again
+            </button>
+          </>
+        )}
+      </main>
+    );
+  }
+
+  const { vehicle } = load;
   const { seller } = vehicle;
 
   return (
@@ -25,14 +92,23 @@ export function VehicleDetailView({ id }: { id: string }) {
       <div className="page-head">
         <h1>{vehicle.title}</h1>
         <p>
-          {dollars.format(vehicle.price)} · {seller.sellerType === "dealer" ? "Dealer" : "Private seller"} · {vehicle.municipality}
+          {dollars.format(vehicle.price)} ·{" "}
+          {seller.sellerType === "dealer" ? "Dealer" : "Private seller"} ·{" "}
+          {vehicle.municipality}
         </p>
       </div>
       <div className="detail-layout">
         <div className="stack">
           {vehicle.photos.map((photo) => (
             // eslint-disable-next-line @next/next/no-img-element -- listing photos are served by a route handler, not the image optimizer
-            <img key={photo} className="gallery__main" src={`/api/photos/${photo}`} alt={`${vehicle.title}, front view`} width={640} height={480} />
+            <img
+              key={photo}
+              className="gallery__main"
+              src={`/api/photos/${photo}`}
+              alt={`${vehicle.title}, front view`}
+              width={640}
+              height={480}
+            />
           ))}
           <section className="card stack" aria-labelledby="vehicle-details">
             <h2 id="vehicle-details">Vehicle details</h2>
@@ -62,19 +138,31 @@ export function VehicleDetailView({ id }: { id: string }) {
           </section>
         </div>
         <aside className="stack">
-          <section className="card stack" aria-labelledby="vehicle-seller">
-            <h2 id="vehicle-seller">{seller.name}</h2>
-            <p>{seller.sellerType === "dealer" ? "Dealer" : "Private seller"} · {vehicle.municipality}</p>
-            {seller.homeChurch && (
-              <span className="tag church-tag">
-                <svg className="icon" aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M12 3v18M7 8h10" />
-                </svg>
-                {seller.homeChurch}
-              </span>
-            )}
-            {seller.sellerType === "dealer" && <Link href={seller.profilePath}>View dealer profile</Link>}
-          </section>
+          {vehicle.status === "sold" ? (
+            <section className="card stack">
+              <h2>Sold</h2>
+              <p>This vehicle is no longer available.</p>
+            </section>
+          ) : (
+            <section className="card stack" aria-labelledby="vehicle-seller">
+              <h2 id="vehicle-seller">{seller.name}</h2>
+              <p>
+                {seller.sellerType === "dealer" ? "Dealer" : "Private seller"} ·{" "}
+                {vehicle.municipality}
+              </p>
+              {seller.homeChurch && (
+                <span className="tag church-tag">
+                  <svg className="icon" aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M12 3v18M7 8h10" />
+                  </svg>
+                  {seller.homeChurch}
+                </span>
+              )}
+              {seller.sellerType === "dealer" && (
+                <Link href={seller.profilePath}>View dealer profile</Link>
+              )}
+            </section>
+          )}
         </aside>
       </div>
     </main>

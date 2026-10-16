@@ -39,4 +39,20 @@ export class VehicleDetailPage {
   get homeChurch() {
     return this.sellerPanel.locator(".church-tag");
   }
+
+  get loadingStatus() {
+    return this.page.getByRole("status").filter({ hasText: "Loading" });
+  }
+
+  get loadError() {
+    return this.page.getByRole("main").getByRole("alert");
+  }
+
+  get tryAgain() {
+    return this.page.getByRole("button", { name: "Try again" });
+  }
+
+  get soldNotice() {
+    return this.sellerPanel.getByText("This vehicle is no longer available.");
+  }
 }
