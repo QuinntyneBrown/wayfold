@@ -102,12 +102,12 @@ export function VehicleSearch() {
         </div>
         <button className="btn btn--primary" type="submit">Search</button>
       </form>
-      <Results load={load} filtered={FILTERS.some((name) => params.has(name))} retry={fetchVehicles} />
+      <Results load={load} params={params} filtered={FILTERS.some((name) => params.has(name))} retry={fetchVehicles} />
     </main>
   );
 }
 
-function Results({ load, filtered, retry }: { load: Load; filtered: boolean; retry: () => void }) {
+function Results({ load, params, filtered, retry }: { load: Load; params: URLSearchParams; filtered: boolean; retry: () => void }) {
   if (load.state === "loading") {
     return (
       <>
@@ -132,7 +132,15 @@ function Results({ load, filtered, retry }: { load: Load; filtered: boolean; ret
       </>
     );
   }
-  const { items, total } = load.result;
+  const { items, total, page, pageSize } = load.result;
+  const pages = Math.ceil(total / pageSize);
+  const pageHref = (target: number) => {
+    const next = new URLSearchParams(params);
+    if (target === 1) next.delete("page");
+    else next.set("page", String(target));
+    const query = next.toString();
+    return query ? `/vehicles?${query}` : "/vehicles";
+  };
   if (total === 0) {
     return filtered ? (
       <section className="card stack">
@@ -157,6 +165,17 @@ function Results({ load, filtered, retry }: { load: Load; filtered: boolean; ret
           <VehicleCard key={vehicle.id} vehicle={vehicle} />
         ))}
       </ul>
+      {pages > 1 && (
+        <nav aria-label="Pagination" className="stack">
+          {page > 1 && (
+            <Link className="btn" href={pageHref(page - 1)} rel="prev">Previous</Link>
+          )}
+          {page < pages && (
+            <Link className="btn" href={pageHref(page + 1)} rel="next">Next</Link>
+          )}
+          <p role="status">Page {page} of {pages}</p>
+        </nav>
+      )}
     </>
   );
 }

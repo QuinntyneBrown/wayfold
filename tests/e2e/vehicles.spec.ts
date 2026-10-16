@@ -124,4 +124,38 @@ test.describe("Search vehicles", () => {
     await expect(vehicles.fieldErrors).toHaveText("Max price must be at least min price");
     await expect(vehicles.loadError).toHaveCount(0);
   });
+  test("pages through 20 vehicles at a time and keeps the filters", async ({ page }) => {
+    const api = await fakeApi(page, "GET", "/api/vehicles*", vehiclesResult([RAV4], 248, 1));
+    const vehicles = new VehiclesPage(page);
+
+    await vehicles.open("?make=Toyota");
+
+    await expect(vehicles.pageStatus).toHaveText("Page 1 of 13");
+    await expect(vehicles.previous).toHaveCount(0);
+    await vehicles.next.click();
+
+    await expect(page).toHaveURL(/make=Toyota&page=2/);
+    expect(new URL(api.lastUrl()).searchParams.get("page")).toBe("2");
+  });
+
+  test("offers Previous on later pages and no Next on the last page", async ({ page }) => {
+    await fakeApi(page, "GET", "/api/vehicles*", vehiclesResult([RAV4], 248, 13));
+    const vehicles = new VehiclesPage(page);
+
+    await vehicles.open("?page=13");
+
+    await expect(vehicles.pageStatus).toHaveText("Page 13 of 13");
+    await expect(vehicles.next).toHaveCount(0);
+    await expect(vehicles.previous).toHaveAttribute("href", "/vehicles?page=12");
+  });
+
+  test("shows no pagination when everything fits on one page", async ({ page }) => {
+    await fakeApi(page, "GET", "/api/vehicles*", vehiclesResult([RAV4], 1));
+    const vehicles = new VehiclesPage(page);
+
+    await vehicles.open();
+
+    await expect(vehicles.cards).toHaveCount(1);
+    await expect(vehicles.pagination).toHaveCount(0);
+  });
 });
