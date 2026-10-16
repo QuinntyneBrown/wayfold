@@ -134,3 +134,14 @@ export const vehiclePhotos = pgTable("vehicle_photos", {
   photoRef: text("photo_ref").notNull(),
   position: integer("position").notNull().default(0),
 });
+
+export const inquiries = pgTable("inquiries", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  vehicleId: uuid("vehicle_id")
+    .notNull()
+    .references(() => vehicles.id, { onDelete: "cascade" }),
+  senderId: owner("sender_id"),
+  recipientId: owner("recipient_id"),
+  message: text("message").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
