@@ -68,4 +68,22 @@ describe("GET /api/vehicles", () => {
     const second = await search("?page=2");
     expect(second.body.items).toHaveLength(2);
   });
+  it("narrows by seller type, make and model, ignoring case", async () => {
+    const priya = await registerMember("Priya Nair", "priya@example.com");
+    const [dealer] = await db.insert(providers).values({ ownerId: priya.id, name: "Eglinton Auto Group", category: "dealer" }).returning();
+    await seedVehicle(priya, { title: "Private RAV4" });
+    await seedVehicle(priya, { title: "Dealer Civic", sellerType: "dealer", providerId: dealer.id, make: "Honda", model: "Civic" });
+
+    expect((await search("?seller=private")).body.items.map((v: { title: string }) => v.title)).toEqual(["Private RAV4"]);
+    expect((await search("?seller=dealer")).body.items.map((v: { title: string }) => v.title)).toEqual(["Dealer Civic"]);
+    expect((await search("?make=honda")).body.total).toBe(1);
+    expect((await search("?make=Honda&model=civic")).body.total).toBe(1);
+    expect((await search("?make=Honda&model=RAV4")).body.total).toBe(0);
+  });
+
+  it("rejects an unknown seller type", async () => {
+    const result = await search("?seller=robot");
+    expect(result.status).toBe(400);
+    expect(result.body.fieldErrors).toHaveProperty("seller");
+  });
 });

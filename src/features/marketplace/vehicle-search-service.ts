@@ -1,6 +1,7 @@
-import { asc, count, desc, eq, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, type SQL, sql } from "drizzle-orm";
 import { db } from "@/lib/db/client";
 import { providers, users, vehiclePhotos, vehicles } from "@/lib/db/schema";
+import { type FieldErrors, text } from "@/lib/validation";
 
 export const PAGE_SIZE = 20;
 
@@ -20,8 +21,31 @@ export type VehicleCard = {
 
 export type VehicleSearchResult = { items: VehicleCard[]; total: number; page: number; pageSize: number };
 
-export async function searchVehicles(page: number): Promise<VehicleSearchResult> {
-  const published = eq(vehicles.status, "published");
+export type VehicleSearchQuery = { sellerType: string | null; make: string; model: string; page: number };
+
+export type ParsedSearch = { ok: true; query: VehicleSearchQuery } | { ok: false; fieldErrors: FieldErrors };
+
+export function parseSearch(params: URLSearchParams): ParsedSearch {
+  const seller = text(params.get("seller"));
+  const rawPage = text(params.get("page"));
+  const page = rawPage === "" ? 1 : Number(rawPage);
+
+  const fieldErrors: FieldErrors = {};
+  if (seller !== "" && seller !== "private" && seller !== "dealer") fieldErrors.seller = "Choose private or dealer";
+  if (!Number.isInteger(page) || page < 1) fieldErrors.page = "Page must be 1 or more";
+  if (Object.keys(fieldErrors).length > 0) return { ok: false, fieldErrors };
+
+  return { ok: true, query: { sellerType: seller || null, make: text(params.get("make")), model: text(params.get("model")), page } };
+}
+
+const sameText = (column: typeof vehicles.make | typeof vehicles.model, value: string) => sql`lower(${column}) = lower(${value})`;
+
+export async function searchVehicles({ sellerType, make, model, page }: VehicleSearchQuery): Promise<VehicleSearchResult> {
+  const conditions: SQL[] = [eq(vehicles.status, "published")];
+  if (sellerType) conditions.push(eq(vehicles.sellerType, sellerType));
+  if (make) conditions.push(sameText(vehicles.make, make));
+  if (model) conditions.push(sameText(vehicles.model, model));
+  const published = and(...conditions);
   const [{ total }] = await db.select({ total: count() }).from(vehicles).where(published);
   const items = await db
     .select({
