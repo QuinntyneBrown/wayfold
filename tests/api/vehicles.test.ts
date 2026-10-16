@@ -86,4 +86,32 @@ describe("GET /api/vehicles", () => {
     expect(result.status).toBe(400);
     expect(result.body.fieldErrors).toHaveProperty("seller");
   });
+  it("finds a keyword in title, make, model or description, ignoring case", async () => {
+    const priya = await registerMember("Priya Nair", "priya@example.com");
+    await seedVehicle(priya, { title: "Family hauler", description: "One owner, winter tires included" });
+    await seedVehicle(priya, { title: "Commuter", make: "Mazda", model: "Mazda3" });
+
+    expect((await search("?q=WINTER")).body.total).toBe(1);
+    expect((await search("?q=hauler")).body.total).toBe(1);
+    expect((await search("?q=mazda")).body.total).toBe(1);
+    expect((await search("?q=rav4")).body.total).toBe(1);
+    expect((await search("?q=%25")).body.total).toBe(0);
+    expect((await search("?q=submarine")).body.total).toBe(0);
+  });
+
+  it("limits price to the inclusive range", async () => {
+    const priya = await registerMember("Priya Nair", "priya@example.com");
+    for (const price of [10000, 15000, 20000, 25000]) await seedVehicle(priya, { price });
+
+    const prices = async (query: string) => (await search(query)).body.items.map((v: { price: number }) => v.price).sort();
+    expect(await prices("?minPrice=15000&maxPrice=20000")).toEqual([15000, 20000]);
+    expect(await prices("?minPrice=20000")).toEqual([20000, 25000]);
+    expect(await prices("?maxPrice=10000")).toEqual([10000]);
+  });
+
+  it.each(["?minPrice=-1", "?maxPrice=abc", "?minPrice=20000&maxPrice=10000"])("rejects the price range %s", async (query) => {
+    const result = await search(query);
+    expect(result.status).toBe(400);
+    expect(Object.keys(result.body.fieldErrors).some((k) => k === "minPrice" || k === "maxPrice")).toBe(true);
+  });
 });
