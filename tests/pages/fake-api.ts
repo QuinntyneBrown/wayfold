@@ -128,3 +128,49 @@ export const TENDAI_POST: FeedPost = {
   comments: [],
   mine: true,
 };
+
+export type VehicleCardData = {
+  id: string;
+  title: string;
+  price: number;
+  year: number;
+  make: string;
+  model: string;
+  mileage: number;
+  municipality: string;
+  sellerType: "private" | "dealer";
+  sellerName: string;
+  photoRef: string | null;
+};
+
+export const RAV4: VehicleCardData = {
+  id: "6f1d2c1e-0000-4000-8000-0000000000v1",
+  title: "2019 Toyota RAV4 XLE",
+  price: 29500,
+  year: 2019,
+  make: "Toyota",
+  model: "RAV4",
+  mileage: 71000,
+  municipality: "Etobicoke",
+  sellerType: "private",
+  sellerName: "Priya Nair",
+  photoRef: "rav4.jpg",
+};
+
+export const CIVIC: VehicleCardData = {
+  id: "6f1d2c1e-0000-4000-8000-0000000000v2",
+  title: "2021 Honda Civic Sport",
+  price: 24995,
+  year: 2021,
+  make: "Honda",
+  model: "Civic",
+  mileage: 48200,
+  municipality: "Scarborough",
+  sellerType: "dealer",
+  sellerName: "Eglinton Auto Group",
+  photoRef: null,
+};
+
+export function vehiclesResult(items: VehicleCardData[], total = items.length, page = 1) {
+  return { status: 200, json: { items, total, page, pageSize: 20 } };
+}
