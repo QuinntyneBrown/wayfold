@@ -80,3 +80,13 @@ export async function getProviderDetail(id: string, viewer: Viewer): Promise<Pro
   if (homeChurch) detail.ownerChurch = homeChurch;
   return detail;
 }
+
+/** Saves the owner's changes; only the owner may edit (L2-032). */
+export async function updateProvider(memberId: string, id: string, input: ProviderInput): Promise<"updated" | "not-found" | "forbidden"> {
+  if (!isUuid(id)) return "not-found";
+  const [existing] = await db.select({ ownerId: providers.ownerId }).from(providers).where(eq(providers.id, id));
+  if (!existing) return "not-found";
+  if (existing.ownerId !== memberId) return "forbidden";
+  await db.update(providers).set(input).where(eq(providers.id, id));
+  return "updated";
+}
