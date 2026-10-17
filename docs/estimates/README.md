@@ -1,7 +1,7 @@
 # Estimates
 
 - Overall effort: 89 days
-- Complete: 56%
+- Complete: 63%
 
 | Subsystem | Effort | Complete |
 |---|---|---|
@@ -10,7 +10,7 @@
 | [garage](garage.md) | 5 days | 100% |
 | [community](community.md) | 14 days | 100% |
 | [marketplace](marketplace.md) | 16 days | 56% |
-| [providers](providers.md) | 15 days | 0% |
+| [providers](providers.md) | 15 days | 40% |
 | [recommendations](recommendations.md) | 8 days | 0% |
 | [deal-guidance](deal-guidance.md) | 9 days | 0% |
 

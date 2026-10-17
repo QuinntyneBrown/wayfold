@@ -100,6 +100,10 @@ export const providers = pgTable("providers", {
   ownerId: owner("owner_id"),
   name: text("name").notNull(),
   category: text("category").notNull(),
+  municipality: text("municipality"),
+  description: text("description").notNull().default(""),
+  contactEmail: text("contact_email"),
+  phone: text("phone"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

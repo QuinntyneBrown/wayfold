@@ -11,7 +11,7 @@
 | Find providers | Anyone finds providers by category, keyword and municipality, ranked by recommendations. | 0% | 4 days |
 | Ask about a deal | A member asks a deal question; only verified financing professionals answer. | 0% | 5 days |
 | Recommend | A member recommends a provider or product with a short written endorsement. | 0% | 5 days |
-| Manage provider profile | A member creates and edits an auto provider profile in one of nine categories. | 0% | 6 days |
+| Manage provider profile | A member creates and edits an auto provider profile in one of nine categories. | 100% | 6 days |
 | Verify financing credential | A financing professional submits a credential and earns the Verified badge. | 0% | 5 days |
 | Post and read the feed | A member publishes topic posts, reads the feed, likes and comments. | 100% | 6 days |
 | Follow members | A member follows or unfollows another member from their profile. | 100% | 3 days |

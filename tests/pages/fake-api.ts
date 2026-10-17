@@ -226,3 +226,28 @@ export const CIVIC_DETAIL: VehicleDetailData = {
   photos: [],
   seller: { sellerType: "dealer", name: "Eglinton Auto Group", profilePath: "/providers/6f1d2c1e-0000-4000-8000-0000000000d1", canMessage: true },
 };
+
+export type ProviderDetailData = {
+  id: string;
+  name: string;
+  category: string;
+  categoryLabel: string;
+  municipality: string;
+  description: string;
+  contactEmail: string;
+  phone: string | null;
+  isOwner: boolean;
+  ownerChurch?: string;
+};
+
+export const DANFORTH: ProviderDetailData = {
+  id: "6f1d2c1e-0000-4000-8000-0000000000d1",
+  name: "Danforth Auto Care",
+  category: "mechanic",
+  categoryLabel: "Mechanic",
+  municipality: "Toronto",
+  description: "Honest repairs and clear explanations for Toronto drivers.",
+  contactEmail: "hello@danforthautocare.example",
+  phone: "416-555-0123",
+  isOwner: false,
+};
