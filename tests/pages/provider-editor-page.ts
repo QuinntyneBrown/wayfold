@@ -21,6 +21,10 @@ export class ProviderEditorPage {
     await this.page.goto("/providers/new");
   }
 
+  async openEdit(id: string) {
+    await this.page.goto(`/providers/${id}/edit`);
+  }
+
   get heading() {
     return this.page.getByRole("heading", { level: 1 });
   }
@@ -50,11 +54,15 @@ export class ProviderEditorPage {
   }
 
   get saveButton() {
-    return this.page.getByRole("button", { name: /^(Save business profile|Saving…)$/ });
+    return this.page.getByRole("button", { name: /^(Save business profile|Save changes|Saving…)$/ });
   }
 
   get loadingStatus() {
     return this.page.getByRole("status").filter({ hasText: "Loading" });
+  }
+
+  get tryAgain() {
+    return this.page.getByRole("button", { name: "Try again" });
   }
 
   get alert() {

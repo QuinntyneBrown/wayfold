@@ -34,6 +34,22 @@ test.describe("Provider profile", () => {
     expect(await profile.shell.accessibilityViolations()).toEqual([]);
   });
 
+  test("offers the owner, and no one else, a link to edit the profile", async ({ page }) => {
+    await fakeSession(page, TENDAI);
+    await fakeApi(page, "GET", `/api/providers/${DANFORTH.id}`, { status: 200, json: { ...DANFORTH, isOwner: true } });
+    const profile = new ProviderProfilePage(page);
+
+    await profile.open(DANFORTH.id);
+
+    await expect(profile.editLink).toHaveAttribute("href", `/providers/${DANFORTH.id}/edit`);
+
+    await fakeApi(page, "GET", `/api/providers/${DANFORTH.id}`, { status: 200, json: DANFORTH });
+    await profile.open(DANFORTH.id);
+
+    await expect(profile.heading).toHaveText("Danforth Auto Care");
+    await expect(profile.editLink).toHaveCount(0);
+  });
+
   test("offers no Call action when the provider saved no phone", async ({ page }) => {
     await fakeSession(page, null);
     await fakeApi(page, "GET", `/api/providers/${DANFORTH.id}`, { status: 200, json: { ...DANFORTH, phone: null } });

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { Alert } from "@/components/alert/alert";
@@ -93,6 +94,11 @@ export function ProviderProfileView({ id }: { id: string }) {
           <a className="btn" href={`mailto:${provider.contactEmail}`}>
             Email
           </a>
+          {provider.isOwner && (
+            <Link className="btn" href={`/providers/${provider.id}/edit`}>
+              Edit profile
+            </Link>
+          )}
         </div>
       </section>
       <section className="section-gap stack" aria-labelledby="provider-recommendations">

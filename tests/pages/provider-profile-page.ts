@@ -36,6 +36,10 @@ export class ProviderProfilePage {
     return this.page.getByRole("link", { name: "Email" });
   }
 
+  get editLink() {
+    return this.page.getByRole("link", { name: "Edit profile" });
+  }
+
   get recommendations() {
     return this.page.getByRole("region", { name: "Member recommendations" });
   }

@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { fakeApi, fakeSession, TENDAI } from "../pages/fake-api";
+import { DANFORTH, fakeApi, fakeSession, TENDAI } from "../pages/fake-api";
 import { type BusinessForm, ProviderEditorPage } from "../pages/provider-editor-page";
 
 const PROVIDER_ID = "6f1d2c1e-0000-4000-8000-0000000000d1";
@@ -129,5 +129,100 @@ test.describe("List your business", () => {
     await editor.saveButton.scrollIntoViewIfNeeded();
     await expect(editor.saveButton).toBeInViewport();
     expect(await editor.hasHorizontalScroll()).toBe(false);
+  });
+});
+
+test.describe("Edit your business", () => {
+  const OWNED = { ...DANFORTH, isOwner: true };
+
+  test.beforeEach(async ({ page }) => {
+    await fakeSession(page, TENDAI);
+  });
+
+  test("pre-fills the saved profile, saves the changes and returns to the profile", async ({ page }) => {
+    await fakeApi(page, "GET", `/api/providers/${DANFORTH.id}`, { status: 200, json: OWNED });
+    const save = await fakeApi(page, "PUT", `/api/providers/${DANFORTH.id}`, { status: 200 });
+    const editor = new ProviderEditorPage(page);
+
+    await editor.openEdit(DANFORTH.id);
+
+    await expect(editor.heading).toHaveText("Edit your business");
+    await expect(editor.name).toHaveValue("Danforth Auto Care");
+    await expect(editor.category).toHaveValue("mechanic");
+    await expect(editor.municipality).toHaveValue("Toronto");
+    await expect(editor.description).toHaveValue(DANFORTH.description);
+    await expect(editor.contactEmail).toHaveValue(DANFORTH.contactEmail);
+    await expect(editor.phone).toHaveValue("416-555-0123");
+    expect(await editor.shell.accessibilityViolations()).toEqual([]);
+
+    await editor.name.fill("Danforth Auto & Tire");
+    await editor.save();
+
+    await expect(page).toHaveURL(`/providers/${DANFORTH.id}`);
+    expect(save.lastBody()).toEqual({
+      name: "Danforth Auto & Tire",
+      category: "mechanic",
+      municipality: "Toronto",
+      description: DANFORTH.description,
+      contactEmail: DANFORTH.contactEmail,
+      phone: "416-555-0123",
+    });
+  });
+
+  test("marks the fields the server rejected and keeps the edits", async ({ page }) => {
+    await fakeApi(page, "GET", `/api/providers/${DANFORTH.id}`, { status: 200, json: OWNED });
+    await fakeApi(page, "PUT", `/api/providers/${DANFORTH.id}`, { status: 400, json: { fieldErrors: { name: "Enter a name" } } });
+    const editor = new ProviderEditorPage(page);
+    await editor.openEdit(DANFORTH.id);
+
+    await editor.name.fill("");
+    await editor.save();
+
+    await expect(editor.alert).toContainText("Complete the required fields");
+    await expect(editor.name).toHaveAccessibleDescription("Enter a name");
+  });
+
+  test("sends a member who does not own the profile back to it", async ({ page }) => {
+    await fakeApi(page, "GET", `/api/providers/${DANFORTH.id}`, { status: 200, json: DANFORTH });
+    const editor = new ProviderEditorPage(page);
+
+    await editor.openEdit(DANFORTH.id);
+
+    await expect(page).toHaveURL(`/providers/${DANFORTH.id}`);
+  });
+
+  test("sends a signed-out visitor to sign in", async ({ page }) => {
+    await fakeSession(page, null);
+    await fakeApi(page, "GET", `/api/providers/${DANFORTH.id}`, { status: 200, json: OWNED });
+    const editor = new ProviderEditorPage(page);
+
+    await editor.openEdit(DANFORTH.id);
+
+    await expect(page).toHaveURL("/sign-in");
+  });
+
+  test("shows the not-found page for an unknown profile", async ({ page }) => {
+    await fakeApi(page, "GET", `/api/providers/${DANFORTH.id}`, { status: 404 });
+    const editor = new ProviderEditorPage(page);
+
+    await editor.openEdit(DANFORTH.id);
+
+    await expect(page.getByRole("heading", { name: "Page not found" })).toBeVisible();
+  });
+
+  test("offers Try again when the profile cannot be loaded", async ({ page }) => {
+    let fail = true;
+    await page.route(`**/api/providers/${DANFORTH.id}`, (route) =>
+      fail ? route.fulfill({ status: 500 }) : route.fulfill({ status: 200, json: OWNED }),
+    );
+    const editor = new ProviderEditorPage(page);
+    await editor.openEdit(DANFORTH.id);
+
+    await expect(editor.alert).toContainText("Could not load this page");
+
+    fail = false;
+    await editor.tryAgain.click();
+
+    await expect(editor.name).toHaveValue("Danforth Auto Care");
   });
 });
